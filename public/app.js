@@ -32,7 +32,7 @@ function loadApp() {
     name: prompt('Enter your nickname'),
     room: Object.keys(urlParams)[0]
   };
-  $socket = new P2P(socketConnect($user.room, $user.name));
+  $socket = new P2P(socketConnect($user.room, $user.name), {}, () => console.log('Using WebRTC'));
   $socket.on('userJoin', userJoined);
   $socket.on('userLeft', userLeft);
   $socket.on('go-private', () => {
