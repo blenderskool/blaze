@@ -63,7 +63,7 @@ io.on('connection', socket => {
 
 });
 
-const port = 3030
+const port = process.env.PORT ? process.env.PORT : 3030;
 http.listen(port, () => {
   log('listening on *:'+port);
 });

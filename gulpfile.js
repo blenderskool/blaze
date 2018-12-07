@@ -18,5 +18,4 @@ gulp.task('dev', function() {
   gulp.watch(['public/**/*', '!public/scss/', '!public/scss/**/*'], ['copy']);
 });
 
-
 gulp.task('default', ['styles', 'copy']);
