@@ -1,0 +1,150 @@
+$primary: #3BE8B0;
+$secondary: #636979;
+$white: #FFFFFF;
+$bg: #0D1322;
+$light: #C5C7CC;
+
+$font: 'Rubik', sans-serif;
+$shadow: 0 8px 35px rgba(0, 0, 0, 0.4);
+
+$noise: url(http://api.thumbr.it/whitenoise-256x256.png?background=ffffff00&noise=626262&density=60&opacity=15);
+
+body, input, button {
+  font-family: $font;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+
+  background-image: $noise;
+  background-color: $bg;
+  background-size: 35%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100%;
+
+
+  div {
+
+    &#txtPerc {
+
+      margin: 10px 0 20px;
+      color: $primary;
+      font-size: 1.5rem;
+      font-weight: 500;
+
+    }
+
+    &.card {
+      $border: 1px solid #1C2439;
+
+      width: 88%;
+      border-radius: 5px;
+      border: $border;
+      background-color: #0B101C;
+      box-shadow: $shadow;
+
+      .header {
+        border-bottom: $border;
+        padding: 10px 0 10px 15px;
+        
+        display: flex;
+        align-items: center;
+
+        h2 {
+          color: $light;
+          margin: 0;
+          font-weight: 500;
+        }
+
+        input[type="file"] {
+          margin-right: 0;
+          margin-left: auto;
+          width: 100px;
+        }
+      }
+
+
+      ul {
+        margin: 5px 0;
+        padding: 0;
+
+        li {
+          padding: 10px 15px;
+          display: flex;
+          align-items: center;
+
+
+          div.info {
+            h4 {
+              margin: 0;
+              color: $light;
+              font-weight: 400;
+              font-size: 1.1rem;
+              text-overflow: ellipsis;
+              overflow-x: hidden;
+              white-space: nowrap;
+              width: 70vw;
+            }
+
+            h5 {
+              margin: 5px 0 0;
+              color: $secondary;
+              font-weight: 400;
+              font-size: 0.95rem;
+            }
+          }
+
+          .status {
+            font-size: 1.2rem;
+            color: $primary;
+            font-weight: 500;
+
+            margin-right: 0;
+            margin-left: auto;
+          }
+
+        }
+
+      }
+
+    }
+
+  }
+
+}
+
+button {
+  color: $white;
+  background-color: $primary;
+  border: 0;
+  outline: none;
+  border-radius: 4px;
+  font-weight: 500;
+  font-size: 1.6rem;
+
+  width: 300px;
+  height: 50px;
+  box-shadow: $shadow;
+
+  transition: all 0.2s ease;
+
+  -webkit-tap-highlight-color: rgba(darken($primary, 50), 0.2);
+  cursor: pointer;
+  user-select: none;
+
+  &:hover {
+    box-shadow: none;
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}

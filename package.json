@@ -1,0 +1,21 @@
+{
+  "name": "blaze",
+  "version": "0.0.1",
+  "description": "Quickly share files with multiple users",
+  "main": "index.js",
+  "scripts": {
+    "server": "node index",
+    "watch": "gulp dev",
+    "start": "concurrently \"npm:watch\" \"npm:server\""
+  },
+  "author": "Akash Hamirwasia",
+  "license": "MIT",
+  "dependencies": {
+    "concurrently": "^4.1.0",
+    "express": "^4.16.4",
+    "gulp": "^3.9.1",
+    "gulp-sass": "^4.0.2",
+    "socket.io": "^2.2.0",
+    "socket.io-p2p-server": "^1.2.0"
+  }
+}
