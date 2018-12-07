@@ -7,7 +7,7 @@
     "server": "node index",
     "watch": "gulp dev",
     "dev": "concurrently \"npm:watch\" \"npm:server\"",
-    "start": "gulp"
+    "start": "gulp && npm run server"
   },
   "author": "Akash Hamirwasia",
   "license": "MIT",
