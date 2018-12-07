@@ -175,7 +175,7 @@ document.getElementById('btnStart').addEventListener('click', loadApp);
 
 
 function fileTransfer(file) {
-  goPrivate();
+  // goPrivate();
   getBase64(file).then(data => {
 
     $visualizer.addSender($user.name);
