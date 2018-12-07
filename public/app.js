@@ -32,7 +32,7 @@ function loadApp() {
     name: prompt('Enter your nickname'),
     room: Object.keys(urlParams)[0]
   };
-  $socket = new P2P(socketConnect($user.room, $user.name), { autoUpgrade: false });
+  $socket = new P2P(socketConnect($user.room, $user.name));
   $socket.on('userJoin', userJoined);
   $socket.on('userLeft', userLeft);
   $socket.on('go-private', () => {
