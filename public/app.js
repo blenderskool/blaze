@@ -32,7 +32,22 @@ function loadApp() {
     name: prompt('Enter your nickname'),
     room: Object.keys(urlParams)[0]
   };
-  $socket = new P2P(socketConnect($user.room, $user.name), {}, () => console.log('Using WebRTC'));
+  $socket = new P2P(socketConnect($user.room, $user.name), {
+    peerOpts: {
+      config: {
+        iceServers: [
+          {
+            urls: 'stun:stun.l.google.com:19302'
+          },
+          {
+            urls: 'stun:numb.viagenie.ca',
+            username: 'akash.hamirwasia@gmail.com',
+            credential: '6NfWZz9kUCPmNbe'
+          }
+        ]
+      }
+    }
+  }, () => console.log('Using WebRTC'));
   $socket.on('userJoin', userJoined);
   $socket.on('userLeft', userLeft);
   $socket.on('go-private', () => {
