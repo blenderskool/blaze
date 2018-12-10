@@ -134,9 +134,10 @@ function loadApp() {
    */
   let files = [];
   const txtPerc = document.getElementById('txtPerc');
+  let intPerc = 25;
   $socket.on('file', data => {
 
-    if (data.end) {
+    if (data.end && files.length > 1) {
       download('data:application/octet-stream;base64,' + files.join(''), data.name ? data.name : 'hello');
       files = [];
 
@@ -153,10 +154,20 @@ function loadApp() {
 
       $visualizer.addSender(data.user);
 
-      const percentage = (files.length*4000)/data.size*100;
+      const percentage = (files.length*8000)/data.size*100;
+      const percFloor = Math.floor(percentage);
+      
+      if (percentage >= intPerc) {
+        intPerc += 15;
+        $socket.emit('rec-status', {
+          percent: intPerc,
+          peer: $user.name,
+          sender: data.user
+        });
+      }
 
       $visualizer.setTransferPercentage(percentage);
-      txtPerc.innerText = Math.floor(percentage) + '%';
+      txtPerc.innerText = percFloor + '%';
     }
   });
 }
@@ -223,12 +234,12 @@ function fileTransfer(file) {
     const txtPerc = document.getElementById('txtPerc');
     const size = data.length;
 
-    function stream() {
+    function stream(meta) {
       
       /**
        * Defines the size of data that will be sent in each request
        */
-      const block = 4000;
+      const block = 8000;
 
       $socket.emit('file', {
         file: data.slice(0, block),
@@ -244,8 +255,10 @@ function fileTransfer(file) {
       txtPerc.innerText = Math.floor(percentage) + '%';
 
       if (data) {
-        console.log(data.length);
-        setTimeout(stream, 1);
+        if (percentage < meta.percent) {
+          // console.log(data.length);
+          setTimeout(() => stream(meta), 1);
+        }
       }
       else {
         $socket.emit('file', {
@@ -261,7 +274,11 @@ function fileTransfer(file) {
         }, 2000);
       }
     }
-    stream();
+    stream({
+      percent: 25
+    });
+
+    $socket.on('rec-status', stream);
 
   });
 }

@@ -35,11 +35,13 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/client/index.html');
 });
 
+const clients = {};
 io.on('connection', socket => {
 
   const query = socket.handshake.query;
   const room = query.room;
   const user = query.user;
+  clients[user] = socket.id;
 
   
   log(`${user} has joined ${room} room`);
@@ -57,6 +59,11 @@ io.on('connection', socket => {
 
 
   socket.on('file', data => socket.broadcast.emit('file', data));
+  socket.on('rec-status', data => {
+    const sID = clients[data.sender];
+    console.log(sID);
+    io.sockets.connected[sID].emit('rec-status', data);
+  });
 
 
   socket.on('go-private', data => {
