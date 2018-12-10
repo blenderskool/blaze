@@ -158,7 +158,7 @@ function loadApp() {
       const percFloor = Math.floor(percentage);
       
       if (percentage >= intPerc) {
-        intPerc += 15;
+        intPerc += 1;
         $socket.emit('rec-status', {
           percent: intPerc,
           peer: $user.name,
