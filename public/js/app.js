@@ -38,8 +38,7 @@ function loadApp() {
     ...JSON.parse(store.getItem('blaze')),
     room: Object.keys(urlParams)[0]
   };
-  $socket = socketConnect($user.room, $user.name);
-  /*
+  // $socket = socketConnect($user.room, $user.name);
   $socket = new P2P(socketConnect($user.room, $user.name), {
     peerOpts: {
       config: {
@@ -56,7 +55,6 @@ function loadApp() {
       }
     }
   }, () => console.log('Using WebRTC'));
-  */
   $socket.on('userJoin', userJoined);
   $socket.on('userLeft', userLeft);
   $socket.on('go-private', () => {
