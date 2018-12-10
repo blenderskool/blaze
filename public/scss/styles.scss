@@ -6,8 +6,14 @@ $light: #C5C7CC;
 
 $font: 'Rubik', sans-serif;
 $shadow: 0 8px 35px rgba(0, 0, 0, 0.4);
+$border: 1px solid #1C2439;
 
 $noise: url(http://api.thumbr.it/whitenoise-256x256.png?background=ffffff00&noise=626262&density=60&opacity=15);
+
+* {
+  box-sizing: border-box;
+}
+
 
 body, input, button {
   font-family: $font;
@@ -19,7 +25,7 @@ html {
 
 body {
   margin: 0;
-  padding: 0;
+  padding: 20px;
 
   background-image: $noise;
   background-color: $bg;
@@ -43,9 +49,7 @@ body {
     }
 
     &.card {
-      $border: 1px solid #1C2439;
-
-      width: 88%;
+      width: 95%;
       border-radius: 5px;
       border: $border;
       background-color: #0B101C;
@@ -147,4 +151,52 @@ button {
   &:active {
     transform: scale(0.98);
   }
+}
+
+input[type="text"] {
+
+  background-color: transparent;
+  border: 1px solid $secondary;
+  font-weight: 500;
+  padding: 10px 18px;
+  border-radius: 4px;
+  font-size: 1.2rem;
+  color: $light;
+  outline: none;
+  margin: 15px 0;
+  width: 300px;
+
+  transition: all 0.2s ease;
+  box-shadow: $shadow inset;
+
+  &:focus {
+    border-color: lighten($secondary, 15);
+  }
+
+  &::-webkit-input-placeholder {
+    color: $secondary;
+  }
+
+}
+
+
+.flex {
+  display: flex;
+
+  &.column {
+    flex-direction: column;
+  }
+}
+
+.center-center {
+  justify-content: center;
+  align-items: center;
+}
+
+form#frmNewUser, form#frmJoinRoom {
+  
+  input {
+    margin-bottom: 50px;
+  }
+
 }

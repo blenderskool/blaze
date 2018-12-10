@@ -9,18 +9,21 @@
   <link rel="stylesheet" href="css/styles.css">
 
 </head>
-<body>
-  
-  <button id="btnStart">
-    Start sharing
-  </button>
+<body class="center-center">
 
+    <form class="flex column center-center" id="frmJoinRoom">
+      <input type="text" placeholder="Room Name" maxlength="10" required id="inpRoom">
+      
+      <button type="submit">Join Room</button>
+  
+    </form>
+  
 
   <script src="/socket.io/socket.io.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/socket.io-p2p@2.2.0/socketiop2p.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.7.0/d3.min.js"></script>
-  <script src="visualizer.js"></script>
-  <script src="download.js"></script>
-  <script src="app.js"></script>
+  <script src="js/visualizer.js"></script>
+  <script src="js/download.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>

@@ -20,18 +20,26 @@ function clearNode(node) {
   while (node.firstChild) node.removeChild(node.firstChild);
 }
 
+
+const store = localStorage;
 let $visualizer, $socket, $user;
+
+if (!store.getItem('blaze')) window.location.pathname = '/new';
 
 /**
  * Loads the file transfer view of the app
  */
 function loadApp() {
-  clearNode(document.body);
+  document.body.classList.remove('center-center');
+  const frmJoinRoom = document.getElementById('frmJoinRoom');
+  frmJoinRoom.parentElement.removeChild(frmJoinRoom);
 
   $user = {
-    name: prompt('Enter your nickname'),
+    ...JSON.parse(store.getItem('blaze')),
     room: Object.keys(urlParams)[0]
   };
+  $socket = socketConnect($user.room, $user.name);
+  /*
   $socket = new P2P(socketConnect($user.room, $user.name), {
     peerOpts: {
       config: {
@@ -48,37 +56,11 @@ function loadApp() {
       }
     }
   }, () => console.log('Using WebRTC'));
+  */
   $socket.on('userJoin', userJoined);
   $socket.on('userLeft', userLeft);
   $socket.on('go-private', () => {
     $socket.useSockets = false;
-  });
-  
-
-  let files = [];
-  $socket.on('file', data => {
-
-    if (data.end) {
-      download('data:application/octet-stream;base64,' + files.join(''), data.name ? data.name : 'hello');
-      files = [];
-
-      setTimeout(() => {
-        $visualizer.removeSender();
-        document.getElementById('inpFiles').style.display = 'block';
-      }, 2000);
-    }
-    else {
-      document.getElementById('inpFiles').style.display = 'none';
-
-      files.push(data.file);
-
-      $visualizer.addSender(data.user);
-
-      const percentage = (files.length*8000)/data.size*100;
-
-      $visualizer.setTransferPercentage(percentage);
-      document.getElementById('txtPerc').innerText = Math.floor(percentage) + '%';
-    }
   });
   
   
@@ -110,7 +92,12 @@ function loadApp() {
   card.append(header);
   card.append(lstFiles);
 
+  document.body.appendChild(perc);
+  document.body.appendChild(card);
 
+  /**
+   * Sending the file
+   */
   inp.addEventListener('change', e => {
     const files = e.target.files;
     const file = files[0];
@@ -143,8 +130,51 @@ function loadApp() {
     }
   });
 
-  document.body.appendChild(perc);
-  document.body.appendChild(card);
+
+  /**
+   * Receiving the file
+   */
+  let files = [];
+  const txtPerc = document.getElementById('txtPerc');
+  $socket.on('file', data => {
+
+    if (data.end) {
+      download('data:application/octet-stream;base64,' + files.join(''), data.name ? data.name : 'hello');
+      files = [];
+
+      setTimeout(() => {
+        $visualizer.removeSender();
+        document.getElementById('inpFiles').style.display = 'block';
+        txtPerc.innerText = '';
+      }, 2000);
+    }
+    else {
+      document.getElementById('inpFiles').style.display = 'none';
+
+      files.push(data.file);
+
+      $visualizer.addSender(data.user);
+
+      const percentage = (files.length*16000)/data.size*100;
+
+      $visualizer.setTransferPercentage(percentage);
+      txtPerc.innerText = Math.floor(percentage) + '%';
+    }
+  });
+}
+if (Object.keys(urlParams).length)
+  loadApp();
+
+
+if (document.getElementById('frmJoinRoom')) {
+
+  document.getElementById('frmJoinRoom').addEventListener('submit', e => {
+    e.preventDefault();
+    const inpRoom = document.getElementById('inpRoom');
+
+    window.location.href = window.location.origin + '/?'+inpRoom.value.toLowerCase();
+  });
+
 }
 
 /**
@@ -186,29 +216,34 @@ function userLeft(user) {
 }
 
 
-document.getElementById('btnStart').addEventListener('click', loadApp);
-
-
 function fileTransfer(file) {
   // goPrivate();
   getBase64(file).then(data => {
 
     $visualizer.addSender($user.name);
     let sent = 0;
+    const txtPerc = document.getElementById('txtPerc');
     const size = data.length;
 
     function stream() {
+      
+      /**
+       * Defines the size of data that will be sent in each request
+       */
+      const block = 16000;
 
       $socket.emit('file', {
-        file: data.slice(0, 8000),
+        file: data.slice(0, block),
         user: $user.name,
         size: size
       });
 
-      sent += 8000;
-      data = data.slice(8000);
+      sent += block;
+      data = data.slice(block);
 
-      $visualizer.setTransferPercentage(sent/size*100);
+      const percentage = sent/size*100;
+      $visualizer.setTransferPercentage(percentage);
+      txtPerc.innerText = Math.floor(percentage) + '%';
 
       if (data) {
         console.log(data.length);
@@ -224,6 +259,7 @@ function fileTransfer(file) {
 
         setTimeout(() => {
           $visualizer.removeSender();
+          txtPerc.innerText = '';
         }, 2000);
       }
     }

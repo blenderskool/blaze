@@ -154,6 +154,8 @@ class Visualizer {
       });
     }
 
+    const primaryColor = d => d.name === this.sender.name || this.sender.percentage >= 99 ? '#3BE8B0' : '#636979';
+
     const nodes = this.svgContainer.selectAll('circle')
                 .data(this.nodes)
                 .enter()
@@ -162,7 +164,7 @@ class Visualizer {
                 .attr('cy', d => d.cy)
                 .attr('r', d => d.radius)
                 .style('fill', '#0D1322')
-                .style('stroke', d => d.name === this.sender.name ? '#3BE8B0' : '#636979')
+                .style('stroke', d => primaryColor(d))
                 .style('stroke-width', 2.5);
 
     const text = this.svgContainer.selectAll('text')
@@ -177,7 +179,7 @@ class Visualizer {
                   .attr('text-anchor', 'middle')
                   .attr('dominant-baseline', 'central')
                   .attr('font-size', d => d.radius/1.2)
-                  .attr('fill', d => d.name === this.sender.name ? '#3BE8B0' : '#636979');
+                  .attr('fill', d => primaryColor(d));
 
     const labels = text
                 .append('text')
