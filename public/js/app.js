@@ -153,7 +153,7 @@ function loadApp() {
 
       $visualizer.addSender(data.user);
 
-      const percentage = (files.length*16000)/data.size*100;
+      const percentage = (files.length*8000)/data.size*100;
 
       $visualizer.setTransferPercentage(percentage);
       txtPerc.innerText = Math.floor(percentage) + '%';
@@ -228,7 +228,7 @@ function fileTransfer(file) {
       /**
        * Defines the size of data that will be sent in each request
        */
-      const block = 16000;
+      const block = 8000;
 
       $socket.emit('file', {
         file: data.slice(0, block),
