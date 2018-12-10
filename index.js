@@ -28,7 +28,9 @@ function emitUsrsList(room) {
   io.to(room).emit('userJoin', Object.keys(sockets).map(socketID => io.sockets.connected[socketID].username));
 }
 
-app.use(express.static('client'));
+app.use(express.static('client', {
+  extensions: ['html']
+}));
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/client/index.html');
 });
