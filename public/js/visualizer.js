@@ -156,16 +156,40 @@ class Visualizer {
 
     const primaryColor = d => d.name === this.sender.name || this.sender.percentage >= 99 ? '#3BE8B0' : '#636979';
 
-    const nodes = this.svgContainer.selectAll('circle')
-                .data(this.nodes)
-                .enter()
-                .append('circle')
-                .attr('cx', d => d.cx)
-                .attr('cy', d => d.cy)
-                .attr('r', d => d.radius)
-                .style('fill', '#0D1322')
-                .style('stroke', d => primaryColor(d))
-                .style('stroke-width', 2.5);
+    this.svgContainer
+    .append('circle')
+    .attr('cx', '50%')
+    .attr('cy', '50%')
+    .attr('r', 50)
+    .style('fill', () => {
+      if (this.sender.name === this.nodes[0].name)
+        return 'rgba(59, 232, 176, 0.1)';
+
+      return 'rgba(99, 105, 121, 0.1)';
+    });
+
+    this.svgContainer
+    .append('circle')
+    .attr('cx', '50%')
+    .attr('cy', '50%')
+    .attr('r', 60)
+    .style('fill', () => {
+      if (this.sender.name === this.nodes[0].name)
+        return 'rgba(59, 232, 176, 0.1)';
+
+      return 'rgba(99, 105, 121, 0.1)';
+    });
+
+    this.svgContainer.selectAll('circle')
+    .data(this.nodes)
+    .enter()
+    .append('circle')
+    .attr('cx', d => d.cx)
+    .attr('cy', d => d.cy)
+    .attr('r', d => d.radius)
+    .style('fill', '#0D1322')
+    .style('stroke', d => primaryColor(d))
+    .style('stroke-width', 2.5);
 
     const text = this.svgContainer.selectAll('text')
                 .data(this.nodes)
