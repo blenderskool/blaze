@@ -30,9 +30,9 @@ if (!store.getItem('blaze')) window.location.pathname = '/new';
  * Loads the file transfer view of the app
  */
 function loadApp() {
-  document.body.classList.remove('center-center');
-  const frmJoinRoom = document.getElementById('frmJoinRoom');
-  frmJoinRoom.parentElement.removeChild(frmJoinRoom);
+  const app = document.getElementById('app');
+  app.classList.remove('center-center');
+  clearNode(app);
 
   $user = {
     ...JSON.parse(store.getItem('blaze')),
@@ -103,8 +103,8 @@ function loadApp() {
   card.append(header);
   card.append(lstFiles);
 
-  document.body.appendChild(perc);
-  document.body.appendChild(card);
+  app.appendChild(perc);
+  app.appendChild(card);
 
   /**
    * Sending the file

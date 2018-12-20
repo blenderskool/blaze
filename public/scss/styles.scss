@@ -8,7 +8,7 @@ $font: 'Rubik', sans-serif;
 $shadow: 0 8px 35px rgba(0, 0, 0, 0.4);
 $border: 1px solid #1C2439;
 
-$noise: url(http://api.thumbr.it/whitenoise-256x256.png?background=ffffff00&noise=626262&density=60&opacity=15);
+$noise: url(http://api.thumbr.it/whitenoise-256x256.png?background=ffffff00&noise=8a8a8a&density=35&opacity=10);
 
 * {
   box-sizing: border-box;
@@ -30,15 +30,33 @@ body {
 
   background-image: $noise;
   background-color: $bg;
-  background-size: 35%;
+  background-size: 30%;
 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   min-height: 100%;
 
 
   div {
+
+    &#app {
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+      min-height: calc(100vh - 40px);
+      max-width: calc(100vw - 40px);
+      align-items: center;
+
+      h2.title {
+        margin-top: auto;
+        margin-bottom: 30px;
+        font-size: 1.4rem;
+        font-weight: 500;
+        color: $secondary;
+      }
+
+      form#frmJoinRoom {
+        margin-bottom: auto;
+      }
+    }
 
     &#txtPerc {
 
@@ -136,7 +154,7 @@ button {
   outline: none;
   border-radius: 4px;
   font-weight: 500;
-  font-size: 1.6rem;
+  font-size: 1.4rem;
 
   width: 300px;
   height: 50px;
@@ -200,7 +218,7 @@ input[type="text"] {
 form#frmNewUser, form#frmJoinRoom {
   
   input {
-    margin-bottom: 50px;
+    margin-bottom: 40px;
   }
 
 }

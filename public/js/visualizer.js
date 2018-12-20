@@ -4,7 +4,7 @@ class Visualizer {
     this.width = width;
     this.height = height;
     this.svgContainer = d3
-                        .select('body')
+                        .select('#app')
                         .append('svg')
                         .attr('width', width)
                         .attr('height', height);
@@ -180,7 +180,8 @@ class Visualizer {
       return 'rgba(99, 105, 121, 0.1)';
     });
 
-    this.svgContainer.selectAll('circle')
+    this.svgContainer
+    .selectAll()
     .data(this.nodes)
     .enter()
     .append('circle')
