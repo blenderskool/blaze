@@ -17,6 +17,7 @@ $noise: url(http://api.thumbr.it/whitenoise-256x256.png?background=ffffff00&nois
 
 body, input, button {
   font-family: $font;
+  color: $white;
 }
 
 html {
@@ -57,7 +58,7 @@ body {
 
       .header {
         border-bottom: $border;
-        padding: 10px 0 10px 15px;
+        padding: 10px 15px;
         
         display: flex;
         align-items: center;
@@ -68,10 +69,13 @@ body {
           font-weight: 500;
         }
 
-        input[type="file"] {
+        .input-files {
           margin-right: 0;
+          color: $light;
           margin-left: auto;
-          width: 100px;
+          font-size: 1.7rem;
+          cursor: pointer;
+          user-select: none;
         }
       }
 

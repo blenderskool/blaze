@@ -81,11 +81,24 @@ function loadApp() {
   inp.id = 'inpFiles';
   inp.type = 'file';
   inp.multiple = true;
+  inp.style.display = 'none';
+
+  const lbl = document.createElement('label');
+  lbl.setAttribute('for', inp.id);
+  lbl.classList.add('icon-add', 'input-files');
+  lbl.setAttribute('role', 'button');
+  lbl.tabIndex = 0;
+  lbl.addEventListener('keydown', e => {
+    if (e.which === 13) {
+      inp.click();
+    }
+  });
   
   const lstFiles = document.createElement('ul');
 
   header.appendChild(heading);
   header.appendChild(inp);
+  header.appendChild(lbl);
 
   card.append(header);
   card.append(lstFiles);
@@ -110,13 +123,14 @@ function loadApp() {
       
       const status = document.createElement('span');
       status.classList.add('status');
-      status.innerText = '2.5s';
+      status.id = file.name + '-status';
+      status.innerText = '0s';
       
       const fileName = document.createElement('h4');
       fileName.innerText = file.name;
       
       const fileSize = document.createElement('h5');
-      fileSize.innerText = file.size;
+      fileSize.innerText = file.size/(1024*1024) < 1 ? Math.round((file.size/1024)*100)/100+'KB' : Math.round((file.size/(1024*1024)*100))/100+'MB';
 
       info.appendChild(fileName);
       info.appendChild(fileSize);
@@ -134,18 +148,24 @@ function loadApp() {
    */
   let files = [];
   const txtPerc = document.getElementById('txtPerc');
-  let intPerc = 25;
+  let intPerc = 80;
   $socket.on('file', data => {
 
     if (data.end && files.length > 1) {
       download('data:application/octet-stream;base64,' + files.join(''), data.name ? data.name : 'hello');
       files = [];
 
+      /**
+       * Download complete! Yay!
+       * Reset the state of the app for next data transfer
+       */
       setTimeout(() => {
         $visualizer.removeSender();
         document.getElementById('inpFiles').style.display = 'block';
         txtPerc.innerText = '';
       }, 2000);
+
+      clearInterval()
     }
     else {
       document.getElementById('inpFiles').style.display = 'none';
@@ -275,7 +295,7 @@ function fileTransfer(file) {
       }
     }
     stream({
-      percent: 25
+      percent: 80
     });
 
     $socket.on('rec-status', stream);
