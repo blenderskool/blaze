@@ -7,19 +7,29 @@
     "server": "node index",
     "watch": "gulp dev",
     "dev": "concurrently \"npm:watch\" \"npm:server\"",
-    "start": "gulp && npm run server"
+    "build": "gulp",
+    "start": "npm run build && npm run server"
   },
   "author": "Akash Hamirwasia",
   "license": "MIT",
   "dependencies": {
     "concurrently": "^4.1.0",
     "express": "^4.16.4",
-    "gulp": "^3.9.1",
-    "gulp-sass": "^4.0.2",
+    "gulp": "^4.0.0",
     "socket.io": "^2.2.0",
     "socket.io-p2p-server": "^1.2.0"
   },
   "engines": {
     "node": "8.x"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.2.2",
+    "@babel/plugin-transform-spread": "^7.2.2",
+    "@babel/preset-env": "^7.2.3",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-preset-minify": "^0.5.0",
+    "gulp-babel": "^8.0.0",
+    "gulp-htmlmin": "^5.0.1",
+    "gulp-sass": "^4.0.2"
   }
 }

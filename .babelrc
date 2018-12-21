@@ -1,0 +1,18 @@
+{
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "useBuiltIns": "entry"
+      },
+    ],
+  [
+    "minify",
+    {
+      "builtIns": false
+    }
+  ],
+  ],
+  "plugins": ["@babel/plugin-transform-spread"],
+  "comments": false
+}
