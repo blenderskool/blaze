@@ -8,7 +8,7 @@ $font: 'Rubik', sans-serif;
 $shadow: 0 8px 35px rgba(0, 0, 0, 0.4);
 $border: 1px solid #1C2439;
 
-$noise: url(http://api.thumbr.it/whitenoise-256x256.png?background=ffffff00&noise=8a8a8a&density=35&opacity=10);
+$noise: url(http://api.thumbr.it/whitenoise-256x256.png?background=ffffff00&noise=8a8a8a&density=45&opacity=10);
 
 * {
   box-sizing: border-box;
@@ -30,7 +30,7 @@ body {
 
   background-image: $noise;
   background-color: $bg;
-  background-size: 30%;
+  background-size: 32%;
 
   min-height: 100%;
 
@@ -109,6 +109,8 @@ body {
 
 
           div.info {
+            text-align: left;
+
             h4 {
               margin: 0;
               color: $light;
@@ -175,8 +177,7 @@ button {
   }
 }
 
-input[type="text"] {
-
+input {
   background-color: transparent;
   border: 1px solid $secondary;
   font-weight: 500;
