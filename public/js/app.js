@@ -85,8 +85,10 @@ function loadApp() {
 
   const lbl = document.createElement('label');
   lbl.setAttribute('for', inp.id);
-  lbl.classList.add('icon-add', 'input-files');
+  lbl.id = 'lbl-inpFiles';
+  lbl.setAttribute('aria-label', 'Choose files to send');
   lbl.setAttribute('role', 'button');
+  lbl.classList.add('icon-add', 'input-files');
   lbl.tabIndex = 0;
   lbl.addEventListener('keydown', e => {
     if (e.which === 13) {
@@ -161,14 +163,14 @@ function loadApp() {
        */
       setTimeout(() => {
         $visualizer.removeSender();
-        document.getElementById('inpFiles').style.display = 'block';
+        document.getElementById('lbl-inpFiles').style.display = 'block';
         txtPerc.innerText = '';
       }, 2000);
 
       clearInterval()
     }
     else {
-      document.getElementById('inpFiles').style.display = 'none';
+      document.getElementById('lbl-inpFiles').style.display = 'none';
 
       files.push(data.file);
 
