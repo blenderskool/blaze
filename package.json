@@ -8,7 +8,7 @@
     "watch": "gulp dev",
     "dev": "concurrently \"npm:watch\" \"npm:server\"",
     "build": "gulp",
-    "start": "npm run build && npm run server"
+    "start": "npm run server"
   },
   "author": "Akash Hamirwasia",
   "license": "MIT",
