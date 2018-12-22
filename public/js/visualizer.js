@@ -83,6 +83,21 @@ class Visualizer {
     else
       this.nodes.push(nodeData);
 
+    /**
+     * Add waves if client node
+     */
+    if (isClient) {
+      this.svgContainer.selectAll()
+      .data([60, 50])
+      .enter()
+      .append('circle')
+      .attr('class', 'wave')
+      .attr('cx', '50%')
+      .attr('cy', '50%')
+      .attr('r', r => r)
+      .style('fill', 'rgba(99, 105, 121, 0.1)');
+    }
+
     if (!pos) this.updateAllPos();
 
     this.updateSVG();
@@ -111,8 +126,11 @@ class Visualizer {
     /**
      * Empty the SVG container, and add the updated nodes, connections and labels
      */
-    this.svgContainer.selectAll('*').remove();
+    this.svgContainer.selectAll('*:not(.wave)').remove();
 
+    /**
+     * Adds the connection links between all the nodes
+     */
     for (let i = 0; i < this.nodes.length; i++) {
       for (let j = i+1; j < this.nodes.length; j++) {
         
@@ -126,24 +144,34 @@ class Visualizer {
       }
     }
 
+    /**
+     * Creates the file transfer indicator line
+     */
     if (this.sender && this.sender.name) {
       this.addSender(this.sender.name, this.sender.percentage);
 
       this.nodes.forEach(node => {
         if (node.name === this.sender.name) return;
 
+        // Get the (x, y) coordinates of sender and receiver node
         const x1 = parseInt(this.sender.cx)/100*this.width;
         const y1 = parseInt(this.sender.cy)/100*this.height;
         const x2 = parseInt(node.cx)/100*this.width;
         const y2 = parseInt(node.cy)/100*this.height;
 
+        // Calculate the total distance between the node
         const dis = Math.sqrt(Math.pow(x1-x2, 2) + Math.pow(y1-y2, 2));
+        // Calculate the angle of line between the nodes along x axis.
+        // Slope is calculated first
         const angle = Math.atan( (y2-y1)/(x2-x1) );
 
+        // Calculate the distance based on percentage value
         let r = this.sender.percentage/100*dis;
+        // Direction corrections
         if ((x2 < x1 || y2 < y1) && !(x2 >= x1 && y2 <= y1))
           r = -r;
 
+        // Create the line by converting polar to cartesian coordinates
         this.svgContainer.append('line')
         .style('stroke', '#3BE8B0')
         .style('stroke-width', 2)    
@@ -156,30 +184,9 @@ class Visualizer {
 
     const primaryColor = d => d.name === this.sender.name || this.sender.percentage >= 99 ? '#3BE8B0' : '#636979';
 
-    this.svgContainer
-    .append('circle')
-    .attr('cx', '50%')
-    .attr('cy', '50%')
-    .attr('r', 50)
-    .style('fill', () => {
-      if (this.sender.name === this.nodes[0].name)
-        return 'rgba(59, 232, 176, 0.1)';
-
-      return 'rgba(99, 105, 121, 0.1)';
-    });
-
-    this.svgContainer
-    .append('circle')
-    .attr('cx', '50%')
-    .attr('cy', '50%')
-    .attr('r', 60)
-    .style('fill', () => {
-      if (this.sender.name === this.nodes[0].name)
-        return 'rgba(59, 232, 176, 0.1)';
-
-      return 'rgba(99, 105, 121, 0.1)';
-    });
-
+    /**
+     * Adds the nodes
+     */
     this.svgContainer
     .selectAll()
     .data(this.nodes)
@@ -196,45 +203,83 @@ class Visualizer {
                 .data(this.nodes)
                 .enter();
  
-    const avatars = text.append('text')
-                  .attr('x', d => d.cx)
-                  .attr('y', d => d.cy)
-                  .text(d => d.name[0].toUpperCase())
-                  .attr('font-family', '"Rubik", sans-serif')
-                  .attr('text-anchor', 'middle')
-                  .attr('dominant-baseline', 'central')
-                  .attr('font-size', d => d.radius/1.2)
-                  .attr('fill', d => primaryColor(d));
+    /**
+     * Adds the avatar text
+     */
+    text.append('text')
+    .attr('x', d => d.cx)
+    .attr('y', d => d.cy)
+    .text(d => d.name[0].toUpperCase())
+    .attr('font-family', '"Rubik", sans-serif')
+    .attr('text-anchor', 'middle')
+    .attr('dominant-baseline', 'central')
+    .attr('font-size', d => d.radius/1.2)
+    .style('fill', d => primaryColor(d));
 
-    const labels = text
-                .append('text')
-                .attr('x', d => d.cx)
-                .attr('y', d => parseInt(d.cy)/100*this.height + d.radius + 20)
-                .text(d => d.name)
-                .attr('font-family', '"Rubik", sans-serif')
-                .attr('text-anchor', 'middle')
-                .attr('dominant-baseline', 'central')
-                .attr('font-size', 13)
-                .attr('fill', d => d.textColor)
-                .attr('font-weight', 500);
+    /**
+     * Adds the nickname labels
+     */
+    text.append('text')
+    .attr('x', d => d.cx)
+    .attr('y', d => parseInt(d.cy)/100*this.height + d.radius + 20)
+    .text(d => d.name)
+    .attr('font-family', '"Rubik", sans-serif')
+    .attr('text-anchor', 'middle')
+    .attr('dominant-baseline', 'central')
+    .attr('font-size', 13)
+    .style('fill', d => d.textColor)
+    .attr('font-weight', 500);
   }
 
 
+  /**
+   * Adds the sender client
+   * @param {String} name Name of the client who is sending the files
+   * @param {Number} percentage Completed file transfer percentage
+   */
   addSender(name, percentage=0) {
     this.sender = {
       ...this.nodes.filter(node => node.name === name)[0],
       percentage
     };
+
+    /**
+     * If the current client is the sender, then transition the color of waves to green
+     */
+    if (name === this.nodes[0].name) {
+      this.svgContainer.selectAll('.wave')
+      .transition()
+        .duration(400)
+        .ease(d3.easeLinear)
+        .style('fill', 'rgba(59, 232, 176, 0.1)');
+
+    }
   }
 
+  /**
+   * Removes the sender client and resets for next file transfer
+   */
   removeSender() {
     this.sender = {
       percentage: 0
     };
 
+    /**
+     * Reset the wave colors
+     */
+    this.svgContainer.selectAll('.wave')
+    .transition()
+      .duration(400)
+      .ease(d3.easeLinear)
+      .style('fill', 'rgba(99, 105, 121, 0.1)');
+
     this.updateSVG();
   }
 
+  /**
+   * Updates the file transfer percentage
+   * @param {Number} percentage Completed file transfer percentage
+   */
   setTransferPercentage(percentage) {
     this.sender.percentage = percentage;
 
