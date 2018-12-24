@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "Quickly share files with multiple users",
   "main": "index.js",
+  "private": true,
   "scripts": {
     "server": "node index",
     "watch": "gulp dev",
