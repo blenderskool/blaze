@@ -57,9 +57,6 @@ function loadApp() {
   }, () => console.log('Using WebRTC'));
   $socket.on('userJoin', userJoined);
   $socket.on('userLeft', userLeft);
-  $socket.on('go-private', () => {
-    $socket.useSockets = false;
-  });
   
   
   $visualizer = new Visualizer(window.innerWidth, Math.floor(window.innerHeight / 2));
@@ -219,15 +216,6 @@ function socketConnect(room, username) {
   });
 }
 
-/**
- * Switches to WebRTC connection
- */
-function goPrivate() {
-  $socket.emit('go-private', true);
-
-  $socket.useSockets = false;
-}
-
 
 function userJoined(users) {
 
@@ -248,7 +236,6 @@ function userLeft(user) {
 
 
 function fileTransfer(file) {
-  // goPrivate();
   getBase64(file).then(data => {
 
     $visualizer.addSender($user.name);

@@ -48,26 +48,14 @@ io.on('connection', socket => {
   socket = socket.join(room);
   socket.username = user;
 
-  io.in(room).emit('message', {
-    message: `${user} has joined`,
-    isServer: true
-  });
-
   socket.on('disconnect', () => socket.to(room).emit('userLeft', user));
 
   emitUsrsList(room);
 
-
   socket.on('file', data => socket.broadcast.emit('file', data));
   socket.on('rec-status', data => {
     const sID = clients[data.sender];
-    console.log(sID);
     io.sockets.connected[sID].emit('rec-status', data);
-  });
-
-
-  socket.on('go-private', data => {
-    socket.broadcast.emit('go-private', data)
   });
 
 });
