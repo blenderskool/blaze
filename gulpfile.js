@@ -49,15 +49,14 @@ gulp.task('html', function() {
     .pipe(gulp.dest('dist'));
 });
 
-
-/**
- * File Watcher during development
- */
-gulp.task('dev', function() {
-  return gulp.watch('public/**/*', gulp.parallel('default'));
-});
-
 /**
  * Building for production
  */
 gulp.task('default', gulp.parallel('static', 'styles', 'scripts', 'html'));
+
+/**
+ * File Watcher during development
+ */
+gulp.task('dev', gulp.series('default', function watcher() {
+  return gulp.watch('public/**/*', gulp.parallel('default'));
+}));
