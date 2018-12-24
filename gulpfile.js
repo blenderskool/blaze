@@ -9,7 +9,7 @@ const babel = require('gulp-babel');
 gulp.task('styles', function() {
   return gulp.src('public/scss/**/*.scss')
   .pipe(sass({ outputStyle: 'compressed' }).on('error', sass.logError))
-  .pipe(gulp.dest('client/css'));
+  .pipe(gulp.dest('dist/css'));
 });
 
 /**
@@ -23,7 +23,7 @@ gulp.task('static', function() {
     '!public/scss/**/*',
     '!public/**/*.html'
   ])
-  .pipe(gulp.dest('client'));
+  .pipe(gulp.dest('dist'));
 });
 
 /**
@@ -32,7 +32,7 @@ gulp.task('static', function() {
 gulp.task('scripts', function() {
   return gulp.src('public/js/**/*.js')
   .pipe(babel())
-  .pipe(gulp.dest('client/js'));
+  .pipe(gulp.dest('dist/js'));
 });
 
 /**
@@ -46,7 +46,7 @@ gulp.task('html', function() {
       removeScriptTypeAttributes: true,
       useShortDoctype: true
     }))
-    .pipe(gulp.dest('client'));
+    .pipe(gulp.dest('dist'));
 });
 
 
