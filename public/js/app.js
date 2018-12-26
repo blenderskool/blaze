@@ -1,44 +1,20 @@
-let urlParams;
-(window.onpopstate = function () {
-  let match,
-    pl = /\+/g,  // Regex for replacing addition symbol with a space
-    search = /([^&=]+)=?([^&]*)/g,
-    decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); },
-    query = window.location.search.substring(1);
-
-  urlParams = {};
-  while (match = search.exec(query))
-    urlParams[decode(match[1])] = decode(match[2]);
-})();
-
-
-/**
- * Removes all the child elements from a node
- * @param {Node} node Node for which children should be removed
- */
-function clearNode(node) {
-  while (node.firstChild) node.removeChild(node.firstChild);
-}
-
-
 const store = localStorage;
 let $visualizer, $socket, $user;
 
-if (!store.getItem('blaze')) window.location.pathname = '/new';
 
 /**
  * Loads the file transfer view of the app
+ * @param {String} room Name of the room user is joining
  */
-function loadApp() {
+function loadApp(room) {
   const app = document.getElementById('app');
-  app.classList.remove('center-center');
+  app.classList.add('center');
   clearNode(app);
 
   $user = {
-    ...JSON.parse(store.getItem('blaze')),
-    room: Object.keys(urlParams)[0]
+    ...JSON.parse(store.getItem('blaze')).user,
+    room: room
   };
-  // $socket = socketConnect($user.room, $user.name);
   $socket = new P2P(socketConnect($user.room, $user.name), {
     peerOpts: {
       config: {
@@ -55,8 +31,17 @@ function loadApp() {
       }
     }
   }, () => console.log('Using WebRTC'));
-  $socket.on('userJoin', userJoined);
-  $socket.on('userLeft', userLeft);
+  $socket.on('userJoin', users => {
+    /**
+     * Online users list is rendered
+     */
+    users.forEach(user => {
+
+      if (user !== $user.name)
+        $visualizer.addNode(user);
+    });
+  });
+  $socket.on('userLeft', user => $visualizer.removeNode(user));
   
   
   $visualizer = new Visualizer(window.innerWidth, Math.floor(window.innerHeight / 2));
@@ -190,20 +175,6 @@ function loadApp() {
     }
   });
 }
-if (Object.keys(urlParams).length)
-  loadApp();
-
-
-if (document.getElementById('frmJoinRoom')) {
-
-  document.getElementById('frmJoinRoom').addEventListener('submit', e => {
-    e.preventDefault();
-    const inpRoom = document.getElementById('inpRoom');
-
-    window.location.href = window.location.origin + '/?'+inpRoom.value.toLowerCase();
-  });
-
-}
 
 /**
  * Creates a new socket connection in the room
@@ -215,25 +186,6 @@ function socketConnect(room, username) {
     query: `room=${room}&user=${username}`,
   });
 }
-
-
-function userJoined(users) {
-
-  /**
-   * Online users list is rendered
-   */
-  users.forEach(user => {
-
-    if (user !== $user.name)
-      $visualizer.addNode(user);
-  });
-
-}
-
-function userLeft(user) {
-  $visualizer.removeNode(user);
-}
-
 
 function fileTransfer(file) {
   getBase64(file).then(data => {
