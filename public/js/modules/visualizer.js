@@ -281,6 +281,8 @@ class Visualizer {
    * @param {Number} percentage Completed file transfer percentage
    */
   setTransferPercentage(percentage) {
+    if (percentage > 100) percentage = 100;
+
     this.sender.percentage = percentage;
 
     this.updateSVG();

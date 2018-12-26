@@ -26,7 +26,7 @@ cd blaze
 npm install
 npm run dev
 ```
-The server by default would run on port `3030`
+The server by default would run on port `3030` and the app can be accessed on `localhost:3030/app`
 
 ## Building for production
 ```bash
