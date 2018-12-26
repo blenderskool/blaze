@@ -25,6 +25,9 @@ const $router = new Navigo();
 $router.on(function(query) {
   query = getQuery(query);
 
+  if ($socket)
+    $socket.disconnect();
+
   if (!localStorage.getItem('blaze')) {
     loadNewUser();
   }
