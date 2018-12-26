@@ -80,6 +80,12 @@ function loadHome() {
   frmJoinRoom.appendChild(submit);
 
   const modal = new Modal(frmJoinRoom);
+  if (!rooms || !rooms.length) {
+    /**
+     * If there is no recently joined rooms, show the modal directly
+     */
+    Modal.open();
+  }
 
   /**
    * FAB
