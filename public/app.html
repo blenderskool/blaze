@@ -13,21 +13,14 @@
 </head>
 <body>
 
-    <div class="center-center" id="app">
-      <h2 class="white title">Start sharing files by joining a room</h2>
-
-      <form id="frmJoinRoom">
-        <input type="text" placeholder="Room Name" maxlength="10" required id="inpRoom">
-        <button type="submit">Join Room</button>
-      </form>
-    </div>
+  <div id="app"></div>
   
 
   <script src="/socket.io/socket.io.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/socket.io-p2p@2.2.0/socketiop2p.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.7.0/d3.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/downloadjs/1.4.8/download.min.js"></script>
-  <script src="js/visualizer.js"></script>
+  <script src="https://unpkg.com/navigo@6.0.2/lib/navigo.min.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>
