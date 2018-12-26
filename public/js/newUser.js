@@ -1,23 +1,35 @@
-/**
- * Script file that handles the registration of a first time user.
- */
-const store = localStorage;
+function loadNewUser() {
+  const app = document.getElementById('app');
+  app.classList.add('center-center');
+  clearNode(app);
 
-/**
- * Redirect to the main app, if user storage data is present
- */
-if (store.getItem('blaze')) window.location.pathname = '/';
+  const frmNewUser = document.createElement('form');
 
+  const inpName = document.createElement('input');
+  inpName.required = true;
+  inpName.type = 'text';
+  inpName.placeholder = 'Cool nickname';
+  inpName.maxLength = '10';
 
+  const submit = document.createElement('button');
+  submit.type = 'submit';
+  submit.innerText = 'Start sharing';
 
-document.getElementById('frmNewUser').addEventListener('submit', e => {
+  frmNewUser.addEventListener('submit', e => {
+    e.preventDefault();
 
-  e.preventDefault();
+    localStorage.setItem('blaze', JSON.stringify({
+      user: {
+        name: inpName.value
+      },
+      rooms: []
+    }));
 
-  store.setItem('blaze', JSON.stringify({
-    name: document.getElementById('inpName').value
-  }));
+    loadHome();
 
-  window.location.pathname = '/';
+  });
 
-});
+  frmNewUser.appendChild(inpName);
+  frmNewUser.appendChild(submit);
+  app.appendChild(frmNewUser);
+}
