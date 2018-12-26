@@ -26,7 +26,7 @@ html {
 
 body {
   margin: 0;
-  padding: 20px;
+  padding: 0;
 
   background-image: $noise;
   background-color: $bg;
@@ -45,8 +45,9 @@ body {
     &#app {
       display: flex;
       flex-direction: column;
-      min-height: calc(100vh - 40px);
-      max-width: calc(100vw - 40px);
+      padding: 20px;
+      min-height: 100vh;
+      max-width: 100vw;
 
       &.center {
         text-align: center;
@@ -138,7 +139,7 @@ body {
 
       &::before {
         content: '';
-        background-color: rgba(#000000, 0.5);
+        background-color: rgba($secondary, 0.15);
         z-index: -1;
         position: absolute;
         top: 0;
