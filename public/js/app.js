@@ -1,4 +1,3 @@
-const store = localStorage;
 let $visualizer, $socket, $user;
 
 
@@ -12,9 +11,12 @@ function loadApp(room) {
   clearNode(app);
 
   $user = {
-    ...JSON.parse(store.getItem('blaze')).user,
+    ...JSON.parse(localStorage.getItem('blaze')).user,
     room: room
   };
+  /**
+   * Setting up the socket connection and socket events
+   */
   $socket = new P2P(socketConnect($user.room, $user.name), {
     peerOpts: {
       config: {
@@ -44,6 +46,9 @@ function loadApp(room) {
   $socket.on('userLeft', user => $visualizer.removeNode(user));
   
   
+  /**
+   * Layout is created here
+   */
   $visualizer = new Visualizer(window.innerWidth, Math.floor(window.innerHeight / 2));
   $visualizer.addNode($user.name, ['50%', '50%'], true);
 
@@ -132,7 +137,7 @@ function loadApp(room) {
    */
   let files = [];
   const txtPerc = document.getElementById('txtPerc');
-  let intPerc = 80;
+  let intPerc = 25;
   $socket.on('file', data => {
 
     if (data.end && files.length > 1) {
@@ -158,11 +163,11 @@ function loadApp(room) {
 
       $visualizer.addSender(data.user);
 
-      const percentage = (files.length*8000)/data.size*100;
+      const percentage = (files.length*8*1024)/data.size*100;
       const percFloor = Math.floor(percentage);
       
       if (percentage >= intPerc) {
-        intPerc += 1;
+        intPerc += 15;
         $socket.emit('rec-status', {
           percent: intPerc,
           peer: $user.name,
@@ -187,6 +192,10 @@ function socketConnect(room, username) {
   });
 }
 
+/**
+ * Sends the file in chunks acorss socket connection
+ * @param {File} file File object which has to be sent
+ */
 function fileTransfer(file) {
   getBase64(file).then(data => {
 
@@ -200,7 +209,7 @@ function fileTransfer(file) {
       /**
        * Defines the size of data that will be sent in each request
        */
-      const block = 8000;
+      const block = 1024*8;
 
       $socket.emit('file', {
         file: data.slice(0, block),
@@ -236,7 +245,7 @@ function fileTransfer(file) {
       }
     }
     stream({
-      percent: 80
+      percent: 25
     });
 
     $socket.on('rec-status', stream);
