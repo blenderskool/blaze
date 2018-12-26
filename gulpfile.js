@@ -2,6 +2,7 @@ const gulp = require('gulp');
 const sass = require('gulp-sass');
 const htmlmin = require('gulp-htmlmin');
 const babel = require('gulp-babel');
+const concat = require('gulp-concat');
 
 /**
  * Builds the Stylesheets
@@ -30,8 +31,9 @@ gulp.task('static', function() {
  * Uses Babel to build JS files
  */
 gulp.task('scripts', function() {
-  return gulp.src('public/js/**/*.js')
+  return gulp.src(['public/js/modules/**/*.js', 'public/js/**/*.js'])
   .pipe(babel())
+  .pipe(concat('app.js'))
   .pipe(gulp.dest('dist/js'));
 });
 

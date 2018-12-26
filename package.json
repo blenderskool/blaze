@@ -30,6 +30,7 @@
     "babel-core": "^7.0.0-bridge.0",
     "babel-preset-minify": "^0.5.0",
     "gulp-babel": "^8.0.0",
+    "gulp-concat": "^2.6.1",
     "gulp-htmlmin": "^5.0.1",
     "gulp-sass": "^4.0.2"
   }
