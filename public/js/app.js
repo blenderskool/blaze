@@ -32,7 +32,12 @@ function loadApp(room) {
         ]
       }
     }
-  }, () => console.log('Using WebRTC'));
+  }, () => {
+    const backend = document.getElementById('txtTech');
+    
+    if (backend)
+      backend.innerText = 'Using WebRTC';
+  });
   $socket.on('userJoin', users => {
     /**
      * Online users list is rendered
@@ -54,6 +59,10 @@ function loadApp(room) {
 
   const perc = document.createElement('div');
   perc.id = 'txtPerc';
+
+  const backend = document.createElement('div');
+  backend.id = 'txtTech';
+  backend.innerText = 'Using WebSockets';
 
   const card = document.createElement('div');
   card.classList.add('card');
@@ -93,6 +102,7 @@ function loadApp(room) {
   card.append(lstFiles);
 
   app.appendChild(perc);
+  app.appendChild(backend);
   app.appendChild(card);
 
   /**
