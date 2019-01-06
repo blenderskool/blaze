@@ -44,8 +44,8 @@ function loadApp(room) {
     });
   });
   $socket.on('userLeft', user => $visualizer.removeNode(user));
-  
-  
+
+
   /**
    * Layout is created here
    */
@@ -82,7 +82,7 @@ function loadApp(room) {
       inp.click();
     }
   });
-  
+
   const lstFiles = document.createElement('ul');
 
   header.appendChild(heading);
@@ -100,26 +100,31 @@ function loadApp(room) {
    */
   inp.addEventListener('change', e => {
     const files = e.target.files;
-    const file = files[0];
-    fileTransfer(file);
+
+    const zip = new JSZip();
+
+    // const file = files[0];
+    // fileTransfer(file);
 
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
 
+      zip.file(file.name, file);
+
       const li = document.createElement('li');
       const info = document.createElement('div');
       info.classList.add('info');
-      
+
       const status = document.createElement('span');
       status.classList.add('status');
       status.id = file.name + '-status';
       status.innerText = '0s';
-      
+
       const fileName = document.createElement('h4');
       fileName.innerText = file.name;
-      
+
       const fileSize = document.createElement('h5');
-      fileSize.innerText = file.size/(1024*1024) < 1 ? Math.round((file.size/1024)*100)/100+'KB' : Math.round((file.size/(1024*1024)*100))/100+'MB';
+      fileSize.innerText = file.size / (1024 * 1024) < 1 ? Math.round((file.size / 1024) * 100) / 100 + 'KB' : Math.round((file.size / (1024 * 1024) * 100)) / 100 + 'MB';
 
       info.appendChild(fileName);
       info.appendChild(fileSize);
@@ -129,6 +134,12 @@ function loadApp(room) {
 
       lstFiles.appendChild(li);
     }
+
+    zip.generateAsync({
+      type: 'arraybuffer',
+    })
+      .then(fileTransfer);
+
   });
 
 
@@ -136,13 +147,19 @@ function loadApp(room) {
    * Receiving the file
    */
   let files = [];
+  let metaData = {};
   const txtPerc = document.getElementById('txtPerc');
   let intPerc = 25;
+  let size = 0;
   $socket.on('file', data => {
 
-    if (data.end && files.length > 1) {
-      download('data:application/octet-stream;base64,' + files.join(''), data.name ? data.name : 'hello');
-      files = [];
+    if (data.end) {
+
+      if (files.length) {
+        download(new Blob(files), 'blaze_files.zip');
+        files = [];
+        size = 0;
+      }
 
       /**
        * Download complete! Yay!
@@ -154,30 +171,34 @@ function loadApp(room) {
         txtPerc.innerText = '';
       }, 2000);
 
-      clearInterval()
     }
     else {
-      document.getElementById('lbl-inpFiles').style.display = 'none';
-
-      files.push(data.file);
-
+      metaData = data;
       $visualizer.addSender(data.user);
-
-      const percentage = (files.length*8*1024)/data.size*100;
-      const percFloor = Math.floor(percentage);
-      
-      if (percentage >= intPerc) {
-        intPerc += 15;
-        $socket.emit('rec-status', {
-          percent: intPerc,
-          peer: $user.name,
-          sender: data.user
-        });
-      }
-
-      $visualizer.setTransferPercentage(percentage);
-      txtPerc.innerText = percFloor + '%';
     }
+  });
+
+  $socket.on('file-data', data => {
+    document.getElementById('lbl-inpFiles').style.display = 'none';
+
+    files.push(data);
+    size += data.byteLength;
+
+    const percentage = size * 100 / metaData.size;
+    const percFloor = Math.floor(percentage);
+
+
+    if (percentage >= intPerc) {
+      intPerc += 15;
+      $socket.emit('rec-status', {
+        percent: intPerc,
+        peer: $user.name,
+        sender: metaData.user
+      });
+    }
+
+    $visualizer.setTransferPercentage(percentage);
+    txtPerc.innerText = percFloor + '%';
   });
 }
 
@@ -194,80 +215,81 @@ function socketConnect(room, username) {
 
 /**
  * Sends the file in chunks acorss socket connection
- * @param {File} file File object which has to be sent
+ * @param {ArrayBuffer} file File object which has to be sent
  */
 function fileTransfer(file) {
-  getBase64(file).then(data => {
+  let data = file
 
-    $visualizer.addSender($user.name);
-    let sent = 0;
-    const txtPerc = document.getElementById('txtPerc');
-    const size = data.length;
+  $visualizer.addSender($user.name);
+  let sent = 0;
+  const txtPerc = document.getElementById('txtPerc');
+  const size = data.byteLength;
 
-    function stream(meta) {
-      
+  /**
+   * Initially send the meta data of the file being shared
+   */
+  $socket.emit('file', {
+    user: $user.name,
+    size
+  });
+
+  function stream(meta) {
+    /**
+     * If all the chunks are sent
+     */
+    if (!data.byteLength) {
       /**
-       * Defines the size of data that will be sent in each request
+       * Indicates that the stream has ended and file should now be built
        */
-      const block = 1024*8;
-
       $socket.emit('file', {
-        file: data.slice(0, block),
-        user: $user.name,
-        size: size
+        end: true,
       });
 
-      sent += block;
-      data = data.slice(block);
+      /**
+       * DOM is updated to clear the transfer percentage
+       */
+      setTimeout(() => {
+        $visualizer.removeSender();
+        txtPerc.innerText = '';
+      }, 2000);
 
-      const percentage = sent/size*100;
-      $visualizer.setTransferPercentage(percentage);
-      txtPerc.innerText = Math.floor(percentage) + '%';
-
-      if (data) {
-        if (percentage < meta.percent) {
-          // console.log(data.length);
-          setTimeout(() => stream(meta), 1);
-        }
-      }
-      else {
-        $socket.emit('file', {
-          end: true,
-          name: file.name,
-          user: $user.name,
-          size: size
-        });
-
-        setTimeout(() => {
-          $visualizer.removeSender();
-          txtPerc.innerText = '';
-        }, 2000);
-      }
+      return;
     }
-    stream({
-      percent: 25
-    });
 
-    $socket.on('rec-status', stream);
+    /**
+     * Defines the size of data that will be sent in each request (KBs)
+     */
+    const block = 1024 * 12;
 
+    /**
+     * Send a chunk of data
+     */
+    $socket.emit('file-data', data.slice(0, block));
+
+    /**
+     * Update for next iteration
+     */
+    sent += block;
+    data = data.slice(block, data.byteLength);
+
+    /**
+     * Percentage calculation and DOM update
+     */
+    const percentage = sent * 100 / size;
+    $visualizer.setTransferPercentage(percentage);
+    txtPerc.innerText = Math.floor(percentage) + '%';
+
+    if (percentage < meta.percent) {
+      /**
+       * Timeout is used as this will allow us to control the time interval between successive streams
+       */
+      setTimeout(() => stream(meta), 1);
+    }
+  }
+  stream({
+    percent: 25
   });
-}
 
+  $socket.on('rec-status', stream);
 
-/**
- * Returns a promise which resolves into Base64 encoded string of the file
- */
-function getBase64(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      let encoded = reader.result.replace(/^data:(.*;base64,)?/, '');
-      if ((encoded.length % 4) > 0) {
-        encoded += '='.repeat(4 - (encoded.length % 4));
-      }
-      resolve(encoded);
-    };
-    reader.onerror = error => reject(error);
-  });
 }

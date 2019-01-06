@@ -55,6 +55,7 @@ io.on('connection', socket => {
     const sID = clients[data.sender];
     io.sockets.connected[sID].emit('rec-status', data);
   });
+  socket.on('file-data', data => socket.broadcast.emit('file-data', data));
 
 });
 
