@@ -15,11 +15,12 @@ function loadHome() {
   /**
    * Recent rooms list
    */
-  const rooms = JSON.parse(localStorage.getItem('blaze')).rooms;
+  let data = JSON.parse(localStorage.getItem('blaze'));
+  let rooms = data.rooms;
 
+  const lstRecentRooms = document.createElement('ul');
+  lstRecentRooms.classList.add('recent-rooms');
   if (rooms && rooms.length) {
-    const lstRecentRooms = document.createElement('ul');
-    lstRecentRooms.classList.add('recent-rooms');
 
     function joinRoom() { $router.navigate('/app?room='+this.innerText.toLowerCase(), true) }
 
@@ -30,11 +31,30 @@ function loadHome() {
       li.innerText = room;
       li.addEventListener('click', joinRoom);
 
+      const btnRemove = document.createElement('span');
+      btnRemove.setAttribute('role', 'button');
+      btnRemove.setAttribute('aria-label', 'Remove room');
+      btnRemove.classList.add('icon-cancel');
+      btnRemove.tabIndex = 0;
+      btnRemove.addEventListener('click', e => {
+        e.stopPropagation();
+
+        rooms = rooms.filter(roomName => roomName !== room);
+        data = {
+          ...data,
+          rooms
+        };
+        localStorage.setItem('blaze', JSON.stringify(data));
+
+        lstRecentRooms.removeChild(li);
+      });
+
+      li.appendChild(btnRemove);
       lstRecentRooms.appendChild(li);
     });
 
-    app.appendChild(lstRecentRooms);
   }
+  app.appendChild(lstRecentRooms);
 
 
   /**
@@ -55,7 +75,6 @@ function loadHome() {
   frmJoinRoom.addEventListener('submit', e => {
     e.preventDefault();
     const room = inpRoom.value.toLowerCase();
-    const data = JSON.parse(localStorage.getItem('blaze'));
 
     /**
      * Store the room in recently joined rooms
@@ -79,7 +98,7 @@ function loadHome() {
   frmJoinRoom.appendChild(inpRoom);
   frmJoinRoom.appendChild(submit);
 
-  const modal = new Modal(frmJoinRoom);
+  new Modal(frmJoinRoom);
   if (!rooms || !rooms.length) {
     /**
      * If there is no recently joined rooms, show the modal directly

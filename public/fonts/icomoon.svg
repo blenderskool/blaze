@@ -7,5 +7,7 @@
 <font-face units-per-em="1024" ascent="960" descent="-64" />
 <missing-glyph horiz-adv-x="1024" />
 <glyph unicode="&#x20;" horiz-adv-x="512" d="" />
-<glyph unicode="&#xe900;" glyph-name="add" d="M810 384.667h-256v-256h-84v256h-256v84h256v256h84v-256h256v-84z" />
+<glyph unicode="&#xe145;" glyph-name="add" d="M810 384.667h-256v-256h-84v256h-256v84h256v256h84v-256h256v-84z" />
+<glyph unicode="&#xe408;" glyph-name="navigate_before" d="M658 622.667l-196-196 196-196-60-60-256 256 256 256z" />
+<glyph unicode="&#xe5c9;" glyph-name="cancel" d="M726 272.667l-154 154 154 154-60 60-154-154-154 154-60-60 154-154-154-154 60-60 154 154 154-154zM512 852.667c236 0 426-190 426-426s-190-426-426-426-426 190-426 426 190 426 426 426z" />
 </font></defs></svg>

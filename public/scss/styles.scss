@@ -60,6 +60,12 @@ body {
         font-weight: 500;
       }
 
+      h3 {
+        font-weight: 500;
+        line-height: 1.3em;
+        color: $secondary;
+      }
+
       form#frmJoinRoom {
         margin-bottom: auto;
       }
@@ -95,6 +101,25 @@ body {
           &:focus {
             border: 2px solid $secondary;
           }
+
+          span.icon-cancel {
+            float: right;
+            color: $secondary;
+            cursor: pointer;
+            user-select: none;
+          }
+
+        }
+
+        &:empty::before {
+          content: 'Start by joining a room using the + button';
+          font-weight: 500;
+          font-size: 1.2rem;
+          line-height: 1.3em;
+          color: $secondary;
+          text-align: center;
+          display: block;
+          margin-top: 15px;
         }
 
       }
@@ -136,12 +161,15 @@ body {
         box-shadow: $shadow;
       }
 
-      span.icon-add {
+      span.icon-cancel {
         position: absolute;
         top: 15px;
         right: 15px;
-        font-size: 30px;
-        transform: rotate(45deg);
+        font-size: 1.3rem;
+        opacity: 0.6;
+        padding: 6px;
+        cursor: pointer;
+        user-select: none;
       }
 
       &::before {

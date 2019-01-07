@@ -30,7 +30,7 @@ class Modal {
     modal.classList.add('modal');
 
     const close = document.createElement('span');
-    close.classList.add('icon-add');
+    close.classList.add('icon-cancel');
     close.setAttribute('role', 'button');
     close.tabIndex = 0;
     close.setAttribute('aria-label', 'Close Modal');
