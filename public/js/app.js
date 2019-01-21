@@ -1,6 +1,7 @@
 let $visualizer, $socket, $user;
 
 
+
 /**
  * Loads the file transfer view of the app
  * @param {String} room Name of the room user is joining
@@ -95,6 +96,7 @@ function loadApp(room) {
   });
 
   const lstFiles = document.createElement('ul');
+  lstFiles.id = 'lstFiles';
 
   header.appendChild(heading);
   header.appendChild(inp);
@@ -112,40 +114,23 @@ function loadApp(room) {
    */
   inp.addEventListener('change', e => {
     const files = e.target.files;
+    const filesMeta = [];
 
     const zip = new JSZip();
-
-    // const file = files[0];
-    // fileTransfer(file);
 
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
 
+      filesMeta.push({
+        name: file.name,
+        size: file.size
+      });
+
       zip.file(file.name, file);
-
-      const li = document.createElement('li');
-      const info = document.createElement('div');
-      info.classList.add('info');
-
-      const status = document.createElement('span');
-      status.classList.add('status');
-      status.id = file.name + '-status';
-      status.innerText = '0s';
-
-      const fileName = document.createElement('h4');
-      fileName.innerText = file.name;
-
-      const fileSize = document.createElement('h5');
-      fileSize.innerText = file.size / (1024 * 1024) < 1 ? Math.round((file.size / 1024) * 100) / 100 + 'KB' : Math.round((file.size / (1024 * 1024) * 100)) / 100 + 'MB';
-
-      info.appendChild(fileName);
-      info.appendChild(fileSize);
-
-      li.appendChild(info);
-      li.appendChild(status);
-
-      lstFiles.appendChild(li);
     }
+
+    // Render the meta data of files being transferred
+    renderFileList(filesMeta);
 
     zip.generateAsync({
       type: 'arraybuffer',
@@ -159,7 +144,7 @@ function loadApp(room) {
       $visualizer.addSender($user.name);
       document.getElementById('lbl-inpFiles').style.display = 'none';
 
-      return fileTransfer(zipFile);
+      return fileTransfer(zipFile, filesMeta);
     })
     .then(() => {
       /**
@@ -168,6 +153,7 @@ function loadApp(room) {
       $visualizer.removeSender();
       document.getElementById('txtPerc').innerText = '';
       document.getElementById('lbl-inpFiles').style.display = 'block';
+      clearNode(document.getElementById('lstFiles'));
 
     })
     .catch(() => {
@@ -182,9 +168,8 @@ function loadApp(room) {
    */
   let files = [];
   let metaData = {};
+  let intPerc = 25, size = 0;
   const txtPerc = document.getElementById('txtPerc');
-  let intPerc = 25;
-  let size = 0;
   $socket.on('file', data => {
 
     if (data.end) {
@@ -203,12 +188,18 @@ function loadApp(room) {
         $visualizer.removeSender();
         document.getElementById('lbl-inpFiles').style.display = 'block';
         txtPerc.innerText = '';
+        clearNode(document.getElementById('lstFiles'));
       }, 2000);
 
     }
     else {
+      /**
+       * If data does not have 'end' key, then meta data has been sent just before
+       * the file transfer
+       */
       metaData = data;
       $visualizer.addSender(data.user);
+      renderFileList(data.meta);
     }
   });
 
@@ -250,8 +241,9 @@ function socketConnect(room, username) {
 /**
  * Sends the file in chunks acorss socket connection
  * @param {ArrayBuffer} file File object which has to be sent
+ * @param {Array} meta Meta data of files which are being sent
  */
-function fileTransfer(file) {
+function fileTransfer(file, meta) {
 
 
   return new Promise((resolve, reject) => {
@@ -263,11 +255,12 @@ function fileTransfer(file) {
     const size = data.byteLength;
 
     /**
-     * Initially send the meta data of the file being shared
+     * Initially send the meta data is shared
      */
     $socket.emit('file', {
       user: $user.name,
-      size
+      size,
+      meta
     });
 
     function stream(meta) {
@@ -326,6 +319,43 @@ function fileTransfer(file) {
     });
 
     $socket.on('rec-status', stream);
+  });
+
+}
+
+/**
+ * Renders a list of files which are being transferred with meta data
+ * @param {Array} files Meta data of files
+ */
+function renderFileList(files) {
+  if (!files.length) return;
+
+  const lstFiles = document.getElementById('lstFiles');
+  clearNode(lstFiles);
+
+  files.forEach(file => {
+    const li = document.createElement('li');
+    const info = document.createElement('div');
+    info.classList.add('info');
+  
+    // const status = document.createElement('span');
+    // status.classList.add('status');
+    // status.id = file.name + '-status';
+    // status.innerText = '0s';
+
+    const fileName = document.createElement('h4');
+    fileName.innerText = file.name;
+
+    const fileSize = document.createElement('h5');
+    fileSize.innerText = file.size / (1024 * 1024) < 1 ? Math.round((file.size / 1024) * 100) / 100 + 'KB' : Math.round((file.size / (1024 * 1024) * 100)) / 100 + 'MB';
+    
+    info.appendChild(fileName);
+    info.appendChild(fileSize);
+  
+    li.appendChild(info);
+    // li.appendChild(status);
+  
+    lstFiles.appendChild(li);
   });
 
 }
