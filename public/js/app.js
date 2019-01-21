@@ -22,10 +22,12 @@ function loadApp(room) {
       config: {
         iceServers: [
           {
-            urls: 'stun:stun.l.google.com:19302'
+            urls: 'stun:numb.viagenie.ca',
+            username: 'akash.hamirwasia@gmail.com',
+            credential: '6NfWZz9kUCPmNbe'
           },
           {
-            urls: 'stun:numb.viagenie.ca',
+            urls: 'turn:numb.viagenie.ca',
             username: 'akash.hamirwasia@gmail.com',
             credential: '6NfWZz9kUCPmNbe'
           }
@@ -148,7 +150,29 @@ function loadApp(room) {
     zip.generateAsync({
       type: 'arraybuffer',
     })
-      .then(fileTransfer);
+    .then(zipFile => {
+      /**
+       * Pre file transfer DOM changes are made here
+       * Set the sender in visualizer
+       * Hide the file add button to prevent addition of files during transfer
+       */
+      $visualizer.addSender($user.name);
+      document.getElementById('lbl-inpFiles').style.display = 'none';
+
+      return fileTransfer(zipFile);
+    })
+    .then(() => {
+      /**
+       * DOM is updated to reset to original state
+       */
+      $visualizer.removeSender();
+      document.getElementById('txtPerc').innerText = '';
+      document.getElementById('lbl-inpFiles').style.display = 'block';
+
+    })
+    .catch(() => {
+      console.log('Error is transferring the file');
+    });
 
   });
 
@@ -228,78 +252,80 @@ function socketConnect(room, username) {
  * @param {ArrayBuffer} file File object which has to be sent
  */
 function fileTransfer(file) {
-  let data = file
 
-  $visualizer.addSender($user.name);
-  let sent = 0;
-  const txtPerc = document.getElementById('txtPerc');
-  const size = data.byteLength;
 
-  /**
-   * Initially send the meta data of the file being shared
-   */
-  $socket.emit('file', {
-    user: $user.name,
-    size
-  });
+  return new Promise((resolve, reject) => {
 
-  function stream(meta) {
+    let data = file
+
+    let sent = 0;
+    const txtPerc = document.getElementById('txtPerc');
+    const size = data.byteLength;
+
     /**
-     * If all the chunks are sent
+     * Initially send the meta data of the file being shared
      */
-    if (!data.byteLength) {
+    $socket.emit('file', {
+      user: $user.name,
+      size
+    });
+
+    function stream(meta) {
       /**
-       * Indicates that the stream has ended and file should now be built
+       * If all the chunks are sent
        */
-      $socket.emit('file', {
-        end: true,
-      });
+      if (!data.byteLength) {
+        /**
+         * Indicates that the stream has ended and file should now be built
+         * on the receiver's system
+         */
+        $socket.emit('file', {
+          end: true,
+        });
+
+        /**
+         * 2 seconds timeout before the file transfer is resolved
+         */
+        setTimeout(() => resolve(), 2000);
+
+        return;
+      }
 
       /**
-       * DOM is updated to clear the transfer percentage
+       * Defines the size of data that will be sent in each request (KBs)
        */
-      setTimeout(() => {
-        $visualizer.removeSender();
-        txtPerc.innerText = '';
-      }, 2000);
+      const block = 1024 * 12;
 
-      return;
+      /**
+       * Send a chunk of data
+       */
+      $socket.emit('file-data', data.slice(0, block));
+
+      /**
+       * Update for next iteration
+       */
+      sent += block;
+      data = data.slice(block, data.byteLength);
+
+      /**
+       * Percentage calculation and DOM update
+       */
+      const percentage = sent * 100 / size;
+      $visualizer.setTransferPercentage(percentage);
+      txtPerc.innerText = Math.floor(percentage) + '%';
+
+      if (percentage < meta.percent) {
+        /**
+         * Timeout is used as this will allow us to control the time interval between successive streams
+         */
+        setTimeout(() => stream(meta), 1);
+      }
     }
+    stream({
+      percent: 25
+    });
 
-    /**
-     * Defines the size of data that will be sent in each request (KBs)
-     */
-    const block = 1024 * 12;
-
-    /**
-     * Send a chunk of data
-     */
-    $socket.emit('file-data', data.slice(0, block));
-
-    /**
-     * Update for next iteration
-     */
-    sent += block;
-    data = data.slice(block, data.byteLength);
-
-    /**
-     * Percentage calculation and DOM update
-     */
-    const percentage = sent * 100 / size;
-    $visualizer.setTransferPercentage(percentage);
-    txtPerc.innerText = Math.floor(percentage) + '%';
-
-    if (percentage < meta.percent) {
-      /**
-       * Timeout is used as this will allow us to control the time interval between successive streams
-       */
-      setTimeout(() => stream(meta), 1);
-    }
-  }
-  stream({
-    percent: 25
+    $socket.on('rec-status', stream);
   });
-
-  $socket.on('rec-status', stream);
 
 }
