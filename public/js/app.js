@@ -46,10 +46,22 @@ function loadApp(room) {
      * Online users list is rendered
      */
     users.forEach(user => {
-
+      
       if (user !== $user.name)
-        $visualizer.addNode(user);
+      $visualizer.addNode(user);
     });
+    
+    /**
+     * Show file selector only when there are more than one user in network
+     */
+    const inpFiles = document.getElementById('lbl-inpFiles');
+    if (users.length > 1) {
+      inpFiles.style.display = 'block'
+    }
+    else {
+      inpFiles.style.display = 'none';
+    }
+
   });
   $socket.on('userLeft', user => $visualizer.removeNode(user));
 
@@ -59,6 +71,12 @@ function loadApp(room) {
    */
   $visualizer = new Visualizer(window.innerWidth, Math.floor(window.innerHeight / 2));
   $visualizer.addNode($user.name, ['50%', '50%'], true);
+
+  const backBtn = document.createElement('button');
+  backBtn.classList.add('icon-navigate_before', 'back');
+  backBtn.addEventListener('click', () => {
+    window.history.back();
+  });
 
   const perc = document.createElement('div');
   perc.id = 'txtPerc';
@@ -83,6 +101,7 @@ function loadApp(room) {
   inp.style.display = 'none';
 
   const lbl = document.createElement('label');
+  lbl.style.display = 'none';
   lbl.setAttribute('for', inp.id);
   lbl.id = 'lbl-inpFiles';
   lbl.setAttribute('aria-label', 'Choose files to send');
@@ -105,6 +124,7 @@ function loadApp(room) {
   card.append(header);
   card.append(lstFiles);
 
+  app.appendChild(backBtn);
   app.appendChild(perc);
   app.appendChild(backend);
   app.appendChild(card);
@@ -286,8 +306,11 @@ function fileTransfer(file, meta) {
 
       /**
        * Defines the size of data that will be sent in each request (KBs)
+       * Set to 12 KBs
        */
-      const block = 1024 * 12;
+      let block = 1024 * 12;
+      // Block size correction if data remaining is lesser than block
+      block = block > data.byteLength ? data.byteLength : block;
 
       /**
        * Send a chunk of data
