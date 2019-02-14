@@ -49,6 +49,21 @@ body {
       min-height: 100vh;
       max-width: 100vw;
 
+      button.back {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        width: 50px;
+        font-size: 2rem;
+        background-color: transparent;
+        box-shadow: none;
+        color: $secondary;
+
+        &:hover, &:focus {
+          color: $light;
+        }
+      }
+
       &.center {
         text-align: center;
         align-items: center;
