@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://github.com/blenderskool/blaze/blob/master/public/images/apple-touch-icon-152x152.png">
+ </p>
+
 # Blaze - A file sharing web app
 
 Blaze is a file sharing web app that uses WebSockets and WebRTC to transfer files between multiple devices.
