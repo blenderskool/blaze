@@ -10,6 +10,7 @@ function loadNewUser() {
   inpName.type = 'text';
   inpName.placeholder = 'Cool nickname';
   inpName.maxLength = '10';
+  inpName.setAttribute('aria-label', 'Enter a nickname');
 
   const submit = document.createElement('button');
   submit.type = 'submit';
