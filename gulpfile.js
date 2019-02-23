@@ -23,18 +23,41 @@ gulp.task('static', function() {
     '!public/scss/',
     '!public/scss/**/*',
     '!public/**/*.html'
-  ])
+  ], {
+    nodir: true
+  })
   .pipe(gulp.dest('dist'));
 });
 
+
 /**
- * Uses Babel to build JS files
+ * Handles the bundling of DOM script files
  */
-gulp.task('scripts', function() {
-  return gulp.src(['public/js/modules/**/*.js', 'public/js/**/*.js'])
+function app(cb) {
+
+  gulp.src(['public/js/modules/**/*.js', 'public/js/**/*.js'])
   .pipe(babel())
   .pipe(concat('app.js'))
   .pipe(gulp.dest('dist/js'));
+  cb();
+}
+
+/**
+ * Transpiles, minifies the Service worker file
+ */
+function sw(cb) {
+    
+  gulp.src('public/sw.js')
+  // .pipe(babel())
+  .pipe(gulp.dest('dist/'));
+  cb();
+}
+
+/**
+ * Build JS files
+ */
+gulp.task('scripts', function(done) {
+  return gulp.parallel(app, sw)(done);
 });
 
 /**

@@ -20,7 +20,7 @@ function loadHome() {
 
   const lstRecentRooms = document.createElement('ul');
   lstRecentRooms.classList.add('recent-rooms');
-  if (rooms && rooms.length) {
+  if (rooms && rooms.length && navigator.onLine) {
 
     function joinRoom() { $router.navigate('/app?room='+this.innerText.toLowerCase(), true) }
 
@@ -53,6 +53,16 @@ function loadHome() {
       lstRecentRooms.appendChild(li);
     });
 
+  }
+  /**
+   * If user if offline, then don't render the rooms as file transfer
+   * is not possible without network
+   */
+  else if (!navigator.onLine) {
+    const message = document.createElement('div');
+    message.classList.add('message');
+    message.innerText = 'Connect to the internet to start sharing files';
+    lstRecentRooms.appendChild(message);
   }
   app.appendChild(lstRecentRooms);
 
@@ -99,22 +109,37 @@ function loadHome() {
   frmJoinRoom.appendChild(submit);
 
   new Modal(frmJoinRoom);
-  if (!rooms || !rooms.length) {
+  if ((!rooms || !rooms.length) && navigator.onLine) {
     /**
-     * If there is no recently joined rooms, show the modal directly
+     * If there is no recently joined rooms and user is online, show the modal directly
      */
     Modal.open();
   }
 
   /**
-   * FAB
+   * User can join a room only when connected to a network
    */
-  const fab = document.createElement('button');
-  fab.classList.add('fab');
-  // Add the icon
-  fab.innerHTML = '<span class="icon-add"></span>';
-  fab.addEventListener('click', () => Modal.open());
+  if (navigator.onLine) {
+    /**
+     * FAB
+     */
+    const fab = document.createElement('button');
+    fab.classList.add('fab');
+    // Add the icon
+    fab.innerHTML = '<span class="icon-add"></span>';
+    fab.addEventListener('click', () => Modal.open());
 
-  app.appendChild(fab);
+    app.appendChild(fab);
+  }
+
+}
+
+
+if (navigator.serviceWorker) {
+
+  navigator.serviceWorker.register('../sw.js')
+  .then(() => {
+    console.log('SW registered');
+  });
 
 }

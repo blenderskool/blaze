@@ -8,7 +8,7 @@ $font: 'Rubik', sans-serif;
 $shadow: 0 8px 35px rgba(0, 0, 0, 0.4);
 $border: 1px solid #1C2439;
 
-$noise: url(http://api.thumbr.it/whitenoise-256x256.png?background=ffffff00&noise=8a8a8a&density=47&opacity=13);
+$noise: url(../images/noise.png);
 
 * {
   box-sizing: border-box;
@@ -126,7 +126,7 @@ body {
 
         }
 
-        &:empty::before {
+        &:empty::before, div.message {
           content: 'Start by joining a room using the + button';
           font-weight: 500;
           font-size: 1.2rem;
