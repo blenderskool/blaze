@@ -137,6 +137,17 @@ body {
           margin-top: 15px;
         }
 
+        &:empty::after {
+          content: 'Devices must join same room to share files with each other';
+          font-weight: 500;
+          color: $secondary;
+          opacity: 0.5;
+          display: block;
+          text-align: center;
+          font-size: 1rem;
+          margin-top: 25px;
+        }
+
       }
 
       #txtPerc {

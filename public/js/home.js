@@ -108,13 +108,10 @@ function loadHome() {
   frmJoinRoom.appendChild(inpRoom);
   frmJoinRoom.appendChild(submit);
 
+  /**
+   * Modal to join a room
+   */
   new Modal(frmJoinRoom);
-  if ((!rooms || !rooms.length) && navigator.onLine) {
-    /**
-     * If there is no recently joined rooms and user is online, show the modal directly
-     */
-    Modal.open();
-  }
 
   /**
    * User can join a room only when connected to a network

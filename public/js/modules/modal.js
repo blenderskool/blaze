@@ -50,7 +50,7 @@ class Modal {
    */
   static open() {
     const container = document.getElementById('mdl');
-    document.getElementById('app').style.filter = 'blur(8px)';
+    document.getElementById('app').style.filter = 'blur(15px)';
     container.style.visibility = 'visible';
     container.style.opacity = 1;
 
