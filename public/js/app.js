@@ -46,9 +46,18 @@ function loadApp(room) {
      * Online users list is rendered
      */
     users.forEach(user => {
-      
-      if (user !== $user.name)
+      if (user === $user.name) return;
+
       $visualizer.addNode(user);
+
+      const txtTech = document.getElementById('txtTech');
+      /**
+       * Fallback WebSockets tech is used by default. When connection switches to WebRTC,
+       * then the update is made in a separate event - set during the socket initialization
+       */
+      if (txtTech.innerText !== 'Using WebRTC')
+        txtTech.innerText = 'Using WebSockets';
+
     });
     
     /**
@@ -73,17 +82,22 @@ function loadApp(room) {
   $visualizer.addNode($user.name, ['50%', '50%'], true);
 
   const backBtn = document.createElement('button');
-  backBtn.classList.add('icon-navigate_before', 'back');
+  backBtn.classList.add('icon-navigate_before', 'header', 'left');
   backBtn.addEventListener('click', () => {
     window.history.back();
   });
+
+  const roomName = document.createElement('h2');
+  roomName.classList.add('room-name');
+  roomName.innerText = $user.room;
 
   const perc = document.createElement('div');
   perc.id = 'txtPerc';
 
   const backend = document.createElement('div');
   backend.id = 'txtTech';
-  backend.innerText = 'Using WebSockets';
+  // Waiting for other devices to connect
+  backend.innerText = 'Waiting for other devices to join same room';
 
   const card = document.createElement('div');
   card.classList.add('card');
@@ -125,6 +139,7 @@ function loadApp(room) {
   card.append(lstFiles);
 
   app.appendChild(backBtn);
+  app.appendChild(roomName);
   app.appendChild(perc);
   app.appendChild(backend);
   app.appendChild(card);
