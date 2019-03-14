@@ -1,13 +1,9 @@
 class Visualizer {
 
-  constructor(width, height) {
-    this.width = width;
-    this.height = height;
-    this.svgContainer = d3
-                        .select('#app')
-                        .append('svg')
-                        .attr('width', width)
-                        .attr('height', height);
+  constructor(width, height, canvas) {
+    this.canvas = canvas;
+    this.canvas.width = width;
+    this.canvas.height = height;
 
     this.nodes = [];
     this.sender = {
@@ -33,27 +29,27 @@ class Visualizer {
       const slope = Math.tan(angle);
 
       // Assume some value of y from the start
-      let cy = 100/this.height * 100;
+      let cy = 100/this.canvas.height * 100;
 
       // If angle is greater than 180deg, then shift y coordinates to opposite quadrants
       if (angle > Math.PI)
         cy += 50;
 
       // Calculate x coordinate using the simple line equation
-      let cx = ((this.height/2 - cy) / slope) + this.width/2;
+      let cx = ((this.canvas.height/2 - cy) / slope) + this.canvas.width/2;
 
       // Handles the special cases
       if (angle == Math.PI) {
-        cx = this.width/2 - 120;
+        cx = this.canvas.width/2 - 120;
         cy = 50;
       }
       else if (angle == 2*Math.PI) {
-        cx = this.width/2 + 120;
+        cx = this.canvas.width/2 + 120;
         cy = 50;
       }
 
       // Converts x coordinate to a percentage value
-      cx = cx/this.width * 100;
+      cx = cx/this.canvas.width * 100;
 
       node.cx = cx+'%';
       node.cy = cy+'%';
@@ -87,15 +83,17 @@ class Visualizer {
      * Add waves if client node
      */
     if (isClient) {
-      this.svgContainer.selectAll()
-      .data([60, 50])
-      .enter()
-      .append('circle')
-      .attr('class', 'wave')
-      .attr('cx', '50%')
-      .attr('cy', '50%')
-      .attr('r', r => r)
-      .style('fill', 'rgba(99, 105, 121, 0.1)');
+      const radii = [60, 50];
+
+      radii.forEach(radius =>
+        new CanvasElements.Circle({
+          x: this.canvas.width/2,
+          y: this.canvas.height/2,
+          r: radius,
+          background: 'rgba(99, 105, 121, 0.1)',
+          ctx: this.canvas.getContext('2d')
+        })
+      );
     }
 
     if (!pos) this.updateAllPos();
@@ -154,10 +152,10 @@ class Visualizer {
         if (node.name === this.sender.name) return;
 
         // Get the (x, y) coordinates of sender and receiver node
-        const x1 = parseInt(this.sender.cx)/100*this.width;
-        const y1 = parseInt(this.sender.cy)/100*this.height;
-        const x2 = parseInt(node.cx)/100*this.width;
-        const y2 = parseInt(node.cy)/100*this.height;
+        const x1 = parseInt(this.sender.cx)/100*this.canvas.width;
+        const y1 = parseInt(this.sender.cy)/100*this.canvas.height;
+        const x2 = parseInt(node.cx)/100*this.canvas.width;
+        const y2 = parseInt(node.cy)/100*this.canvas.height;
 
         // Calculate the total distance between the node
         const dis = Math.sqrt(Math.pow(x1-x2, 2) + Math.pow(y1-y2, 2));
@@ -187,48 +185,52 @@ class Visualizer {
     /**
      * Adds the nodes
      */
-    this.svgContainer
-    .selectAll()
-    .data(this.nodes)
-    .enter()
-    .append('circle')
-    .attr('cx', d => d.cx)
-    .attr('cy', d => d.cy)
-    .attr('r', d => d.radius)
-    .style('fill', '#0D1322')
-    .style('stroke', d => primaryColor(d))
-    .style('stroke-width', 2.5);
+    this.nodes.forEach(node =>
+      new CanvasElements.Circle({
+        x: node.cx,
+        y: node.cy,
+        r: node.radius,
+        background: '#0D1322',
+        borderColor: primaryColor(node),
+        borderWidth: 2.5,
+        ctx: this.canvas.getContext('2d')
+      })
+    );
 
-    const text = this.svgContainer.selectAll('text')
-                .data(this.nodes)
-                .enter();
- 
     /**
      * Adds the avatar text
      */
-    text.append('text')
-    .attr('x', d => d.cx)
-    .attr('y', d => d.cy)
-    .text(d => d.name[0].toUpperCase())
-    .attr('font-family', '"Rubik", sans-serif')
-    .attr('text-anchor', 'middle')
-    .attr('dominant-baseline', 'central')
-    .attr('font-size', d => d.radius/1.2)
-    .style('fill', d => primaryColor(d));
+    this.nodes.forEach(node => 
+      new CanvasElements.Text({
+        x: node.cx,
+        y: node.cy,
+        text: node.name[0].toUpperCase(),
+        font: '"Rubik", sans-serif',
+        align: 'center',
+        baseline: 'middle',
+        size: node.radius/1.2,
+        background: primaryColor(node),
+        ctx: this.canvas.getContext('2d')
+      })
+    );
 
     /**
      * Adds the nickname labels
      */
-    text.append('text')
-    .attr('x', d => d.cx)
-    .attr('y', d => parseInt(d.cy)/100*this.height + d.radius + 20)
-    .text(d => d.name)
-    .attr('font-family', '"Rubik", sans-serif')
-    .attr('text-anchor', 'middle')
-    .attr('dominant-baseline', 'central')
-    .attr('font-size', 13)
-    .style('fill', d => d.textColor)
-    .attr('font-weight', 500);
+    this.nodes.forEach(node => 
+      new CanvasElements.Text({
+        x: node.cx,
+        y: parseInt(node.cy)/100*this.canvas.height + node.radius + 20,
+        text: node.name,
+        font: '"Rubik", sans-serif',
+        align: 'center',
+        baseline: 'middle',
+        size: 13,
+        background: node.textColor,
+        weight: '500',
+        ctx: this.canvas.getContext('2d')
+      })
+    );
   }
 
 
