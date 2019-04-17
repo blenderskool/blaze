@@ -78,7 +78,8 @@ function loadApp(room) {
   /**
    * Layout is created here
    */
-  $visualizer = new Visualizer(window.innerWidth, Math.floor(window.innerHeight / 2));
+  const canvas = document.createElement('canvas');
+  $visualizer = new Visualizer(window.innerWidth, Math.floor(window.innerHeight / 2), canvas);
   $visualizer.addNode($user.name, ['50%', '50%'], true);
 
   const backBtn = document.createElement('button');
@@ -140,6 +141,7 @@ function loadApp(room) {
 
   app.appendChild(backBtn);
   app.appendChild(roomName);
+  app.appendChild(canvas);
   app.appendChild(perc);
   app.appendChild(backend);
   app.appendChild(card);
