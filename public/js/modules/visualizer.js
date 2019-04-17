@@ -1,13 +1,29 @@
 class Visualizer {
 
-  constructor(width, height) {
+  constructor(width, height, canvas) {
+
+    const dpr = window.devicePixelRatio || 1;
+
+    this.canvas = canvas;
     this.width = width;
     this.height = height;
-    this.svgContainer = d3
-                        .select('#app')
-                        .append('svg')
-                        .attr('width', width)
-                        .attr('height', height);
+
+    /**
+     * Canvas resolution correction based on the device pixel-ratio.
+     * The canvas is first scaled to it's actual size based on the pixel ratio.
+     * Then the bounds of the canvas is reduced to display size using CSS.
+     * Then the contents of the canvas are upscaled by the device pixel-ratio.
+     * 
+     * In the end, we get a sharper canvas with same size elements
+     */
+    this.canvas.width = width * dpr;
+    this.canvas.height = height * dpr;
+
+    this.canvas.style.width = width + 'px';
+    this.canvas.style.height = height + 'px';
+
+    this.ctx = this.canvas.getContext('2d');
+    this.ctx.scale(dpr, dpr);
 
     this.nodes = [];
     this.sender = {
@@ -15,6 +31,9 @@ class Visualizer {
     };
   }
 
+  static resolvePerc(perc, total) {
+    return parseInt(perc)*total/100;
+  }
 
   /**
    * Updates the positions of all the connected nodes in the graph
@@ -83,24 +102,9 @@ class Visualizer {
     else
       this.nodes.push(nodeData);
 
-    /**
-     * Add waves if client node
-     */
-    if (isClient) {
-      this.svgContainer.selectAll()
-      .data([60, 50])
-      .enter()
-      .append('circle')
-      .attr('class', 'wave')
-      .attr('cx', '50%')
-      .attr('cy', '50%')
-      .attr('r', r => r)
-      .style('fill', 'rgba(99, 105, 121, 0.1)');
-    }
-
     if (!pos) this.updateAllPos();
 
-    this.updateSVG();
+    this.updateCanvas();
   }
 
   /**
@@ -114,7 +118,7 @@ class Visualizer {
       this.nodes.splice(nodeDuplID, 1);
       
       this.updateAllPos();
-      this.updateSVG();
+      this.updateCanvas();
     }
 
   }
@@ -122,25 +126,27 @@ class Visualizer {
   /**
    * Updates the entire graph by regenerating the SVG
    */
-  updateSVG() {
+  updateCanvas() {
     /**
-     * Empty the SVG container, and add the updated nodes, connections and labels
+     * Empty the canvas, and add the updated nodes, connections and labels
      */
-    this.svgContainer.selectAll('*:not(.wave)').remove();
+    this.ctx.clearRect(0, 0, this.width, this.height);
 
     /**
      * Adds the connection links between all the nodes
      */
     for (let i = 0; i < this.nodes.length; i++) {
       for (let j = i+1; j < this.nodes.length; j++) {
-        
-        this.svgContainer.append('line')
-        .attr('x1', this.nodes[i].cx)
-        .attr('y1', this.nodes[i].cy)
-        .attr('x2', this.nodes[j].cx)
-        .attr('y2', this.nodes[j].cy)
-        .style('stroke-width', 1.3)
-        .style('stroke', '#636979');
+
+        new CanvasElements.Line({
+          x: Visualizer.resolvePerc(this.nodes[i].cx, this.width),
+          y: Visualizer.resolvePerc(this.nodes[i].cy, this.height),
+          x2: Visualizer.resolvePerc(this.nodes[j].cx, this.width),
+          y2: Visualizer.resolvePerc(this.nodes[j].cy, this.height),
+          borderWidth: 1.3,
+          borderColor: '#636979',
+          ctx: this.ctx
+        });
       }
     }
 
@@ -154,10 +160,10 @@ class Visualizer {
         if (node.name === this.sender.name) return;
 
         // Get the (x, y) coordinates of sender and receiver node
-        const x1 = parseInt(this.sender.cx)/100*this.width;
-        const y1 = parseInt(this.sender.cy)/100*this.height;
-        const x2 = parseInt(node.cx)/100*this.width;
-        const y2 = parseInt(node.cy)/100*this.height;
+        const x1 = Visualizer.resolvePerc(this.sender.cx, this.width);
+        const y1 = Visualizer.resolvePerc(this.sender.cy, this.height);
+        const x2 = Visualizer.resolvePerc(node.cx, this.width);
+        const y2 = Visualizer.resolvePerc(node.cy, this.height);
 
         // Calculate the total distance between the node
         const dis = Math.sqrt(Math.pow(x1-x2, 2) + Math.pow(y1-y2, 2));
@@ -171,14 +177,16 @@ class Visualizer {
         if ((x2 < x1 || y2 < y1) && !(x2 >= x1 && y2 <= y1))
           r = -r;
 
-        // Create the line by converting polar to cartesian coordinates
-        this.svgContainer.append('line')
-        .style('stroke', '#3BE8B0')
-        .style('stroke-width', 2)    
-        .attr('x1', x1)
-        .attr('y1', y1)
-        .attr('x2', x1 + r*Math.cos(angle))
-        .attr('y2', y1 + r*Math.sin(angle));
+        // Create the line based on polar system
+        new CanvasElements.Line({
+          x: x1,
+          y: y1,
+          r: r,
+          angle: angle, 
+          borderWidth: 2,
+          borderColor: '#3BE8B0',
+          ctx: this.ctx
+        });
       });
     }
 
@@ -187,48 +195,71 @@ class Visualizer {
     /**
      * Adds the nodes
      */
-    this.svgContainer
-    .selectAll()
-    .data(this.nodes)
-    .enter()
-    .append('circle')
-    .attr('cx', d => d.cx)
-    .attr('cy', d => d.cy)
-    .attr('r', d => d.radius)
-    .style('fill', '#0D1322')
-    .style('stroke', d => primaryColor(d))
-    .style('stroke-width', 2.5);
+    this.nodes.forEach((node, i) => {
 
-    const text = this.svgContainer.selectAll('text')
-                .data(this.nodes)
-                .enter();
- 
+      /**
+       * Add waves to current client node
+       */
+      if (i === 0) {
+        const radii = [60, 50];
+
+        radii.forEach(radius =>
+          new CanvasElements.Circle({
+            x: this.width/2,
+            y: this.height/2,
+            r: radius,
+            // If the current client is the sender, then show green waves, otherwise gray
+            background: this.sender.name === node.name ? 'rgba(59, 232, 176, 0.1)' : 'rgba(99, 105, 121, 0.1)',
+            ctx: this.ctx
+          })
+        );
+      }
+
+      new CanvasElements.Circle({
+        x: Visualizer.resolvePerc(node.cx, this.width),
+        y: Visualizer.resolvePerc(node.cy, this.height),
+        r: node.radius,
+        background: '#0D1322',
+        borderColor: primaryColor(node),
+        borderWidth: 2.5,
+        ctx: this.ctx
+      });
+    });
+
     /**
      * Adds the avatar text
      */
-    text.append('text')
-    .attr('x', d => d.cx)
-    .attr('y', d => d.cy)
-    .text(d => d.name[0].toUpperCase())
-    .attr('font-family', '"Rubik", sans-serif')
-    .attr('text-anchor', 'middle')
-    .attr('dominant-baseline', 'central')
-    .attr('font-size', d => d.radius/1.2)
-    .style('fill', d => primaryColor(d));
+    this.nodes.forEach(node => 
+      new CanvasElements.Text({
+        x: Visualizer.resolvePerc(node.cx, this.width),
+        y: Visualizer.resolvePerc(node.cy, this.height),
+        text: node.name[0].toUpperCase(),
+        font: '"Rubik", sans-serif',
+        align: 'center',
+        baseline: 'middle',
+        size: node.radius/1.2,
+        background: primaryColor(node),
+        ctx: this.ctx
+      })
+    );
 
     /**
      * Adds the nickname labels
      */
-    text.append('text')
-    .attr('x', d => d.cx)
-    .attr('y', d => parseInt(d.cy)/100*this.height + d.radius + 20)
-    .text(d => d.name)
-    .attr('font-family', '"Rubik", sans-serif')
-    .attr('text-anchor', 'middle')
-    .attr('dominant-baseline', 'central')
-    .attr('font-size', 13)
-    .style('fill', d => d.textColor)
-    .attr('font-weight', 500);
+    this.nodes.forEach(node => 
+      new CanvasElements.Text({
+        x: Visualizer.resolvePerc(node.cx, this.width),
+        y: Visualizer.resolvePerc(node.cy, this.height) + node.radius + 20,
+        text: node.name,
+        font: '"Rubik", sans-serif',
+        align: 'center',
+        baseline: 'middle',
+        size: 13,
+        background: node.textColor,
+        weight: '500',
+        ctx: this.ctx
+      })
+    );
   }
 
 
@@ -242,18 +273,6 @@ class Visualizer {
       ...this.nodes.filter(node => node.name === name)[0],
       percentage
     };
-
-    /**
-     * If the current client is the sender, then transition the color of waves to green
-     */
-    if (name === this.nodes[0].name) {
-      this.svgContainer.selectAll('.wave')
-      .transition()
-        .duration(400)
-        .ease(d3.easeLinear)
-        .style('fill', 'rgba(59, 232, 176, 0.1)');
-
-    }
   }
 
   /**
@@ -264,16 +283,7 @@ class Visualizer {
       percentage: 0
     };
 
-    /**
-     * Reset the wave colors
-     */
-    this.svgContainer.selectAll('.wave')
-    .transition()
-      .duration(400)
-      .ease(d3.easeLinear)
-      .style('fill', 'rgba(99, 105, 121, 0.1)');
-
-    this.updateSVG();
+    this.updateCanvas();
   }
 
   /**
@@ -285,7 +295,7 @@ class Visualizer {
 
     this.sender.percentage = percentage;
 
-    this.updateSVG();
+    this.updateCanvas();
   }
 
 }
