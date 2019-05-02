@@ -1,4 +1,4 @@
-const staticCacheName = 'blaze-static-v4';
+const staticCacheName = 'blaze-static-{cache-id}';
 
 self.addEventListener('install', event => {
 

@@ -3,6 +3,7 @@ const sass = require('gulp-sass');
 const htmlmin = require('gulp-htmlmin');
 const babel = require('gulp-babel');
 const concat = require('gulp-concat');
+const replace = require('gulp-replace');
 
 /**
  * Builds the Stylesheets
@@ -49,6 +50,8 @@ function sw(cb) {
     
   gulp.src('public/sw.js')
   // .pipe(babel())
+  // {cache-id} is replaced with the timestamp when file is built
+  .pipe(replace('{cache-id}', (new Date()).getTime().toString()))
   .pipe(gulp.dest('dist/'));
   cb();
 }
