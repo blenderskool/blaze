@@ -342,7 +342,7 @@ button {
   user-select: none;
 
   &:hover {
-    box-shadow: none;
+    box-shadow: 0 8px 35px rgba($primary, 0.2);
   }
 
   &:active {
