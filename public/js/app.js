@@ -1,4 +1,4 @@
-let $visualizer, $socket, $user;
+let $visualizer, $socket, $user, $usersCount;
 
 
 
@@ -15,6 +15,8 @@ function loadApp(room) {
     ...JSON.parse(localStorage.getItem('blaze')).user,
     room: room
   };
+  $usersCount = 1;
+  
   /**
    * Setting up the socket connection and socket events
    */
@@ -59,20 +61,20 @@ function loadApp(room) {
         txtTech.innerText = 'Using WebSockets';
 
     });
+
+    $usersCount = users.length;
     
-    /**
-     * Show file selector only when there are more than one user in network
-     */
-    const inpFiles = document.getElementById('lbl-inpFiles');
-    if (users.length > 1) {
-      inpFiles.style.display = 'block'
-    }
-    else {
-      inpFiles.style.display = 'none';
-    }
+    updateFAB();
 
   });
-  $socket.on('userLeft', user => $visualizer.removeNode(user));
+  $socket.on('userLeft', user => {
+    // Remove the user from the visualizer
+    $visualizer.removeNode(user);
+    // Update the userCount
+    $usersCount -= 1;
+
+    updateFAB();
+  });
 
 
   /**
@@ -101,7 +103,7 @@ function loadApp(room) {
   backend.innerText = 'Waiting for other devices to join same room';
 
   const card = document.createElement('div');
-  card.classList.add('card');
+  card.classList.add('card', 'files');
 
   const header = document.createElement('div');
   header.classList.add('header');
@@ -115,26 +117,32 @@ function loadApp(room) {
   inp.multiple = true;
   inp.style.display = 'none';
 
-  const lbl = document.createElement('label');
-  lbl.style.display = 'none';
-  lbl.setAttribute('for', inp.id);
-  lbl.id = 'lbl-inpFiles';
-  lbl.setAttribute('aria-label', 'Choose files to send');
-  lbl.setAttribute('role', 'button');
-  lbl.classList.add('icon-add', 'input-files');
-  lbl.tabIndex = 0;
-  lbl.addEventListener('keydown', e => {
+  // Add the FAB button to add files
+  const fab = document.createElement('button');
+  fab.classList.add('fab');
+  fab.id = 'btn-addFiles';
+  fab.disabled = true;
+
+    // Label for triggering the file picker
+    const lbl = document.createElement('label');
+    lbl.setAttribute('for', inp.id);
+    lbl.setAttribute('aria-label', 'Choose files to send');
+    lbl.classList.add('icon-add', 'input-files');
+
+  fab.appendChild(lbl);
+  // Keyboard accessibility for the FAB
+  fab.addEventListener('keydown', e => {
     if (e.which === 13) {
       inp.click();
     }
   });
+
 
   const lstFiles = document.createElement('ul');
   lstFiles.id = 'lstFiles';
 
   header.appendChild(heading);
   header.appendChild(inp);
-  header.appendChild(lbl);
 
   card.append(header);
   card.append(lstFiles);
@@ -145,6 +153,7 @@ function loadApp(room) {
   app.appendChild(perc);
   app.appendChild(backend);
   app.appendChild(card);
+  app.appendChild(fab);
 
   /**
    * Sending the file
@@ -179,20 +188,11 @@ function loadApp(room) {
        * Hide the file add button to prevent addition of files during transfer
        */
       $visualizer.addSender($user.name);
-      document.getElementById('lbl-inpFiles').style.display = 'none';
+      document.getElementById('btn-addFiles').disabled = true;
 
       return fileTransfer(zipFile, filesMeta);
     })
-    .then(() => {
-      /**
-       * DOM is updated to reset to original state
-       */
-      $visualizer.removeSender();
-      document.getElementById('txtPerc').innerText = '';
-      document.getElementById('lbl-inpFiles').style.display = 'block';
-      clearNode(document.getElementById('lstFiles'));
-
-    })
+    .then(resetState)
     .catch(() => {
       console.log('Error is transferring the file');
     });
@@ -221,12 +221,7 @@ function loadApp(room) {
        * Download complete! Yay!
        * Reset the state of the app for next data transfer
        */
-      setTimeout(() => {
-        $visualizer.removeSender();
-        document.getElementById('lbl-inpFiles').style.display = 'block';
-        txtPerc.innerText = '';
-        clearNode(document.getElementById('lstFiles'));
-      }, 2000);
+      setTimeout(resetState, 2000);
 
     }
     else {
@@ -241,7 +236,7 @@ function loadApp(room) {
   });
 
   $socket.on('file-data', data => {
-    document.getElementById('lbl-inpFiles').style.display = 'none';
+    document.getElementById('btn-addFiles').disabled = true;
 
     files.push(data);
     size += data.byteLength;
@@ -370,6 +365,9 @@ function fileTransfer(file, meta) {
 function renderFileList(files) {
   if (!files.length) return;
 
+  // Display the files card
+  document.querySelector('.card.files').style.display = 'block';
+
   const lstFiles = document.getElementById('lstFiles');
   clearNode(lstFiles);
 
@@ -398,4 +396,29 @@ function renderFileList(files) {
     lstFiles.appendChild(li);
   });
 
+}
+
+/**
+ * DOM is reset to prepare for the next file transfer
+ */
+function resetState() {
+  $visualizer.removeSender();
+  document.getElementById('txtPerc').innerText = '';
+  document.getElementById('btn-addFiles').disabled = false;
+  document.querySelector('.card.files').style.display = 'none';
+  clearNode(document.getElementById('lstFiles'));
+}
+
+
+/**
+ * Enable file selector only when there are more than one user in network
+ */
+function updateFAB() {
+  const btnAddFiles = document.getElementById('btn-addFiles');
+  if ($usersCount > 1) {
+    btnAddFiles.disabled = false
+  }
+  else {
+    btnAddFiles.disabled = true;
+  }
 }
