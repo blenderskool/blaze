@@ -197,6 +197,7 @@ body {
         font-weight: 500;
         font-size: 1rem;
       }
+
     }
 
     &#mdl {
@@ -218,7 +219,7 @@ body {
         max-width: 400px;
         padding: 20px;
         border-radius: 4px;
-        box-shadow: $shadow;
+        box-shadow: 0 8px 60px rgba(0, 0, 0, 0.4);
       }
 
       span.icon-cancel {
@@ -244,6 +245,12 @@ body {
       }
     }
 
+
+    #inpRoom {
+      margin-top: 0;
+      margin-bottom: 30px;
+    }
+
     &.card {
       width: 95%;
       border-radius: 5px;
@@ -262,61 +269,57 @@ body {
           margin: 0;
           font-weight: 500;
         }
-
-        .input-files {
-          margin-right: 0;
-          margin-left: auto;
-          font-size: 1.7rem;
-          cursor: pointer;
-          user-select: none;
-        }
       }
 
 
-      ul#lstFiles {
-        margin: 5px 0;
-        padding: 0;
 
-        li {
-          padding: 10px 15px;
-          display: flex;
-          align-items: center;
+      &.files {
+        display: none;
+
+        ul#lstFiles {
+          margin: 5px 0;
+          padding: 0;
+
+          li {
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
 
 
-          div.info {
-            text-align: left;
+            div.info {
+              text-align: left;
 
-            h4 {
-              margin: 0;
-              font-weight: 400;
-              font-size: 1.1rem;
-              text-overflow: ellipsis;
-              overflow-x: hidden;
-              white-space: nowrap;
-              width: 70vw;
+              h4 {
+                margin: 0;
+                font-weight: 400;
+                font-size: 1.1rem;
+                text-overflow: ellipsis;
+                overflow-x: hidden;
+                white-space: nowrap;
+                width: 70vw;
+              }
+
+              h5 {
+                margin: 5px 0 0;
+                color: $secondary;
+                font-weight: 400;
+                font-size: 0.95rem;
+              }
             }
 
-            h5 {
-              margin: 5px 0 0;
-              color: $secondary;
-              font-weight: 400;
-              font-size: 0.95rem;
+            .status {
+              font-size: 1.2rem;
+              color: $primary;
+              font-weight: 500;
+
+              margin-right: 0;
+              margin-left: auto;
             }
-          }
 
-          .status {
-            font-size: 1.2rem;
-            color: $primary;
-            font-weight: 500;
-
-            margin-right: 0;
-            margin-left: auto;
           }
 
         }
-
       }
-
     }
 
   }
@@ -366,12 +369,20 @@ button {
     align-items: center;
     justify-content: center;
     font-size: 2.3rem;
+
+    &:disabled {
+      background-color: $secondary;
+      opacity: 0.5;
+      cursor: not-allowed;
+      pointer-events: none;
+      box-shadow: none;
+    }
   }
 }
 
 input {
   background-color: transparent;
-  border: 1px solid $secondary;
+  border: 1px solid rgba($secondary, 0.6);
   font-weight: 500;
   padding: 12px 18px;
   border-radius: 4px;

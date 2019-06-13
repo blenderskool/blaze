@@ -77,6 +77,7 @@ function loadHome() {
   inpRoom.maxLength = 10;
   inpRoom.required = true;
   inpRoom.placeholder = 'Room name';
+  inpRoom.id = 'inpRoom';
 
   const submit = document.createElement('button');
   submit.type = 'submit';
