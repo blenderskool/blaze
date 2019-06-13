@@ -323,9 +323,9 @@ function fileTransfer(file, meta) {
 
       /**
        * Defines the size of data that will be sent in each request (KBs)
-       * Set to 12 KBs
+       * Set to 16 KBs
        */
-      let block = 1024 * 12;
+      let block = 1024 * 16;
       // Block size correction if data remaining is lesser than block
       block = block > data.byteLength ? data.byteLength : block;
 
