@@ -76,6 +76,39 @@ function loadApp(room) {
     updateFAB();
   });
 
+  /**
+   * If there's some problem in socket connection, then send the user back to previous page
+   * TODO: Instead of sending the user to previous page, redirect to the homepage to prevent user from leaving the app
+   */
+  $socket.on('error', error => {
+
+    const div = document.createElement('div');
+    div.classList.add('socket-error');
+
+    const h2 = document.createElement('h2');
+    h2.innerText = 'Connection Error!';
+
+    const p = document.createElement('p');
+    p.classList.add('message');
+    p.innerText = error;
+
+    const btn = document.createElement('button');
+    btn.innerText = 'Select new room';
+    btn.addEventListener('click', () => 
+      // Go to the previous page once modal is closed
+      Modal.close(() => {
+        window.history.back();
+      })
+    );
+    
+    div.appendChild(h2);
+    div.appendChild(p);
+    div.appendChild(btn);
+
+    new Modal(div, true);
+    Modal.open();
+  });
+
 
   /**
    * Layout is created here

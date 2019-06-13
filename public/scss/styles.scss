@@ -8,6 +8,9 @@ $font: 'Rubik', sans-serif;
 $shadow: 0 8px 35px rgba(0, 0, 0, 0.4);
 $border: 1px solid #1C2439;
 
+$font-normal: 400;
+$font-bold: 500;
+
 $noise: url(../images/noise.png);
 
 * {
@@ -79,7 +82,7 @@ body {
       }
 
       h2 {
-        font-weight: 500;
+        font-weight: $font-bold;
         color: $light;
 
         &.title {
@@ -110,7 +113,7 @@ body {
       }
 
       h3 {
-        font-weight: 500;
+        font-weight: $font-bold;
         line-height: 1.3em;
         color: $secondary;
       }
@@ -133,7 +136,7 @@ body {
           padding: 18px 20px;
           text-transform: capitalize;
           font-size: 1.3rem;
-          font-weight: 500;
+          font-weight: $font-bold;
           outline: none;
           cursor: pointer;
           user-select: none;
@@ -162,7 +165,7 @@ body {
 
         &:empty::before, div.message {
           content: 'Start by joining a room using the + button';
-          font-weight: 500;
+          font-weight: $font-bold;
           font-size: 1.2rem;
           line-height: 1.3em;
           color: $secondary;
@@ -173,7 +176,7 @@ body {
 
         &:empty::after {
           content: 'Devices must join same room to share files with each other';
-          font-weight: 500;
+          font-weight: $font-bold;
           color: $secondary;
           opacity: 0.5;
           display: block;
@@ -188,13 +191,13 @@ body {
         margin: 10px 0;
         color: $primary;
         font-size: 1.5rem;
-        font-weight: 500;
+        font-weight: $font-bold;
       }
 
       #txtTech {
         margin: 0 0 20px;
         color: $secondary;
-        font-weight: 500;
+        font-weight: $font-bold;
         font-size: 1rem;
       }
 
@@ -251,6 +254,24 @@ body {
       margin-bottom: 30px;
     }
 
+
+
+    .socket-error {
+      text-align: center;
+
+      h2 {
+        font-weight: $font-bold;
+        margin-top: 0;
+        margin-bottom: 15px;
+      }
+
+      p {
+        font-weight: $font-bold;
+        color: $secondary;
+        margin: 0 0 30px;
+      }
+    }
+
     &.card {
       width: 95%;
       border-radius: 5px;
@@ -267,7 +288,7 @@ body {
 
         h2 {
           margin: 0;
-          font-weight: 500;
+          font-weight: $font-bold;
         }
       }
 
@@ -291,7 +312,7 @@ body {
 
               h4 {
                 margin: 0;
-                font-weight: 400;
+                font-weight: $font-normal;
                 font-size: 1.1rem;
                 text-overflow: ellipsis;
                 overflow-x: hidden;
@@ -302,7 +323,7 @@ body {
               h5 {
                 margin: 5px 0 0;
                 color: $secondary;
-                font-weight: 400;
+                font-weight: $font-normal;
                 font-size: 0.95rem;
               }
             }
@@ -310,7 +331,7 @@ body {
             .status {
               font-size: 1.2rem;
               color: $primary;
-              font-weight: 500;
+              font-weight: $font-bold;
 
               margin-right: 0;
               margin-left: auto;
@@ -332,7 +353,7 @@ button {
   border: 0;
   outline: none;
   border-radius: 4px;
-  font-weight: 500;
+  font-weight: $font-bold;
   font-size: 1.4rem;
 
   width: 100%;
@@ -383,7 +404,7 @@ button {
 input {
   background-color: transparent;
   border: 1px solid rgba($secondary, 0.6);
-  font-weight: 500;
+  font-weight: $font-bold;
   padding: 12px 18px;
   border-radius: 4px;
   font-size: 1.2rem;

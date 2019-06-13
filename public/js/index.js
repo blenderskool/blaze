@@ -39,3 +39,15 @@ $router.on(function(query) {
   }
 
 }).resolve();
+
+$router.hooks({
+  before: function(done) {
+    /**
+     * Close any modals if they are open
+     */
+    if (Modal.isOpen) {
+      Modal.close(done);
+    }
+    done();
+  }
+})

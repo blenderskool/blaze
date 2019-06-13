@@ -4,7 +4,6 @@ const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const p2p = require('socket.io-p2p-server').Server;
 
-io.use(p2p);
 
 /**
  * A custom log function that also prints the time
@@ -33,26 +32,62 @@ app.use('/app', (req, res) => {
   res.sendFile(__dirname + '/dist/app.html');
 });
 
+
 const clients = {};
+
+
+
+/**
+ * Check if the user is already present in the room.
+ * If the user is present, then don't allow user with same name in the room.
+ */
+io.use((socket, next) => {
+
+  const query = socket.handshake.query;
+
+  if (clients[query.room] && clients[query.room].users[query.user]) {
+    console.log('I ran');
+    next(new Error('A user with same nickname exists in this room'));
+  } else {
+    next();
+  }
+
+});
+
+
+io.use(p2p);
+
 io.on('connection', socket => {
 
   const query = socket.handshake.query;
   const room = query.room;
   const user = query.user;
-  clients[user] = socket.id;
+
+  /**
+   * Add the instance of the room
+   */
+  if (!clients[room]) {
+    clients[room] = { users: {} };
+  }
+  clients[room].users[user] = socket.id;
 
   
   log(`${user} has joined ${room} room`);
   socket = socket.join(room);
   socket.username = user;
 
-  socket.on('disconnect', () => socket.to(room).emit('userLeft', user));
+  socket.on('disconnect', () => {
+
+    delete clients[room].users[user];
+
+    socket.to(room).emit('userLeft', user)
+  });
 
   emitUsrsList(room);
 
   socket.on('file', data => socket.broadcast.emit('file', data));
   socket.on('rec-status', data => {
-    const sID = clients[data.sender];
+    const sID = clients[room].users[data.sender];
     io.sockets.connected[sID].emit('rec-status', data);
   });
   socket.on('file-data', data => socket.broadcast.emit('file-data', data));
