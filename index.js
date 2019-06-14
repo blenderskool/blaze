@@ -46,7 +46,6 @@ io.use((socket, next) => {
   const query = socket.handshake.query;
 
   if (clients[query.room] && clients[query.room].users[query.user]) {
-    console.log('I ran');
     next(new Error('A user with same nickname exists in this room'));
   } else {
     next();
