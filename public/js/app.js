@@ -24,11 +24,9 @@ function loadApp(room) {
     peerOpts: {
       config: {
         iceServers: [
-          {
-            urls: 'stun:numb.viagenie.ca',
-            username: 'akash.hamirwasia@gmail.com',
-            credential: '6NfWZz9kUCPmNbe'
-          },
+          { urls: 'stun:stun.l.google.com:19302' },
+          { urls: 'stun:global.stun.twilio.com:3478?transport=udp' },
+          { urls: 'stun:stun.services.mozilla.com' },
           {
             urls: 'turn:numb.viagenie.ca',
             username: 'akash.hamirwasia@gmail.com',
