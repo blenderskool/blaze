@@ -28,8 +28,10 @@ function loadHome() {
       const li = document.createElement('li');
       li.setAttribute('role', 'link');
       li.setAttribute('tabindex', '0');
-      li.innerText = room;
       li.addEventListener('click', joinRoom);
+
+      const div = document.createElement('div');
+      div.innerText = room;
 
       const btnRemove = document.createElement('span');
       btnRemove.setAttribute('role', 'button');
@@ -49,6 +51,7 @@ function loadHome() {
         lstRecentRooms.removeChild(li);
       });
 
+      li.appendChild(div);
       li.appendChild(btnRemove);
       lstRecentRooms.appendChild(li);
     });

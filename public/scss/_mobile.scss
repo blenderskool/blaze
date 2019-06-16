@@ -120,6 +120,7 @@ body {
           background-color: $bg;
           margin: 15px 0;
           padding: 18px 20px;
+          display: flex;
           text-transform: capitalize;
           font-size: 1.3rem;
           font-weight: $font-bold;
@@ -141,7 +142,7 @@ body {
           }
 
           span.icon-cancel {
-            float: right;
+            margin-left: auto;
             color: $secondary;
             cursor: pointer;
             user-select: none;

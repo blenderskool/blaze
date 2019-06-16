@@ -1,3 +1,38 @@
 body {
   background-size: 13%;
+
+
+  div {
+
+
+    &#app {
+
+
+
+      ul.recent-rooms {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0 -15px;
+
+        li {
+          flex-direction: column;
+          min-width: 12.5%;
+          margin: 15px;
+          
+          div {
+            order: 2;
+            margin-top: 2rem;
+          }
+
+          span.icon-cancel {
+            order: 1;
+          }
+        }
+        
+      }
+
+    }
+
+  }
+
 }
