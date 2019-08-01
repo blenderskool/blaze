@@ -246,6 +246,7 @@ function loadApp(room) {
         download(new Blob(files), 'blaze_files.zip');
         files = [];
         size = 0;
+        intPerc = 25;
       }
 
       /**
@@ -274,7 +275,6 @@ function loadApp(room) {
 
     const percentage = size * 100 / metaData.size;
     const percFloor = Math.floor(percentage);
-
 
     if (percentage >= intPerc) {
       intPerc += 15;
@@ -308,23 +308,21 @@ function socketConnect(room, username) {
  */
 function fileTransfer(file, meta) {
 
-
-  return new Promise((resolve, reject) => {
-
-    let data = file
-
-    let sent = 0;
+    let data = file, sent = 0;
     const txtPerc = document.getElementById('txtPerc');
     const size = data.byteLength;
 
     /**
-     * Initially send the meta data is shared
+     * Initially meta data is shared
      */
     $socket.emit('file', {
       user: $user.name,
       size,
       meta
     });
+
+
+  return new Promise((resolve, reject) => {
 
     function stream(meta) {
       /**
@@ -338,6 +336,8 @@ function fileTransfer(file, meta) {
         $socket.emit('file', {
           end: true,
         });
+        // Switch off the status event listener as transfer is complete
+        $socket.off('rec-status');
 
         /**
          * 2 seconds timeout before the file transfer is resolved
@@ -400,7 +400,6 @@ function renderFileList(files) {
   document.querySelector('.card.files').style.display = 'block';
 
   const lstFiles = document.getElementById('lstFiles');
-  clearNode(lstFiles);
 
   files.forEach(file => {
     const li = document.createElement('li');
@@ -434,10 +433,12 @@ function renderFileList(files) {
  */
 function resetState() {
   $visualizer.removeSender();
+
   document.getElementById('txtPerc').innerText = '';
   document.getElementById('btn-addFiles').disabled = false;
-  document.querySelector('.card.files').style.display = 'none';
-  clearNode(document.getElementById('lstFiles'));
+
+  // Remove the file from the input
+  document.getElementById('inpFiles').value = '';
 }
 
 
