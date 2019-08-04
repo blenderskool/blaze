@@ -29,6 +29,10 @@ body {
     color: $light;
   }
 
+  &.no-bg-image {
+    background-image: none;
+  }
+
   div {
 
     &#app {
@@ -67,7 +71,8 @@ body {
         align-items: center;
       }
 
-      h2 {
+      h1 {
+        font-size: 1.5em;
         font-weight: $font-bold;
         color: $light;
 
@@ -104,7 +109,7 @@ body {
         color: $secondary;
       }
 
-      form#frmJoinRoom {
+      form.join-room {
         margin-bottom: auto;
       }
 
@@ -150,18 +155,6 @@ body {
 
         }
 
-        &:empty::before, div.message {
-          content: 'Start by joining a room using the + button';
-          font-weight: $font-bold;
-          font-size: 1.2rem;
-          line-height: 1.3em;
-          color: $secondary;
-          text-align: center;
-          display: block;
-          margin-top: 15px;
-          width: 100%;
-        }
-
         &:empty::after {
           content: 'Devices must join same room to share files with each other';
           font-weight: $font-bold;
@@ -176,14 +169,27 @@ body {
 
       }
 
-      #txtPerc {
+
+      div.message, ul.recent-rooms:empty::before {
+        content: 'Start by joining a room using the + button';
+        font-weight: $font-bold;
+        font-size: 1.2rem;
+        line-height: 1.3em;
+        color: $secondary;
+        text-align: center;
+        display: block;
+        margin-top: 15px;
+        width: 100%;
+      }
+
+      .transfer-percentage {
         margin: 10px 0;
         color: $primary;
         font-size: 1.5rem;
         font-weight: $font-bold;
       }
 
-      #txtTech {
+      .transfer-tech {
         margin: 0 0 20px;
         color: $secondary;
         font-weight: $font-bold;
@@ -192,7 +198,7 @@ body {
 
     }
 
-    &#mdl {
+    &.modal-wrapper {
       position: fixed;
       top: 0;
       bottom: 0;
@@ -201,9 +207,7 @@ body {
       display: flex;
       align-items: center;
       justify-content: center;
-      visibility: hidden;
-      opacity: 0;
-      transition: all 0.2s ease;
+      // transition: all 0.2s ease;
       
       .modal {
         background-color: $bg;
@@ -228,6 +232,8 @@ body {
       &::before {
         content: '';
         background-color: rgba($secondary, 0.15);
+        background-image: $noise;
+        background-size: 32%;
         z-index: -1;
         position: absolute;
         top: 0;
@@ -236,14 +242,6 @@ body {
         bottom: 0;
       }
     }
-
-
-    #inpRoom {
-      margin-top: 0;
-      margin-bottom: 30px;
-    }
-
-
 
     .socket-error {
       text-align: center;
@@ -284,9 +282,9 @@ body {
 
 
       &.files {
-        display: none;
+        margin: 0 auto;
 
-        ul#lstFiles {
+        ul.files {
           margin: 5px 0;
           padding: 0;
 
@@ -391,9 +389,9 @@ button {
     }
 
     label {
-      cursor: pointer;
-      height: 65px;
-      width: 65px;
+      cursor: inherit;
+      height: inherit;
+      width: inherit;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -441,7 +439,7 @@ input {
   text-align: center;
 }
 
-form#frmNewUser, form#frmJoinRoom {
+form.new-user, form.join-room {
   
   input {
     margin-bottom: 40px;

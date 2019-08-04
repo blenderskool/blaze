@@ -33,6 +33,10 @@ body {
 
     }
 
+    &.modal-wrapper:before {
+      background-size: 13%;
+    }
+
   }
 
 }
