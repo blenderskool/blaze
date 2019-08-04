@@ -18,6 +18,7 @@ body {
           flex-direction: column;
           min-width: 12.5%;
           margin: 15px;
+          padding: 13px 15px;
           
           div {
             order: 2;
@@ -37,6 +38,38 @@ body {
       background-size: 13%;
     }
 
+    &.card {
+      width: 100%;
+    }
+
   }
 
+}
+
+button {
+
+
+  &.fab {
+    height: 55px;
+    width: auto;
+    padding: 0 1rem;
+    font-size: 2rem;
+
+    .lg-text {
+      display: block;
+      font-size: 1.2rem;
+      margin-right: 5px;
+    }
+
+  }
+}
+
+.row {
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+
+.file-transfer {
+  height: 80vh;
+  align-items: center;
 }

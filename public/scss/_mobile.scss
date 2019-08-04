@@ -296,6 +296,7 @@ body {
 
             div.info {
               text-align: left;
+              width: 100%;
 
               h4 {
                 margin: 0;
@@ -304,7 +305,7 @@ body {
                 text-overflow: ellipsis;
                 overflow-x: hidden;
                 white-space: nowrap;
-                width: 70vw;
+                width: 85%;
               }
 
               h5 {
@@ -369,7 +370,7 @@ button {
   &.fab {
     width: 65px;
     height: 65px;
-    border-radius: 100%;
+    border-radius: 33px;
     position: fixed;
     bottom: 30px;
     right: 30px;
@@ -378,7 +379,6 @@ button {
     align-items: center;
     justify-content: center;
     font-size: 2.3rem;
-    overflow: hidden;
 
     &:disabled {
       background-color: $secondary;
@@ -388,13 +388,17 @@ button {
       box-shadow: none;
     }
 
+    .lg-text {
+      display: none;
+    }
+
     label {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
       cursor: inherit;
-      height: inherit;
-      width: inherit;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
   }
 }
@@ -425,11 +429,13 @@ input {
 }
 
 
-.flex {
+.row {
   display: flex;
+  flex-wrap: wrap;
+  width: 100%;
 
-  &.column {
-    flex-direction: column;
+  .column {
+    width: 100%;
   }
 }
 
