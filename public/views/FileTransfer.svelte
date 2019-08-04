@@ -273,7 +273,7 @@
 		else
 			visualizer = new Visualizer(window.innerWidth, Math.floor(window.innerHeight / 2), canvas);
 
-		visualizer.addNode(client.name, ['50%', '50%'], true);
+		visualizer.addNode(client.name, true);
 
 		/**
 		 * Receiving the file

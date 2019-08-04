@@ -25,14 +25,12 @@ class Visualizer {
     this.ctx = this.canvas.getContext('2d');
     this.ctx.scale(dpr, dpr);
 
+    this.ctx.translate(width * 0.5, height * 0.5);
+
     this.nodes = [];
     this.sender = {
       percentage: 0
     };
-  }
-
-  static resolvePerc(perc, total) {
-    return parseInt(perc)*total/100;
   }
 
   /**
@@ -40,58 +38,44 @@ class Visualizer {
    */
   updateAllPos() {
     // Get only the connected nodes by removing the client node
-    const nodes = this.nodes.slice(1);
+    const nodes = this.nodes;
 
     const divisions = 360/nodes.length;
+
+    /**
+     * If only one 1 node is present in the network,
+     * then it must be placed at the centre of the canvas
+     */
+    if (nodes.length == 1) {
+      nodes[0].cx = 0.01;
+      nodes[0].cy = 0.01;
+
+      return;
+    }
 
     nodes.forEach((node, i) => {
       // Calculate the angle that line makes
       const angle = divisions*(i+1)*Math.PI/180;
-      
-      // Calculate the slope from the angle
-      const slope = Math.tan(angle);
+      const r = 100;
 
-      // Assume some value of y from the start
-      let cy = 100/this.height * 100;
-
-      // If angle is greater than 180deg, then shift y coordinates to opposite quadrants
-      if (angle > Math.PI)
-        cy += 50;
-
-      // Calculate x coordinate using the simple line equation
-      let cx = ((this.height/2 - cy) / slope) + this.width/2;
-
-      // Handles the special cases
-      if (angle == Math.PI) {
-        cx = this.width/2 - 120;
-        cy = 50;
-      }
-      else if (angle == 2*Math.PI) {
-        cx = this.width/2 + 120;
-        cy = 50;
-      }
-
-      // Converts x coordinate to a percentage value
-      cx = cx/this.width * 100;
-
-      node.cx = cx+'%';
-      node.cy = cy+'%';
+      node.cx = r * Math.cos(angle);
+      node.cy = r * Math.sin(angle);
     });
   }
 
   /**
    * Adds a node to the graph
    * @param {String} name Name/Identifier of the node. Must be unique
-   * @param {Array} pos Array of two elements that have percentage location values of the node
+   * @param {Array} pos Array of two elements that have location values of the node
    * @param {Boolean} isClient Dentoes whether the node is the current client
    */
-  addNode(name, pos, isClient) {
+  addNode(name, isClient, pos) {
 
     const nodeData = {
       name,
-      radius: isClient ? 40 : 30,
-      cx: pos ? pos[0] : '30%',
-      cy: pos ? pos[1] : '30%',
+      radius: 30,
+      cx: pos ? pos[0] : undefined,
+      cy: pos ? pos[1] : undefined,
       textColor: isClient ? '#C5C7CC' : '#636979'
     };
 
@@ -130,7 +114,7 @@ class Visualizer {
     /**
      * Empty the canvas, and add the updated nodes, connections and labels
      */
-    this.ctx.clearRect(0, 0, this.width, this.height);
+    this.ctx.clearRect(-this.width, -this.height, 2*this.width, 2*this.height);
 
     /**
      * Adds the connection links between all the nodes
@@ -139,12 +123,12 @@ class Visualizer {
       for (let j = i+1; j < this.nodes.length; j++) {
 
         new CanvasElements.Line({
-          x: Visualizer.resolvePerc(this.nodes[i].cx, this.width),
-          y: Visualizer.resolvePerc(this.nodes[i].cy, this.height),
-          x2: Visualizer.resolvePerc(this.nodes[j].cx, this.width),
-          y2: Visualizer.resolvePerc(this.nodes[j].cy, this.height),
+          x: this.nodes[i].cx,
+          y: this.nodes[i].cy,
+          x2: this.nodes[j].cx,
+          y2: this.nodes[j].cy,
           borderWidth: 1.3,
-          borderColor: '#636979',
+          borderColor: 'rgba(99, 105, 121, 0.5)',
           ctx: this.ctx
         });
       }
@@ -160,27 +144,24 @@ class Visualizer {
         if (node.name === this.sender.name) return;
 
         // Get the (x, y) coordinates of sender and receiver node
-        const x1 = Visualizer.resolvePerc(this.sender.cx, this.width);
-        const y1 = Visualizer.resolvePerc(this.sender.cy, this.height);
-        const x2 = Visualizer.resolvePerc(node.cx, this.width);
-        const y2 = Visualizer.resolvePerc(node.cy, this.height);
+        const x1 = this.sender.cx;
+        const y1 = this.sender.cy;
+        const x2 = node.cx;
+        const y2 = node.cy;
 
         // Calculate the total distance between the node
-        const dis = Math.sqrt(Math.pow(x1-x2, 2) + Math.pow(y1-y2, 2));
+        const dis = Math.sqrt(Math.pow(x1-x2, 2) + Math.pow(y1-y2, 2)) - this.sender.radius - node.radius;
         // Calculate the angle of line between the nodes along x axis.
         // Slope is calculated first
-        const angle = Math.atan( (y2-y1)/(x2-x1) );
+        const angle = Math.atan2(y2-y1, x2-x1);
 
         // Calculate the distance based on percentage value
         let r = this.sender.percentage/100*dis;
-        // Direction corrections
-        if ((x2 < x1 || y2 < y1) && !(x2 >= x1 && y2 <= y1))
-          r = -r;
 
         // Create the line based on polar system
         new CanvasElements.Line({
-          x: x1,
-          y: y1,
+          x: x1 + this.sender.radius * Math.cos(angle),
+          y: y1 + this.sender.radius * Math.sin(angle),
           r: r,
           angle: angle, 
           borderWidth: 2,
@@ -201,12 +182,12 @@ class Visualizer {
        * Add waves to current client node
        */
       if (i === 0) {
-        const radii = [60, 50];
+        const radii = [50, 40];
 
         radii.forEach(radius =>
           new CanvasElements.Circle({
-            x: this.width/2,
-            y: this.height/2,
+            x: node.cx,
+            y: node.cy,
             r: radius,
             // If the current client is the sender, then show green waves, otherwise gray
             background: this.sender.name === node.name ? 'rgba(59, 232, 176, 0.1)' : 'rgba(99, 105, 121, 0.1)',
@@ -216,8 +197,8 @@ class Visualizer {
       }
 
       new CanvasElements.Circle({
-        x: Visualizer.resolvePerc(node.cx, this.width),
-        y: Visualizer.resolvePerc(node.cy, this.height),
+        x: node.cx,
+        y: node.cy,
         r: node.radius,
         background: '#0D1322',
         borderColor: primaryColor(node),
@@ -229,10 +210,10 @@ class Visualizer {
     /**
      * Adds the avatar text
      */
-    this.nodes.forEach(node => 
+    this.nodes.forEach(node => {
       new CanvasElements.Text({
-        x: Visualizer.resolvePerc(node.cx, this.width),
-        y: Visualizer.resolvePerc(node.cy, this.height),
+        x: node.cx,
+        y: node.cy,
         text: node.name[0].toUpperCase(),
         font: '"Rubik", sans-serif',
         align: 'center',
@@ -241,15 +222,15 @@ class Visualizer {
         background: primaryColor(node),
         ctx: this.ctx
       })
-    );
+    });
 
     /**
      * Adds the nickname labels
      */
     this.nodes.forEach(node => 
       new CanvasElements.Text({
-        x: Visualizer.resolvePerc(node.cx, this.width),
-        y: Visualizer.resolvePerc(node.cy, this.height) + node.radius + 20,
+        x: node.cx,
+        y: node.cy + node.radius + 20,
         text: node.name,
         font: '"Rubik", sans-serif',
         align: 'center',
