@@ -1,4 +1,5 @@
 <script>
+  import Fab from '../components/Fab.svelte';
   import Modal from '../components/Modal.svelte';
   import { navigate } from 'svelte-routing';
 
@@ -61,9 +62,11 @@
           {/each}
         {/if}
       </ul>
-      <button class="fab" on:click={() => newRoomModal.isOpen = true}>
-        <span class="icon-add" />
-      </button>
+      <Fab
+        icon="icon-add"
+        text="New Room"
+        on:click={() => newRoomModal.isOpen = true}
+      />
     {:else}
       <div class="message">Connect to the internet to start sharing files</div>
     {/if}

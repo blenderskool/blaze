@@ -3,6 +3,7 @@
 	import { Visualizer } from '../modules/visualizer';
 	import download from 'downloadjs';
 	import { navigate } from 'svelte-routing';
+	import Fab from '../components/Fab.svelte';
 	import Modal from '../components/Modal.svelte';
 
 	const data = JSON.parse(localStorage.getItem('blaze'));
@@ -261,7 +262,17 @@
 			};
 		});
 
-		visualizer = new Visualizer(window.innerWidth, Math.floor(window.innerHeight / 2), canvas);
+		/**
+		 * Visualizer is half the width of the browser window if on desktops
+		 */
+		if (window.matchMedia('(min-width: 800px)').matches)
+			visualizer = new Visualizer(Math.floor(window.innerWidth / 2), Math.floor(window.innerHeight / 2), canvas);
+		/**
+		 * On mobiles, occupy full width of the screen
+		 */
+		else
+			visualizer = new Visualizer(window.innerWidth, Math.floor(window.innerHeight / 2), canvas);
+
 		visualizer.addNode(client.name, ['50%', '50%'], true);
 
 		/**
@@ -355,19 +366,22 @@
 
 	</header>
 
-	<main>
-		<canvas
-			bind:this={canvas}
-		/>
+	<main class="row file-transfer">
 
-		{#if percentage !== null}
-			<div class="transfer-percentage">
-				{Math.floor(percentage)}%
+		<div class="column">
+			<canvas
+				bind:this={canvas}
+			/>
+
+			{#if percentage !== null}
+				<div class="transfer-percentage">
+					{Math.floor(percentage)}%
+				</div>
+			{/if}
+
+			<div class="transfer-tech">
+				{backend}
 			</div>
-		{/if}
-
-		<div class="transfer-tech">
-			{backend}
 		</div>
 
 
@@ -380,29 +394,36 @@
 		>
 
 		{#if files.length}
-			<div class="card files">
-				<div class="header">
-					<h2>Files</h2>
+			<div class="column">
+				<div class="card files">
+					<div class="header">
+						<h2>Files</h2>
+					</div>
+					<ul class="files">
+
+						{#each files as file}
+							<li>
+								<div class="info">
+									<h4>{file.name}</h4>
+									<h5>{formatSize(file.size)}</h5>
+								</div>
+							</li>
+						{/each}
+
+					</ul>
 				</div>
-				<ul class="files">
-
-					{#each files as file}
-						<li>
-							<div class="info">
-								<h4>{file.name}</h4>
-								<h5>{formatSize(file.size)}</h5>
-							</div>
-						</li>
-					{/each}
-
-				</ul>
 			</div>
 		{/if}
+
 	</main>
 
-	<button class="fab" disabled={!isSelectorEnabled}>
-		<label for="inpFiles" aria-label="Choose files to send" class="icon-add input-files" />
-	</button>
+	<Fab
+		icon="icon-add"
+		disabled={!isSelectorEnabled}
+		text="Add File"
+	>
+		<label for="inpFiles" tabindex="-1" />
+	</Fab>
 
 </div>
 
