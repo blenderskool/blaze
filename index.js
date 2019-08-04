@@ -28,7 +28,7 @@ function emitUsrsList(room) {
 }
 
 app.use(express.static('dist'));
-app.use('/app', (req, res) => {
+app.use('/app(/*)?', (req, res) => {
   res.sendFile(__dirname + '/dist/app.html');
 });
 
@@ -97,3 +97,16 @@ const port = process.env.PORT ? process.env.PORT : 3030;
 http.listen(port, () => {
   log('listening on *:'+port);
 });
+
+
+if (process.env.NODE_ENV === 'production') {
+  // Redirect http to https
+  app.enable('trust proxy');
+  app.use((req, res, next) => {
+    if (req.secure) {
+      next();
+    } else {
+      res.redirect('https://' + req.headers.host + req.url);
+    }
+  });
+}
