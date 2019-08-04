@@ -299,3 +299,5 @@ class Visualizer {
   }
 
 }
+
+export { Visualizer };
