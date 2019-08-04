@@ -1,0 +1,38 @@
+<script>
+  import { fade } from 'svelte/transition';
+
+  export let isOpen = true;
+  export let isClosable = true;
+
+  // Blur the rest of the app when modal is displayed
+  function blurApp(isOpen) {
+    const app = document.getElementById('app');
+    
+    if (app)
+      app.style.filter = isOpen ? 'blur(18px)' : '';
+      document.body.classList.toggle('no-bg-image', isOpen);
+  }
+
+  $: blurApp(isOpen);
+
+</script>
+
+{#if isOpen}
+  <div class="modal-wrapper" transition:fade="{{ duration: 200 }}">
+
+    {#if isClosable}
+      <span
+        class="icon-cancel"
+        role="button"
+        tabindex="0"
+        aria-label="Close Modal"
+        on:click={() => isOpen = false}
+        on:keydown={e => {if (e.which === 13) isOpen = false;} }
+      />
+    {/if}
+
+    <div class="modal">
+      <slot />
+    </div>
+  </div>
+{/if}

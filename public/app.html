@@ -8,8 +8,10 @@
   <title>App | Blaze</title>
 
   <!-- Fonts, stylesheets -->
-  <link href="https://fonts.googleapis.com/css?family=Rubik:400,500" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="preload" href="/css/styles.css" as="style">
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="preload" href="https://fonts.googleapis.com/css?family=Rubik:400,500&display=swap" as="style">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rubik:400,500&display=swap">
 
   <!-- Favicons -->
   <link rel="icon" type="image/png" href="./images/favicon-32x32.png" sizes="32x32" />
@@ -18,21 +20,18 @@
   <!-- Manifest -->
   <link rel="manifest" href="/manifest.json">
 
+  <script defer src="/socket.io/socket.io.js"></script>
+  <script defer src="/js/socketiop2p.min.js"></script>
+  <script defer src="https://unpkg.com/canvas-elements/build/cdn/canvas-elements.min.js"></script>
+  <script defer src="/js/app.js"></script>
+
 </head>
 <body>
-
-  <div id="app"></div>
 
   <noscript>
     JavaScript must be enabled to send files using Blaze
   </noscript>
   
 
-  <script src="/socket.io/socket.io.js"></script>
-  <script src="https://unpkg.com/canvas-elements/build/cdn/canvas-elements.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/downloadjs/1.4.8/download.min.js"></script>
-  <script src="https://unpkg.com/navigo@6.0.2/lib/navigo.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.5/jszip.min.js"></script>
-  <script src="js/app.js"></script>
 </body>
 </html>
