@@ -21,10 +21,8 @@
   <div class="modal-wrapper" transition:fade="{{ duration: 200 }}">
 
     {#if isClosable}
-      <span
-        class="icon-cancel"
-        role="button"
-        tabindex="0"
+      <button
+        class="thin icon icon-cancel"
         aria-label="Close Modal"
         on:click={() => isOpen = false}
         on:keydown={e => {if (e.which === 13) isOpen = false;} }

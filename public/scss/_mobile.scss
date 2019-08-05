@@ -42,30 +42,6 @@ body {
       min-height: 100vh;
       max-width: 100vw;
 
-      button.header {
-        position: absolute;
-        top: 10px;
-        width: 50px;
-        font-size: 2rem;
-        background-color: transparent;
-        box-shadow: none;
-        color: $secondary;
-
-        &.left {
-          left: 10px;
-          z-index: 1;
-        }
-
-        &.right {
-          right: 10px;
-          font-size: 1.4rem;
-        }
-
-        &:hover, &:focus {
-          color: $light;
-        }
-      }
-
       &.center {
         text-align: center;
         align-items: center;
@@ -146,11 +122,9 @@ body {
             border: 2px solid darken($primary, 25);
           }
 
-          span.icon-cancel {
-            margin-left: auto;
-            color: $secondary;
-            cursor: pointer;
-            user-select: none;
+          .icon-cancel {
+            margin: -13px -15px 0 auto;
+            font-size: 1.3rem;
           }
 
         }
@@ -218,15 +192,11 @@ body {
         box-shadow: 0 8px 60px rgba(0, 0, 0, 0.4);
       }
 
-      span.icon-cancel {
+      .icon-cancel {
         position: absolute;
         top: 15px;
         right: 15px;
         font-size: 1.3rem;
-        opacity: 0.6;
-        padding: 6px;
-        cursor: pointer;
-        user-select: none;
       }
 
       &::before {
@@ -350,6 +320,26 @@ body {
 
 }
 
+
+header {
+
+  button {
+    position: absolute;
+    top: 10px;
+
+    &.left {
+      left: 10px;
+      z-index: 1;
+    }
+
+    &.right {
+      right: 10px;
+      font-size: 1.4rem;
+    }
+
+  }
+}
+
 button {
   color: $bg;
   background-color: $primary;
@@ -380,6 +370,22 @@ button {
 
   &:focus {
     opacity: 0.7;
+  }
+
+  &.thin {
+    background-color: transparent;
+    box-shadow: none;
+    color: $secondary;
+
+
+    &:hover, &:focus {
+      color: $light;
+    }
+  }
+  
+  &.icon {
+    width: 50px;
+    font-size: 2rem;
   }
 
   &.fab {

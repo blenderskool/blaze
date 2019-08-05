@@ -361,7 +361,7 @@
 <div id="app" class="center">
 	<header>
 		<button
-			class="icon-navigate_before header left"
+			class="thin icon icon-navigate_before left"
 			aria-label="Go back"
 			on:click={() => window.history.back()}
 		/>

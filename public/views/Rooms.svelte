@@ -51,11 +51,9 @@
               tabindex="0"
             >
               <div>{room}</div>
-              <span
-                role="button"
+              <button
+                class="thin icon icon-cancel"
                 aria-label="Remove room"
-                class="icon-cancel"
-                tabindex="0"
                 on:click|stopPropagation={() => removeRoom(room)}
               />
             </li>
