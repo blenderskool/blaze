@@ -19,6 +19,8 @@
 		room: window.location.pathname.split('/').reverse()[0]
 	};
 	let canvas, isSelectorEnabled = false, files = [];
+	let backend = 'Waiting for other devices to join same room';
+	let percentage = null;
 
 	/**
 	 * Add the current room in recent rooms list
@@ -32,9 +34,6 @@
 			]
 		}));
 	}
-
-	let backend = 'Waiting for other devices to join same room';
-	let percentage = null;
 
 	function socketConnect(room, username) {
 		return io('//'+window.location.host, {
@@ -58,7 +57,8 @@
       files = [
 				{
 					name: file.name,
-					size: file.size
+					size: file.size,
+					sent: false
 				},
 				...files
 			];
@@ -111,7 +111,7 @@
 		socket.emit('file', {
 			user: client.name,
 			size,
-			meta: files
+			meta: files.filter(item => !item.sent)
 		});
 
 
@@ -188,6 +188,12 @@
 		visualizer.removeSender();
 
 		percentage = null;
+
+		// Mark the unsent files as sent
+		files = files.map(file => {
+			file.sent = true;
+			return file;
+		});
 
 		// Remove the file from the input
 		document.getElementById('inpFiles').value = '';
@@ -308,7 +314,7 @@
 					 */
 					metaData = data;
 					visualizer.addSender(data.user);
-					files = data.meta;
+					files = [...data.meta, ...files];
 				}
 			});
 
