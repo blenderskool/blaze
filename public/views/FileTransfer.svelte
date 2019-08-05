@@ -413,6 +413,16 @@
 									<h4>{file.name}</h4>
 									<h5>{formatSize(file.size)}</h5>
 								</div>
+
+								{#if file.sent}
+									<!-- When the file has been sent, show the check mark -->
+									<div class="file-status icon-checkmark" />
+								{:else}
+									<!-- When the file is being sent, show a circle loader with transfer percentage -->
+									<svg width="50" height="50" class="file-status">
+										<circle cx="25" cy="25" r="10" style={`stroke-dashoffset:${63 * percentage/100 - 63}`} />
+									</svg>
+								{/if}
 							</li>
 						{/each}
 

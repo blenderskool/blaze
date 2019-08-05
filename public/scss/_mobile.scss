@@ -296,7 +296,7 @@ body {
 
             div.info {
               text-align: left;
-              width: 100%;
+              width: 85%;
 
               h4 {
                 margin: 0;
@@ -305,7 +305,7 @@ body {
                 text-overflow: ellipsis;
                 overflow-x: hidden;
                 white-space: nowrap;
-                width: 85%;
+                width: 100%;
               }
 
               h5 {
@@ -316,12 +316,27 @@ body {
               }
             }
 
-            .status {
-              font-size: 1.2rem;
-              color: $primary;
-              font-weight: $font-bold;
+            svg.file-status {
+              transform: rotateZ(-90deg) scaleY(-1);
+              margin-left: auto;
 
-              margin-right: 0;
+              circle {
+                stroke: $primary;
+                stroke-width: 2px;
+                stroke-dasharray: 63;
+                fill: #0B101C;
+              }
+            }
+
+            div.file-status {
+              width: 22px;
+              height: 22px;
+              border-radius: 100%;
+              margin: 15px;
+              background-color: $primary;
+              color: #0B101C;
+              line-height: 1.6em;
+              font-size: 0.9rem;
               margin-left: auto;
             }
 

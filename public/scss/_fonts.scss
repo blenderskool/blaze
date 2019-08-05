@@ -24,15 +24,18 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-cancel:before {
+.icon-settings:before {
   content: "\e902";
 }
-.icon-settings:before {
-  content: "\e900";
-}
 .icon-navigate_before:before {
-  content: "\e901";
+  content: "\e903";
+}
+.icon-cancel:before {
+  content: "\e904";
 }
 .icon-add:before {
-  content: "\e903";
+  content: "\e905";
+}
+.icon-checkmark:before {
+  content: "\e901";
 }
