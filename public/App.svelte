@@ -1,11 +1,26 @@
 <script>
-
-	import { Router, Route } from 'svelte-routing';
+	import { onMount } from 'svelte';
+	import { Router, Route, navigate } from 'svelte-routing';
 	import FileTransfer from './views/FileTransfer.svelte';
 	import Rooms from './views/Rooms.svelte';
 	import NewUser from './views/NewUser.svelte';
 
 	let registered = Boolean(window.localStorage.getItem('blaze'));
+
+	onMount(() => {
+
+		function handleOffline() {
+			if (navigator.onLine) return;
+
+			// Redirect user to home page when user goes offline
+			navigate('/app', { replace: true });
+		}
+
+		window.addEventListener('offline', handleOffline);
+
+		// Remove the listener
+		return () => window.removeEventListener('offline', handleOffline);
+	});
 
 </script>
 

@@ -1,4 +1,5 @@
 <script>
+  import { onMount } from 'svelte';
   import Fab from '../components/Fab.svelte';
   import Modal from '../components/Modal.svelte';
   import { navigate } from 'svelte-routing';
@@ -9,6 +10,7 @@
     roomName: '',
     isOpen: false
   };
+  let onLine = true;
 
   function removeRoom(room) {
     rooms = rooms.filter(roomName => roomName !== room);
@@ -30,6 +32,19 @@
     navigate(`/app/t/${room}`);
   }
 
+  onMount(() => {
+    onLine = navigator.onLine;
+
+    /**
+     * Update the state when user goes online or offline
+     */
+    const networkStatus = () => onLine = navigator.onLine;
+
+    ['online', 'offline'].forEach(item => window.addEventListener(item, networkStatus));
+
+    return () => ['online', 'offline'].forEach(item => window.removeEventListener(item, networkStatus));
+  });
+
 </script>
 
 
@@ -41,7 +56,7 @@
 
   <main>
 
-    {#if window.navigator.onLine}
+    {#if onLine}
       <ul class="recent-rooms">
         {#if rooms && rooms.length}
           {#each rooms as room}
