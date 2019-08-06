@@ -47,8 +47,8 @@ class Visualizer {
      * then it must be placed at the centre of the canvas
      */
     if (nodes.length == 1) {
-      nodes[0].cx = 0.01;
-      nodes[0].cy = 0.01;
+      nodes[0].cx = 0;
+      nodes[0].cy = 0;
 
       return;
     }
