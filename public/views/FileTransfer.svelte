@@ -104,6 +104,10 @@
 
 		let data = file, sent = 0;
 		const size = data.byteLength;
+		const transferStatus = {
+			peers: Array(usersCount - 1),
+			percent: 25
+		};
 
 		/**
 		 * Initially meta data is shared
@@ -117,7 +121,7 @@
 
 		return new Promise((resolve, reject) => {
 
-			function stream(meta) {
+			function stream() {
 				/**
 				 * If all the chunks are sent
 				 */
@@ -165,18 +169,26 @@
 				percentage = sent * 100 / size;
 				visualizer.setTransferPercentage(percentage);
 
-				if (percentage < meta.percent) {
+				if (transferStatus.peers.length === usersCount - 1 && percentage < transferStatus.percent) {
 					/**
 					 * Timeout is used as this will allow us to control the time interval between successive streams
 					 */
-					setTimeout(() => stream(meta), 1);
+					setTimeout(stream, 1);
 				}
 			}
-			stream({
-				percent: 25
-			});
+			stream();
 
-			socket.on('rec-status', stream);
+			socket.on('rec-status', data => {
+				if (data.percent !== transferStatus.percent) {
+					transferStatus.percent = data.percent;
+					transferStatus.peers = [ data.peer ];
+				}
+				else {
+					transferStatus.peers.push(data.peer);
+				}
+
+				stream();
+			});
 		});
 
 	}
