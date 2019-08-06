@@ -12,14 +12,7 @@ function zipFiles(files) {
   for (let i = 0; i < files.length; i++) {
     const file = files[i];
 
-    /**
-     * Certain operating systems don't have file extension in the name of the file,
-     * hence it is added here to the name so that it works correctly on other systems
-     */
-    const ext = '.'+file.type.split('/')[1];
-    const name = file.name.endsWith(ext) ? file.name : file.name + ext;
-
-    zip.file(name, file);
+    zip.file(file.name, file);
   }
 
   return zip.generateAsync({
