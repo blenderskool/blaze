@@ -33,6 +33,12 @@
   }
 
   onMount(() => {
+    /**
+     * Show the new room modal when there are no recent rooms
+     */
+    if (!rooms.length)
+      newRoomModal.isOpen = true;
+
     onLine = navigator.onLine;
 
     /**
