@@ -38,31 +38,22 @@ body {
     &#app {
       display: flex;
       flex-direction: column;
-      padding: 2rem;
+      padding: 2rem 1.6rem;
       min-height: 100vh;
       max-width: 100vw;
-
-      &.center {
-        text-align: center;
-        align-items: center;
-      }
 
       h1 {
         font-size: 1.5em;
         font-weight: $font-bold;
         color: $light;
+        margin: 0;
 
         &.title {
-          margin-bottom: 25px;
           font-size: 1.8rem;
         }
 
         &.room-name {
-          position: absolute;
-          margin: 0;
-          top: 23px;
-          left: 0;
-          right: 0;
+          position: relative;
           text-transform: capitalize;
 
           &:after {
@@ -123,7 +114,9 @@ body {
           }
 
           .icon-cancel {
-            margin: -13px -15px 0 auto;
+            margin-left: auto;
+            margin-right: -16px;
+            height: auto;
             font-size: 1.3rem;
           }
 
@@ -321,25 +314,6 @@ body {
 }
 
 
-header {
-
-  button {
-    position: absolute;
-    top: 10px;
-
-    &.left {
-      left: 10px;
-      z-index: 1;
-    }
-
-    &.right {
-      right: 10px;
-      font-size: 1.4rem;
-    }
-
-  }
-}
-
 button {
   color: $bg;
   background-color: $primary;
@@ -350,7 +324,7 @@ button {
   font-weight: $font-bold;
   font-size: 1.4rem;
 
-  width: 100%;
+  // width: 100%;
   height: 50px;
   box-shadow: $shadow;
 
@@ -449,6 +423,26 @@ input {
 
 }
 
+
+header {
+  display: flex;
+  margin: 10px 0 25px;
+
+  button {
+    height: auto;
+
+    &.left {
+      margin-right: auto;
+      text-align: left;
+    }
+
+    &.right {
+      margin-left: auto;
+      text-align: right;
+    }
+
+  }
+}
 
 .row {
   display: flex;

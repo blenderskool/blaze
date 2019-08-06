@@ -26,6 +26,7 @@ body {
           }
 
           span.icon-cancel {
+            margin: -13px -15px 0 auto;
             order: 1;
           }
         }
@@ -70,6 +71,6 @@ button {
 }
 
 .file-transfer {
-  height: 80vh;
+  height: 60vh;
   align-items: center;
 }

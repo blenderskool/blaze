@@ -358,7 +358,7 @@
 
 </script>
 
-<div id="app" class="center">
+<div id="app" style="text-align:center">
 	<header>
 		<button
 			class="thin icon icon-navigate_before left"
@@ -370,6 +370,12 @@
 			{client.room}
 		</h1>
 
+		<!-- Fake element to correct the flex spacing -->
+		<button
+			class="thin icon right"
+			style="visibility: hidden"
+		/>
+
 	</header>
 
 	<main class="row file-transfer">
@@ -377,6 +383,7 @@
 		<div class="column">
 			<canvas
 				bind:this={canvas}
+				style="margin-left: -1rem"
 			/>
 
 			{#if percentage !== null}
