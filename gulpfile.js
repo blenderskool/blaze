@@ -156,5 +156,5 @@ gulp.task('default', gulp.series(gulp.parallel('static', 'styles', 'html', 'svel
  * File Watcher during development
  */
 gulp.task('dev', gulp.series('default', function watcher() {
-  return gulp.watch('public/**/*', gulp.parallel('default'));
+  return gulp.watch(['public/**/*', 'static/**/*'], gulp.parallel('default'));
 }));
