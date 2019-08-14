@@ -1,6 +1,4 @@
 body {
-  background-size: 13%;
-
 
   div {
 
@@ -25,8 +23,8 @@ body {
             margin-top: 2rem;
           }
 
-          span.icon-cancel {
-            margin: -13px -15px 0 auto;
+          .icon-cancel {
+            margin: 0 -4px 0 auto;
             order: 1;
           }
         }
@@ -45,24 +43,6 @@ body {
 
   }
 
-}
-
-button {
-
-
-  &.fab {
-    height: 55px;
-    width: auto;
-    padding: 0 1rem;
-    font-size: 2rem;
-
-    .lg-text {
-      display: block;
-      font-size: 1.2rem;
-      margin-right: 5px;
-    }
-
-  }
 }
 
 .row {

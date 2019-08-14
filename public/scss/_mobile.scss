@@ -1,37 +1,10 @@
 
-* {
-  box-sizing: border-box;
-}
-
-
-body, input, button {
-  font-family: $font;
-  color: $white;
-}
-
 html {
   height: 100%;
 }
 
-body {
-  margin: 0;
-  padding: 0;
-
-  background-image: $noise;
-  background-color: $bg;
-  background-size: 32%;
-  
+body {  
   min-height: 100%;
-  color: $light;
-
-  a {
-    text-decoration: none;
-    color: $light;
-  }
-
-  &.no-bg-image {
-    background-image: none;
-  }
 
   div {
 
@@ -314,119 +287,13 @@ body {
 }
 
 
-button {
-  color: $bg;
-  background-color: $primary;
-  border: 0;
-  padding: 0;
-  outline: none;
-  border-radius: 4px;
-  font-weight: $font-bold;
-  font-size: 1.4rem;
-
-  // width: 100%;
-  height: 50px;
-  box-shadow: $shadow;
-
-  transition: all 0.2s ease;
-
-  -webkit-tap-highlight-color: rgba(darken($primary, 50), 0.2);
-  cursor: pointer;
-  user-select: none;
-
-  &:hover {
-    box-shadow: 0 8px 35px rgba($primary, 0.2);
-  }
-
-  &:active {
-    transform: scale(0.98);
-  }
-
-  &:focus {
-    opacity: 0.7;
-  }
-
-  &.thin {
-    background-color: transparent;
-    box-shadow: none;
-    color: $secondary;
-
-
-    &:hover, &:focus {
-      color: $light;
-    }
-  }
-  
-  &.icon {
-    width: 50px;
-    font-size: 2rem;
-  }
-
-  &.fab {
-    width: 65px;
-    height: 65px;
-    border-radius: 33px;
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    font-size: 3rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2.3rem;
-
-    &:disabled {
-      background-color: $secondary;
-      opacity: 0.5;
-      cursor: not-allowed;
-      pointer-events: none;
-      box-shadow: none;
-    }
-
-    .lg-text {
-      display: none;
-    }
-
-    label {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      cursor: inherit;
-    }
-  }
-}
-
-input {
-  background-color: transparent;
-  border: 1px solid rgba($secondary, 0.6);
-  font-weight: $font-bold;
-  padding: 12px 18px;
-  border-radius: 4px;
-  font-size: 1.2rem;
-  color: $light;
-  outline: none;
-  margin: 15px 0;
-  width: 100%;
-
-  transition: all 0.2s ease;
-  box-shadow: $shadow inset;
-
-  &:focus {
-    border-color: lighten($secondary, 15);
-  }
-
-  &::-webkit-input-placeholder {
-    color: $secondary;
-  }
-
-}
-
-
 header {
   display: flex;
-  margin: 10px 0 25px;
+  margin: 0 0 25px;
+
+  h1 {
+    flex: 1;
+  }
 
   button {
     height: auto;
