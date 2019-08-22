@@ -130,10 +130,14 @@ header {
   .feature {
     width: 100%;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 
     h2 {
       font-weight: $font-bold;
       font-size: 1.6rem;
+      margin: 0;
     }
 
     img {
