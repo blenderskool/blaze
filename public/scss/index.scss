@@ -168,6 +168,8 @@ header {
     span {
       color: $secondary;
       font-size: 2rem;
+      // Line height is zero as large block quotes create large line heights
+      line-height: 0;
     }
 
     footer {
