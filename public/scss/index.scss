@@ -181,6 +181,12 @@ header {
         width: 50px;
         border-radius: 50px;
         margin-bottom: 1.3rem;
+        transition: transform 0.2s ease;
+
+        &:hover {
+          transform: scale(1.1);
+        }
+
       }
 
       cite {
