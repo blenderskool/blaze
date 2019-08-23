@@ -103,17 +103,19 @@ header {
     text-align: center;
   }
   
-  h1 {
+  .title {
     font-size: 2.2rem;
-    font-weight: $font-bold;
     margin: 10px 0;
   }
   
-  h2 {
+  .subtitle {
     margin: 10px 0;
     font-size: 1.3rem;
     color: $secondary;
-    font-weight: $font-bold;
+  }
+
+  button, .btn {
+    margin-top: 40px;
   }
   
   img {
@@ -135,7 +137,6 @@ header {
     justify-content: space-between;
 
     h2 {
-      font-weight: $font-bold;
       font-size: 1.6rem;
       margin: 0;
     }
@@ -153,6 +154,62 @@ header {
   }
 
 }
+
+.about {
+  text-align: center;
+  margin: 10rem 0;
+  font-weight: $font-bold;
+  font-size: 20px;
+
+  blockquote {
+    font-size: 1.4rem;
+    margin: 0;
+
+    span {
+      color: $secondary;
+      font-size: 2rem;
+    }
+
+    footer {
+      margin: 35px 0 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: $light;
+
+      img {
+        width: 50px;
+        border-radius: 50px;
+        margin-bottom: 1.3rem;
+      }
+
+      cite {
+        font-style: normal;
+
+        &.position {
+          color: $secondary;
+          font-size: 1rem;
+        }
+      }
+    }
+
+  }
+}
+
+.final-cta {
+  display: block;
+  height: auto;
+  margin: 7rem 0;
+  text-align: center;
+}
+
+footer {
+  margin: 2rem 0;
+  font-weight: $font-bold;
+  color: $secondary;
+  text-align: center;
+}
+
 
 @media screen and (min-width: 800px) {
 
@@ -210,6 +267,10 @@ header {
       width: 31%;
     }
 
+  }
+
+  footer {
+    text-align: left;
   }
 
 }
