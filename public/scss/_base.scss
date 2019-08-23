@@ -30,6 +30,9 @@ body {
   }
 }
 
+h1, h2, h3, h4, h5, h6 {
+  font-weight: $font-bold;
+}
 
 button, .btn {
   color: $bg;
@@ -72,6 +75,7 @@ button, .btn {
     background-color: transparent;
     box-shadow: none;
     color: $secondary;
+    padding: 0;
 
 
     &:hover, &:focus {
