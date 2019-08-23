@@ -111,7 +111,8 @@ gulp.task('html', function() {
       collapseWhitespace: true,
       removeRedundantAttributes: true,
       removeScriptTypeAttributes: true,
-      useShortDoctype: true
+      useShortDoctype: true,
+      removeComments: true
     }))
     .pipe(gulp.dest('dist'));
 });
