@@ -472,7 +472,7 @@
 			{errorModal.message}
 		</p>
 
-		<button on:click={() => {
+		<button class="wide" on:click={() => {
 			errorModal.isOpen = false;
 			navigate('/app', { replace: true })
 		}}>
