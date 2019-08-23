@@ -106,7 +106,7 @@
       bind:value={newRoomModal.roomName}
       style="margin-top: 0"
     >
-    <button type="submit">
+    <button type="submit" class="wide">
       Join Room
     </button>
   </form>

@@ -29,8 +29,8 @@
       aria-label="Enter a nickname"
       bind:value={username}
     >
-    <button type="submit">
-      Start sharing
+    <button type="submit" class="wide">
+      Continue
     </button>
   </form>
 
