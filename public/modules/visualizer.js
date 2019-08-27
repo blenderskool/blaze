@@ -108,7 +108,7 @@ class Visualizer {
   }
 
   /**
-   * Updates the entire graph by regenerating the SVG
+   * Updates the entire graph by redrawing the canvas
    */
   updateCanvas() {
     /**
