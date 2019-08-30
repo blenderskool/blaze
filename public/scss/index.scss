@@ -95,7 +95,7 @@ header {
   display: flex;
   align-items: center;
   flex-direction: column;
-  height: 100vh;
+  height: 95vh;
   justify-content: center;
   
   .info {
@@ -218,6 +218,33 @@ footer {
   text-align: center;
 }
 
+svg.waves {
+  z-index: -1;
+  position: absolute;
+  bottom: 0;
+  left: -5px;
+  margin-right: -85px;
+  filter: drop-shadow(0 0 15px $primary);
+
+  path {
+    fill: none;
+    stroke-width: 10px;
+    stroke-dasharray: 1600;
+    stroke-dashoffset: 0;
+    animation: waves 4s linear;
+  }
+}
+
+@keyframes waves {
+  0% {
+    stroke-dashoffset: 1600;
+  }
+  
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
 
 @media screen and (min-width: 800px) {
 
@@ -249,7 +276,9 @@ footer {
   }
 
   .hero {
+    height: 100vh;
     flex-direction: row;
+    flex-wrap: wrap;
     justify-content: space-between;
 
     .info {
@@ -279,6 +308,13 @@ footer {
 
   footer {
     text-align: left;
+  }
+
+  svg.waves {
+
+    path {
+      stroke-width: 3px;
+    }
   }
 
 }
