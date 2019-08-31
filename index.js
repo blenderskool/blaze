@@ -10,6 +10,8 @@ const p2p = require('socket.io-p2p-server').Server;
  * @param {String} message Message to be logged
  */
 function log(message) {
+  if (process.env.NODE_ENV === 'production') return;
+
   const date = new Date();
   console.log(`[${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}] ${message}`);
 }
