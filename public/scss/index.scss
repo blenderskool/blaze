@@ -206,7 +206,7 @@ header {
 
 .final-cta {
   display: block;
-  height: auto;
+  height: auto !important;
   margin: 7rem 0;
   text-align: center;
 }
@@ -221,23 +221,24 @@ footer {
 svg.waves {
   z-index: -1;
   position: absolute;
-  bottom: 0;
-  left: -5px;
-  margin-right: -85px;
+  bottom: 30px;
+  left: 0;
   filter: drop-shadow(0 0 15px $primary);
+  overflow-x: hidden;
 
   path {
     fill: none;
+    stroke: $primary;
     stroke-width: 10px;
-    stroke-dasharray: 1600;
+    stroke-dasharray: 1650;
     stroke-dashoffset: 0;
-    animation: waves 4s linear;
+    animation: waves 1.8s ease-in-out;
   }
 }
 
 @keyframes waves {
   0% {
-    stroke-dashoffset: 1600;
+    stroke-dashoffset: 1650;
   }
   
   100% {
@@ -311,6 +312,7 @@ svg.waves {
   }
 
   svg.waves {
+    bottom: 0;
 
     path {
       stroke-width: 3px;
