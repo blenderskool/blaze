@@ -14,25 +14,32 @@
   "author": "Akash Hamirwasia",
   "license": "MIT",
   "dependencies": {
-    "concurrently": "^4.1.0",
+    "downloadjs": "^1.4.7",
     "express": "^4.16.4",
-    "gulp": "^4.0.0",
-    "gulp-replace": "^1.0.0",
     "socket.io": "^2.2.0",
-    "socket.io-p2p-server": "^1.2.0"
+    "socket.io-p2p-server": "^1.2.0",
+    "svelte-routing": "^1.2.1"
   },
   "engines": {
     "node": "8.x"
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",
-    "@babel/plugin-transform-spread": "^7.2.2",
     "@babel/preset-env": "^7.2.3",
     "babel-core": "^7.0.0-bridge.0",
     "babel-preset-minify": "^0.5.0",
+    "concurrently": "^4.1.1",
+    "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
-    "gulp-concat": "^2.6.1",
+    "gulp-better-rollup": "^4.0.1",
     "gulp-htmlmin": "^5.0.1",
-    "gulp-sass": "^4.0.2"
+    "gulp-replace": "^1.0.0",
+    "gulp-sass": "^4.0.2",
+    "rollup": "^1.18.0",
+    "rollup-plugin-commonjs": "^10.0.1",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-svelte": "^5.1.0",
+    "svelte": "^3.6.10",
+    "workbox-build": "^4.3.1"
   }
 }

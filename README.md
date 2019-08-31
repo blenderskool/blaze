@@ -17,10 +17,18 @@ The project is divided into the backend and the frontend.
 Right now, only `index.js` file contains all the server-side code required for the backend. It is built on `express` and `socket.io` which allows usage of WebSockets and WebRTC. We may switch to using WebSockets natively as it is supported in almost all modern browsers.
 
 ### Frontend
-All the frontend code is in the `public` folder. Once the frontend is built for production, all the built files are stored in `dist` folder which can be deployed along with the server code.
+The frontend code is in the `public`, `static` folders. Once the frontend is built for production, all the built files are stored in `dist` folder which can be deployed along with the server code.
 
+#### `static` folder
+This folder is used to store the static files such as images, fonts, and JavaScript files that shouldn't be bundled with rest of the code.
+
+#### `public` folder
+This folder contains the code for the frontend (written in [Svelte](https://svelte.dev/)) which gets compiled and bundled to JavaScript. It also contains the HTML layouts of different pages, along with stylesheets written in Sass.
+
+- Svelte is used for the UI of the app.
 - No UI library is being used as of now.
 - Sass is used for CSS pre-processing.
+- `/app` route is a PWA, single page app.
 
 
 ## Development
