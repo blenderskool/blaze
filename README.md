@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://blaze.unubo.app">
-    <img src="https://github.com/blenderskool/blaze/blob/master/public/images/apple-touch-icon-152x152.png">
+    <img src="https://github.com/blenderskool/blaze/blob/master/static/images/apple-touch-icon-152x152.png">
   </a>
  </p>
 
