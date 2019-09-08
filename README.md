@@ -1,5 +1,7 @@
 <p align="center">
-  <img src="https://github.com/blenderskool/blaze/blob/master/public/images/apple-touch-icon-152x152.png">
+  <a href="https://blaze.unubo.app">
+    <img src="https://github.com/blenderskool/blaze/blob/master/public/images/apple-touch-icon-152x152.png">
+  </a>
  </p>
 
 # Blaze - A file sharing web app
