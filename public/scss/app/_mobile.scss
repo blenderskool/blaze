@@ -1,0 +1,336 @@
+
+html {
+  height: 100%;
+}
+
+body {  
+  min-height: 100%;
+
+  div {
+
+    &#app {
+      display: flex;
+      flex-direction: column;
+      padding: 2rem 1.6rem;
+      min-height: 100vh;
+      max-width: 100vw;
+
+      h1 {
+        font-size: 1.5em;
+        font-weight: $font-bold;
+        color: $light;
+        margin: 0;
+
+        &.title {
+          font-size: 1.8rem;
+        }
+
+        &.room-name {
+          position: relative;
+          text-transform: capitalize;
+
+          &:after {
+            content: 'room name';
+            position: absolute;
+            text-transform: uppercase;
+            color: $secondary;
+            display: block;
+            font-size: 0.85rem;
+            text-align: center;
+            opacity: 0.5;
+            width: 100%;
+          }
+        }
+      }
+
+      h3 {
+        font-weight: $font-bold;
+        line-height: 1.3em;
+        color: $secondary;
+      }
+
+      form.join-room {
+        margin-bottom: auto;
+      }
+
+      ul.recent-rooms {
+        padding: 0;
+        list-style: none;
+        margin: 0;
+
+        li {
+          border: 1px solid rgba($secondary, 0.6);
+          border-radius: 4px;
+          box-shadow: $shadow;
+          background-color: $bg;
+          margin: 15px 0;
+          padding: 18px 20px;
+          display: flex;
+          text-transform: capitalize;
+          font-size: 1.3rem;
+          font-weight: $font-bold;
+          outline: none;
+          cursor: pointer;
+          user-select: none;
+          transition: all 0.2s ease;
+
+          &:hover {
+            box-shadow: none;
+          }
+
+          &:active {
+            transform: scale(0.98);
+          }
+          
+          &:focus {
+            border: 2px solid darken($primary, 25);
+          }
+
+          .icon-cancel {
+            margin-left: auto;
+            margin-right: -16px;
+            height: auto;
+            font-size: 1.3rem;
+          }
+
+        }
+
+        &:empty::after {
+          content: 'Devices must join same room to share files with each other';
+          font-weight: $font-bold;
+          color: $secondary;
+          opacity: 0.5;
+          display: block;
+          text-align: center;
+          font-size: 1rem;
+          margin-top: 25px;
+          width: 100%;
+        }
+
+      }
+
+
+      div.message, ul.recent-rooms:empty::before {
+        content: 'Start by joining a room using the + button';
+        font-weight: $font-bold;
+        font-size: 1.2rem;
+        line-height: 1.3em;
+        color: $secondary;
+        text-align: center;
+        display: block;
+        margin-top: 15px;
+        width: 100%;
+      }
+
+      .transfer-percentage {
+        margin: 10px 0;
+        color: $primary;
+        font-size: 1.5rem;
+        font-weight: $font-bold;
+      }
+
+      .transfer-tech {
+        margin: 0 0 20px;
+        color: $secondary;
+        font-weight: $font-bold;
+        font-size: 1rem;
+      }
+
+    }
+
+    &.modal-wrapper {
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      // transition: all 0.2s ease;
+      
+      .modal {
+        background-color: $bg;
+        width: 90vw;
+        max-width: 400px;
+        padding: 20px;
+        border-radius: 4px;
+        box-shadow: 0 8px 60px rgba(0, 0, 0, 0.4);
+      }
+
+      .icon-cancel {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        font-size: 1.3rem;
+      }
+
+      &::before {
+        content: '';
+        background-color: rgba($secondary, 0.15);
+        background-image: $noise;
+        background-size: 32%;
+        z-index: -1;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+      }
+    }
+
+    .socket-error {
+      text-align: center;
+
+      h2 {
+        font-weight: $font-bold;
+        margin-top: 0;
+        margin-bottom: 15px;
+      }
+
+      p {
+        font-weight: $font-bold;
+        color: $secondary;
+        margin: 0 0 30px;
+      }
+    }
+
+    &.card {
+      width: 95%;
+      border-radius: 5px;
+      border: $border;
+      background-color: #0B101C;
+      box-shadow: $shadow;
+
+      .header {
+        border-bottom: $border;
+        padding: 10px 15px;
+        
+        display: flex;
+        align-items: center;
+
+        h2 {
+          margin: 0;
+          font-weight: $font-bold;
+        }
+      }
+
+
+
+      &.files {
+        margin: 0 auto;
+
+        ul.files {
+          margin: 5px 0;
+          padding: 0;
+
+          li {
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+
+
+            div.info {
+              text-align: left;
+              width: 85%;
+
+              h4 {
+                margin: 0;
+                font-weight: $font-normal;
+                font-size: 1.1rem;
+                text-overflow: ellipsis;
+                overflow-x: hidden;
+                white-space: nowrap;
+                width: 100%;
+              }
+
+              h5 {
+                margin: 5px 0 0;
+                color: $secondary;
+                font-weight: $font-normal;
+                font-size: 0.95rem;
+              }
+            }
+
+            svg.file-status {
+              transform: rotateZ(-90deg) scaleY(-1);
+              margin-left: auto;
+
+              circle {
+                stroke: $primary;
+                stroke-width: 2px;
+                stroke-dasharray: 63;
+                fill: #0B101C;
+              }
+            }
+
+            div.file-status {
+              width: 22px;
+              height: 22px;
+              border-radius: 100%;
+              margin: 15px;
+              background-color: $primary;
+              color: #0B101C;
+              line-height: 1.6em;
+              font-size: 0.9rem;
+              margin-left: auto;
+            }
+
+          }
+
+        }
+      }
+    }
+
+  }
+
+}
+
+
+header {
+  display: flex;
+  margin: 0 0 25px;
+
+  h1 {
+    flex: 1;
+  }
+
+  button {
+    height: auto;
+
+    &.left {
+      margin-right: auto;
+      text-align: left;
+    }
+
+    &.right {
+      margin-left: auto;
+      text-align: right;
+    }
+
+  }
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+
+  .column {
+    width: 100%;
+  }
+}
+
+.center-center {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+form.new-user, form.join-room {
+  
+  input {
+    margin-bottom: 40px;
+  }
+
+}
