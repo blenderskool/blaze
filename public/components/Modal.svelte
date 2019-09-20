@@ -1,5 +1,4 @@
 <script>
-  import { onMount } from 'svelte';
   import { fade } from 'svelte/transition';
 
   export let isOpen = true;
@@ -14,25 +13,20 @@
       document.body.classList.toggle('no-bg-image', isOpen);
   }
 
-  onMount(() => {
-
-    /**
-     * Closes the modal when ESC key is pressed
-     */
-    function keyHandler(e) {
-      if (e.keyCode === 27 || e.which === 27) {
-        isOpen = false;
-      }
+  /**
+   * Closes the modal when ESC key is pressed
+   */
+  function keyHandler(e) {
+    if (e.keyCode === 27 || e.which === 27) {
+      isOpen = false;
     }
-
-    window.addEventListener('keydown', keyHandler);
-    return () => window.removeEventListener('keydown', keyHandler);
-  });
+  }
 
   $: blurApp(isOpen);
 
 </script>
 
+<svelte:window on:keydown={keyHandler} />
 {#if isOpen}
   <div class="modal-wrapper" transition:fade="{{ duration: 200 }}">
 
