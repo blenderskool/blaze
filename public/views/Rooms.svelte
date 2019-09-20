@@ -10,7 +10,7 @@
     roomName: '',
     isOpen: false
   };
-  let onLine = true;
+  let onLine = navigator.onLine;
 
   function removeRoom(room) {
     rooms = rooms.filter(roomName => roomName !== room);
@@ -32,6 +32,13 @@
     navigate(`/app/t/${room}`);
   }
 
+  /**
+   * Update the state when user goes online or offline
+   */
+  function networkStatus() {
+    onLine = navigator.onLine;
+  }
+
   onMount(() => {
     /**
      * Show the new room modal when there are no recent rooms
@@ -39,21 +46,11 @@
     if (!rooms.length)
       newRoomModal.isOpen = true;
 
-    onLine = navigator.onLine;
-
-    /**
-     * Update the state when user goes online or offline
-     */
-    const networkStatus = () => onLine = navigator.onLine;
-
-    ['online', 'offline'].forEach(item => window.addEventListener(item, networkStatus));
-
-    return () => ['online', 'offline'].forEach(item => window.removeEventListener(item, networkStatus));
   });
 
 </script>
 
-
+<svelte:window on:online={networkStatus} on:offline={networkStatus} />
 <div id="app">
 
   <header>
