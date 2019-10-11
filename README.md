@@ -33,14 +33,44 @@ This folder contains the code for the frontend (written in [Svelte](https://svel
 - `/app` route is a PWA, single page app.
 
 
-## Development
+## Contributing
+Thanks for contributing to Blaze! Make sure to **Fork** this repository into your account before making any commits. Then use the following commands to setup the project
 ```bash
-git clone https://github.com/blenderskool/blaze
+git clone https://github.com/<your-github-username>/blaze
+git remote add upstream https://github.com/blenderskool/blaze.git
 cd blaze
 npm install
+```
+
+All development happens on the `next` branch. The `master` branch contains the known stable version of Blaze. To make your contributions, create a new branch from `next`.
+```bash
+git checkout -b my-branch next
+```
+
+Start the live development server. The server would run at port `3030` and the app can be accessed on `localhost:3030/app`
+```bash
 npm run dev
 ```
-The server by default would run on port `3030` and the app can be accessed on `localhost:3030/app`
+
+Now you can make your changes, and commit them. Make sure you have a clear and summarized message for your commits
+```bash
+git add .
+git commit -m "My fixes"
+```
+
+Sync your forked repository with the changes in this(upstream) repository
+```bash
+git fetch upstream
+git rebase upstream/next
+```
+
+Push the changes to your fork.
+```bash
+git push origin my-branch
+```
+
+This is a good time, to open a pull request in this repository with the changes you have made. Make sure you open a pull request to merge to `next` branch and not the `master` branch directly.
+
 
 ## Building for production
 ```bash
