@@ -103,6 +103,7 @@
       maxlength="10"
       required
       placeholder="Room name"
+      pattern="[A-Za-z0-9]+"
       bind:value={newRoomModal.roomName}
       style="margin-top: 0"
     >
