@@ -46,7 +46,7 @@ body {
         ul.files {
           margin: 0;
           max-height: calc(100% - 50px);
-          overflow-y: scroll;
+          overflow-y: auto;
         }
       }
     }
