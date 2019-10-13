@@ -40,14 +40,10 @@ body {
     &.card {
       width: 100%;
 
-      &.files {
-        height: 60vh;
-
-        ul.files {
-          margin: 0;
-          max-height: calc(100% - 50px);
-          overflow-y: auto;
-        }
+      ul.files {
+        margin: 0;
+        max-height: calc(60vh - 50px);
+        overflow-y: auto;
       }
     }
 
