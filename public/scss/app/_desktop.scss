@@ -39,6 +39,14 @@ body {
 
     &.card {
       width: 100%;
+
+      &.files {
+        ul.files {
+          margin: 0;
+          max-height: calc(60vh - 50px);
+          overflow-y: auto;
+        }
+      }
     }
 
   }
