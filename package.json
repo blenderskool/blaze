@@ -19,6 +19,7 @@
     "node-sass": "^4.13.0",
     "socket.io": "^2.2.0",
     "socket.io-p2p-server": "^1.2.0",
+    "svelte-dropzone": "^1.0.5",
     "svelte-routing": "^1.2.1"
   },
   "engines": {

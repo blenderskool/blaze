@@ -42,8 +42,7 @@
   }
 
   function selectFiles(e) {
-    const inputFiles = e.target.files;
-
+    const inputFiles = e;
     /**
      * Web worker is setup to compress the files off the main thread
      * Send the files to the worker to compress them as a zip
@@ -368,6 +367,32 @@
 
   $: watchUsersCount(usersCount, percentage);
 
+  function dropHandler(ev) 
+  {
+    ev.preventDefault();
+    var files = ev.dataTransfer.files;
+    if (files != null)
+    {
+      document.getElementById('drop_zone').style.border = 'dotted';
+      selectFiles(files);
+    }
+  }
+  function dragOverHandler(ev) 
+  {
+    ev.preventDefault();
+    document.getElementById('drop_zone').style.border = 'solid';
+  }
+  function dragLeaveHandler(ev) 
+  {
+    ev.preventDefault();
+    document.getElementById('drop_zone').style.border = 'dotted';
+  }
+  function changeHandler(ev)
+  {
+    var files = ev.target.files;
+    selectFiles(files);
+  }
+
 </script>
 
 <div id="app" style="text-align:center">
@@ -414,7 +439,7 @@
       id="inpFiles"
       type="file"
       hidden
-      on:change={selectFiles}
+      on:change={changeHandler}
       multiple
     >
 
@@ -453,12 +478,25 @@
   </main>
 
   <Fab
+    name="fab"
+    id="addButton"
     icon="icon-add"
     disabled={!isSelectorEnabled}
     text="Add File"
     on:click={() => document.getElementById('inpFiles').click()}
   >
   </Fab>
+
+  <button
+    id="drop_zone"
+    class="dropzone"
+    disabled={!isSelectorEnabled}
+    on:drop={dropHandler}
+    on:dragover={dragOverHandler}
+    on:dragleave={dragLeaveHandler}
+    on:click={() => document.getElementById('inpFiles').click()}
+    >Drop files or click
+  </button>
 
 </div>
 
