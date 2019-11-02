@@ -18,6 +18,7 @@
     "express": "^4.16.4",
     "socket.io": "^2.2.0",
     "socket.io-p2p-server": "^1.2.0",
+    "svelte-dropzone": "^1.0.5",
     "svelte-routing": "^1.2.1"
   },
   "engines": {
