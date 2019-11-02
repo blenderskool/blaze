@@ -34,6 +34,31 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: $font-bold;
 }
 
+.dropzone{
+  color: $primary;
+  background: none;
+  border: dotted $primary;
+  width:  280px;
+  height: 130px;
+  border-radius: 10px;
+  display: inline-block;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  bottom: 15px;
+  right: 30px;
+  display: none;
+
+  &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      pointer-events: none;
+      box-shadow: none;
+    }
+}
+#addButton{
+  display: flex;
+}
 button, .btn {
   color: $bg;
   background-color: $primary;
@@ -163,10 +188,18 @@ input {
 }
 
 
+
+
 @media screen and (min-width: 800px) {
 
   body {
     background-size: 13%;
+  }
+  .dropzone{
+    display: block;
+  }
+  #addButton{
+    display: none;
   }
 
   button {
@@ -183,6 +216,9 @@ input {
         font-size: 1.2rem;
         margin-right: 5px;
       }
+
+
+     
 
     }
   }

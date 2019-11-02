@@ -2,12 +2,13 @@
 	import { createEventDispatcher } from 'svelte';
 
 	const dispatch = createEventDispatcher();
-  export let text, icon, disabled = false;
+  export let text, id, icon, disabled = false;
 </script>
 
 
 <button
   class="fab"
+  id={id}
   aria-label={text}
   on:click={e => dispatch('click', e)}
   disabled={disabled}
