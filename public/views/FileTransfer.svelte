@@ -369,7 +369,6 @@
 
   function dropHandler(ev) 
   {
-    ev.preventDefault();
     var files = ev.dataTransfer.files;
     if (files != null)
     {
@@ -377,20 +376,18 @@
       selectFiles(files);
     }
   }
+
   function dragOverHandler(ev) 
   {
-    ev.preventDefault();
     document.getElementById('drop_zone').style.border = 'solid';
   }
   function dragLeaveHandler(ev) 
   {
-    ev.preventDefault();
     document.getElementById('drop_zone').style.border = 'dotted';
   }
   function changeHandler(ev)
   {
-    var files = ev.target.files;
-    selectFiles(files);
+    selectFiles(ev.target.files);
   }
 
 </script>
@@ -487,16 +484,16 @@
   >
   </Fab>
 
-  <button
+  <div
     id="drop_zone"
     class="dropzone"
     disabled={!isSelectorEnabled}
-    on:drop={dropHandler}
-    on:dragover={dragOverHandler}
-    on:dragleave={dragLeaveHandler}
-    on:click={() => document.getElementById('inpFiles').click()}
-    >Drop files or click
-  </button>
+    on:drop|preventDefault={dropHandler}
+    on:dragover|preventDefault={dragOverHandler}
+    on:dragleave|preventDefault={dragLeaveHandler}
+    >
+  </div>
+  <p class="dropzone_info">Drag files here or click on add file</p>
 
 </div>
 
