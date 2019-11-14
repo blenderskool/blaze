@@ -37,7 +37,7 @@ h1, h2, h3, h4, h5, h6 {
 .dropzone{
   background: none;
   color: $primary;
-  border: dotted $primary;
+  border: none;
   width:  100%;
   height: 100%;
   border-radius: 10px;
@@ -46,20 +46,7 @@ h1, h2, h3, h4, h5, h6 {
   left: 0px;
   z-index: 0;
   display: none;
-  &:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-      pointer-events: none;
-      box-shadow: none;
-    }
 }
-
-.dropzone_info{
-    display: none;
-    color: $secondary;
-    width: 100%;
-    text-align: center;
-  }
 
 button, .btn {
   color: $bg;
@@ -198,9 +185,6 @@ input {
     background-size: 13%;
   }
   .dropzone{
-    display: block;
-  }
-  .dropzone_info{
     display: block;
   }
 
