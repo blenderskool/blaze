@@ -370,9 +370,9 @@
   function dropHandler(ev) 
   {
     var files = ev.dataTransfer.files;
-    if (files != null)
+    document.getElementById('drop_zone').style.border = 'none';
+    if (files != null && isSelectorEnabled)
     {
-      document.getElementById('drop_zone').style.border = 'dotted';
       selectFiles(files);
     }
   }
@@ -383,11 +383,7 @@
   }
   function dragLeaveHandler(ev) 
   {
-    document.getElementById('drop_zone').style.border = 'dotted';
-  }
-  function changeHandler(ev)
-  {
-    selectFiles(ev.target.files);
+    document.getElementById('drop_zone').style.border = 'none';
   }
 
 </script>
@@ -436,7 +432,7 @@
       id="inpFiles"
       type="file"
       hidden
-      on:change={changeHandler}
+      on:change={ev => selectFiles(ev.target.files)}
       multiple
     >
 
@@ -476,7 +472,6 @@
 
   <Fab
     name="fab"
-    id="addButton"
     icon="icon-add"
     disabled={!isSelectorEnabled}
     text="Add File"
@@ -487,14 +482,11 @@
   <div
     id="drop_zone"
     class="dropzone"
-    disabled={!isSelectorEnabled}
     on:drop|preventDefault={dropHandler}
-    on:dragover|preventDefault={dragOverHandler}
+    on:dragover|preventDefault={ev => {document.getElementById('drop_zone').style.border = "solid";} }
     on:dragleave|preventDefault={dragLeaveHandler}
     >
   </div>
-  <p class="dropzone_info">Drag files here or click on add file</p>
-
 </div>
 
 <!-- Socket connection error modal cannot be closed by the user -->
