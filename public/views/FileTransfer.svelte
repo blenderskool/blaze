@@ -377,15 +377,6 @@
     }
   }
 
-  function dragOverHandler(ev) 
-  {
-    document.getElementById('drop_zone').style.border = 'solid';
-  }
-  function dragLeaveHandler(ev) 
-  {
-    document.getElementById('drop_zone').style.border = 'none';
-  }
-
 </script>
 
 <div id="app" style="text-align:center">
@@ -483,8 +474,8 @@
     id="drop_zone"
     class="dropzone"
     on:drop|preventDefault={dropHandler}
-    on:dragover|preventDefault={ev => {document.getElementById('drop_zone').style.border = "solid";} }
-    on:dragleave|preventDefault={dragLeaveHandler}
+    on:dragover|preventDefault={e => {e.target.style.border = 'solid';}}
+    on:dragleave|preventDefault={e => {e.target.style.border = 'none';}}
     >
   </div>
 </div>
