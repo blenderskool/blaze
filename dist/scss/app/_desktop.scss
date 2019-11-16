@@ -1,0 +1,64 @@
+body {
+
+  div {
+
+
+    &#app {
+
+
+
+      ul.recent-rooms {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0 -15px;
+
+        li {
+          flex-direction: column;
+          min-width: 12.5%;
+          margin: 15px;
+          padding: 13px 15px;
+          
+          div {
+            order: 2;
+            margin-top: 2rem;
+          }
+
+          .icon-cancel {
+            margin: 0 -15px 0 auto;
+            order: 1;
+          }
+        }
+        
+      }
+
+    }
+
+    &.modal-wrapper:before {
+      background-size: 13%;
+    }
+
+    &.card {
+      width: 100%;
+
+      &.files {
+        ul.files {
+          margin: 0;
+          max-height: calc(60vh - 50px);
+          overflow-y: auto;
+        }
+      }
+    }
+
+  }
+
+}
+
+.row {
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+
+.file-transfer {
+  height: 60vh;
+  align-items: center;
+}
