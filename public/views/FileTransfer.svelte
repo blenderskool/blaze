@@ -42,8 +42,7 @@
   }
 
   function selectFiles(e) {
-    const inputFiles = e.target.files;
-
+    const inputFiles = e;
     /**
      * Web worker is setup to compress the files off the main thread
      * Send the files to the worker to compress them as a zip
@@ -368,6 +367,16 @@
 
   $: watchUsersCount(usersCount, percentage);
 
+  function dropHandler(ev) 
+  {
+    var files = ev.dataTransfer.files;
+    document.getElementById('drop_zone').style.border = 'none';
+    if (files != null && isSelectorEnabled)
+    {
+      selectFiles(files);
+    }
+  }
+
 </script>
 
 <div id="app" style="text-align:center">
@@ -414,7 +423,7 @@
       id="inpFiles"
       type="file"
       hidden
-      on:change={selectFiles}
+      on:change={ev => selectFiles(ev.target.files)}
       multiple
     >
 
@@ -453,6 +462,7 @@
   </main>
 
   <Fab
+    name="fab"
     icon="icon-add"
     disabled={!isSelectorEnabled}
     text="Add File"
@@ -460,6 +470,14 @@
   >
   </Fab>
 
+  <div
+    id="drop_zone"
+    class="dropzone"
+    on:drop|preventDefault={dropHandler}
+    on:dragover|preventDefault={e => {e.target.style.border = 'solid';}}
+    on:dragleave|preventDefault={e => {e.target.style.border = 'none';}}
+    >
+  </div>
 </div>
 
 <!-- Socket connection error modal cannot be closed by the user -->

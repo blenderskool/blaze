@@ -34,6 +34,20 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: $font-bold;
 }
 
+.dropzone{
+  background: none;
+  color: $primary;
+  border: none;
+  width:  100%;
+  height: 100%;
+  border-radius: 10px;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  z-index: 0;
+  display: none;
+}
+
 button, .btn {
   color: $bg;
   background-color: $primary;
@@ -44,6 +58,7 @@ button, .btn {
   font-weight: $font-bold;
   font-size: 1.4rem;
   display: inline-block;
+  z-index: 1;
 
   height: 50px;
   line-height: 50px;
@@ -100,7 +115,6 @@ button, .btn {
     align-items: center;
     justify-content: center;
     font-size: 2.3rem;
-
     &:disabled {
       background-color: $secondary;
       opacity: 0.5;
@@ -163,10 +177,15 @@ input {
 }
 
 
+
+
 @media screen and (min-width: 800px) {
 
   body {
     background-size: 13%;
+  }
+  .dropzone{
+    display: block;
   }
 
   button {
@@ -183,6 +202,9 @@ input {
         font-size: 1.2rem;
         margin-right: 5px;
       }
+
+
+     
 
     }
   }
