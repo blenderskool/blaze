@@ -13,7 +13,7 @@
       "sizes": "512x512"
     }
   ],
-  "start_url": "/app",
+  "start_url": "/app/",
   "background_color": "#0D1322",
   "theme_color": "#0D1322",
   "display": "standalone"
