@@ -1,6 +1,6 @@
 {
   "name": "blaze",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "Quickly share files with multiple users",
   "main": "index.js",
   "private": true,
