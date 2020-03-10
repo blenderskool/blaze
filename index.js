@@ -33,10 +33,16 @@ app.use(express.static('dist'));
 app.use('/app(/*)?', (req, res) => {
   res.sendFile(__dirname + '/dist/app.html');
 });
+app.use('/sw.js', (req, res) => {
+  res.sendFile(__dirname + '/dist/sw.js', {
+    headers: {
+      'Service-Worker-Allow': '/app'
+    }
+  });
+});
 
 
 const clients = {};
-
 
 
 /**
