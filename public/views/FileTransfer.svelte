@@ -7,6 +7,7 @@
   import socketConnect from '../utils/socketConnect';
   import Fab from '../components/Fab.svelte';
   import Modal from '../components/Modal.svelte';
+  import FileDrop from '../components/FileDrop.svelte';
 
   const data = JSON.parse(localStorage.getItem('blaze'));
   let errorModal = {
@@ -353,16 +354,6 @@
 
   $: watchUsersCount(usersCount, percentage);
 
-  function dropHandler(ev) 
-  {
-    var files = ev.dataTransfer.files;
-    document.getElementById('drop_zone').style.border = 'none';
-    if (files != null && isSelectorEnabled)
-    {
-      selectFiles(files);
-    }
-  }
-
 </script>
 
 <div id="app" style="text-align:center">
@@ -453,17 +444,14 @@
     disabled={!isSelectorEnabled}
     text="Add File"
     on:click={() => document.getElementById('inpFiles').click()}
-  >
-  </Fab>
+  />
 
-  <div
-    id="drop_zone"
-    class="dropzone"
-    on:drop|preventDefault={dropHandler}
-    on:dragover|preventDefault={e => {e.target.style.border = 'solid';}}
-    on:dragleave|preventDefault={e => {e.target.style.border = 'none';}}
-    >
-  </div>
+  {#if isSelectorEnabled}
+    <FileDrop
+      on:files={files => selectFiles(files)}
+    />
+  {/if}
+
 </div>
 
 <!-- Socket connection error modal cannot be closed by the user -->
