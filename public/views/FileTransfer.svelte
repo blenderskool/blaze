@@ -8,6 +8,7 @@
   import Fab from '../components/Fab.svelte';
   import Modal from '../components/Modal.svelte';
   import FileDrop from '../components/FileDrop.svelte';
+  import useToast from '../components/Toast/';
 
   const data = JSON.parse(localStorage.getItem('blaze'));
   let errorModal = {
@@ -40,6 +41,17 @@
 
   function selectFiles(e) {
     const inputFiles = e;
+
+    /**
+     * Firefox for mobile has issue with selection of multiple files.
+     * Only one file gets selected and that has '0' size. This is
+     * checked here before proceeding to transfer the invalid file.
+     */
+    if (inputFiles[0].size === 0) {
+      useToast('Multiple files not supported');
+      return;
+    }
+
     /**
      * Web worker is setup to compress the files off the main thread
      * Send the files to the worker to compress them as a zip
