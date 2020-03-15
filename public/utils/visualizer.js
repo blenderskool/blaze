@@ -281,4 +281,4 @@ class Visualizer {
 
 }
 
-export { Visualizer };
+export default Visualizer;

@@ -1,8 +1,10 @@
 <script>
   import { onMount } from 'svelte';
-  import { Visualizer } from '../modules/visualizer';
   import download from 'downloadjs';
   import { navigate } from 'svelte-routing';
+  import Visualizer from '../utils/visualizer';
+  import formatSize from '../utils/formatSize';
+  import socketConnect from '../utils/socketConnect';
   import Fab from '../components/Fab.svelte';
   import Modal from '../components/Modal.svelte';
 
@@ -33,12 +35,6 @@
         ...data.rooms
       ]
     }));
-  }
-
-  function socketConnect(room, username) {
-    return io('//'+window.location.host, {
-      query: `room=${room}&user=${username}`,
-    });
   }
 
   function selectFiles(e) {
@@ -84,13 +80,6 @@
     worker.addEventListener('error', err => {
       console.log('Error in compressing the files', err);
     });
-  }
-
-  /**
-   * Returns an easy to read formatted size from input file size
-   */
-  function formatSize(size) {
-    return size / (1024 * 1024) < 1 ? Math.round((size / 1024) * 10) / 10 + 'KB' : Math.round((size / (1024 * 1024) * 10)) / 10 + 'MB';
   }
 
 
@@ -279,16 +268,13 @@
       };
     });
 
-    /**
-     * Visualizer is half the width of the browser window if on desktops
-     */
-    if (window.matchMedia('(min-width: 800px)').matches)
+    if (window.matchMedia('(min-width: 800px)').matches) {
+      // Visualizer is half the width of the browser window if on desktops
       visualizer = new Visualizer(Math.floor(window.innerWidth / 2), Math.floor(window.innerHeight / 2), canvas);
-    /**
-     * On mobiles, occupy full width of the screen
-     */
-    else
+    } else {
+      // On mobiles, occupy full width of the screen
       visualizer = new Visualizer(window.innerWidth, Math.floor(window.innerHeight / 2), canvas);
+    }
 
     visualizer.addNode(client.name, true);
 
