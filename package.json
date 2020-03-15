@@ -39,7 +39,7 @@
     "rollup-plugin-commonjs": "^10.0.1",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-svelte": "^5.1.0",
-    "svelte": "^3.6.10",
+    "svelte": "^3.18.1",
     "workbox-build": "^4.3.1"
   }
 }
