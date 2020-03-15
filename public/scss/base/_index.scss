@@ -176,7 +176,18 @@ input {
   vertical-align: middle;
 }
 
-
+.toast {
+  position: fixed;
+  border-radius: 4px;
+  padding: 0.35rem 0.85rem;
+  background-color: rgba($secondary, 0.85);
+  box-shadow: $shadow;
+  bottom: 47px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  user-select: none;
+}
 
 
 @media screen and (min-width: 800px) {
