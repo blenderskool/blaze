@@ -1,0 +1,7 @@
+{
+  "name": "Blaze",
+  "description": "A file sharing web app using WebSockets and WebRTC",
+  "repository": "https://github.com/blenderskool/blaze",
+  "logo": "https://github.com/blenderskool/blaze/raw/master/static/images/apple-touch-icon-152x152.png",
+  "keywords": ["productivity", "node", "websockets", "webrtc", "socketio", "svelte", "express", "file-sharing"]
+}
