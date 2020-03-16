@@ -1,0 +1,6 @@
+version: '3'
+services:
+  blaze:
+    image: "akashhamirwasia/blaze"
+    ports:
+      - "8000:3030"

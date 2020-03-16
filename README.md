@@ -27,6 +27,9 @@ Read more about how Blaze works at a basic level in this [Medium article](https:
   <a href="https://heroku.com/deploy?template=https://github.com/blenderskool/blaze/tree/master">
     <img src="https://www.herokucdn.com/deploy/button.svg" alt="Deploy">
   </a>
+  <a href="http://play-with-docker.com?stack=https://raw.githubusercontent.com/blenderskool/blaze/master/docker-compose.yml">
+    <img src="https://cdn.rawgit.com/play-with-docker/stacks/cff22438/assets/images/button.png" alt="Try in PWD">
+  </a>
 </p>
 
 ## Project structure
