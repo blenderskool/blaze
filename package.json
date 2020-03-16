@@ -1,6 +1,6 @@
 {
   "name": "blaze",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.3",
   "description": "Quickly share files with multiple users",
   "main": "index.js",
   "private": true,
@@ -21,7 +21,7 @@
     "svelte-routing": "^1.2.1"
   },
   "engines": {
-    "node": "8.x"
+    "node": "10.x"
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",
@@ -30,6 +30,7 @@
     "babel-preset-minify": "^0.5.0",
     "concurrently": "^4.1.1",
     "gulp": "^4.0.2",
+    "gulp-autoprefixer": "^7.0.1",
     "gulp-babel": "^8.0.0",
     "gulp-better-rollup": "^4.0.1",
     "gulp-htmlmin": "^5.0.1",
@@ -39,7 +40,7 @@
     "rollup-plugin-commonjs": "^10.0.1",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-svelte": "^5.1.0",
-    "svelte": "^3.6.10",
+    "svelte": "^3.18.1",
     "workbox-build": "^4.3.1"
   }
 }

@@ -7,14 +7,15 @@ const rollup = require('gulp-better-rollup');
 const svelte = require('rollup-plugin-svelte');
 const resolve = require('rollup-plugin-node-resolve');
 const commonjs = require('rollup-plugin-commonjs');
-
+const autoprefixer = require('gulp-autoprefixer');
 
 /**
  * Builds the Stylesheets
  */
 gulp.task('styles', function() {
   return gulp.src('public/scss/**/*.scss')
-    .pipe(sass({ outputStyle: 'compressed' }).on('error', sass.logError))
+    .pipe(sass({ outputStyle: 'compressed',  }).on('error', sass.logError))
+    .pipe(autoprefixer({ cascade: false }))
     .pipe(gulp.dest('dist/css'));
 });
 

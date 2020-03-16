@@ -1,10 +1,14 @@
 <script>
   import { onMount } from 'svelte';
-  import { Visualizer } from '../modules/visualizer';
   import download from 'downloadjs';
   import { navigate } from 'svelte-routing';
+  import Visualizer from '../utils/visualizer';
+  import formatSize from '../utils/formatSize';
+  import socketConnect from '../utils/socketConnect';
   import Fab from '../components/Fab.svelte';
   import Modal from '../components/Modal.svelte';
+  import FileDrop from '../components/FileDrop.svelte';
+  import useToast from '../components/Toast/';
 
   const data = JSON.parse(localStorage.getItem('blaze'));
   let errorModal = {
@@ -35,14 +39,18 @@
     }));
   }
 
-  function socketConnect(room, username) {
-    return io('//'+window.location.host, {
-      query: `room=${room}&user=${username}`,
-    });
-  }
-
   function selectFiles(e) {
-    const inputFiles = e.target.files;
+    const inputFiles = e;
+
+    /**
+     * Firefox for mobile has issue with selection of multiple files.
+     * Only one file gets selected and that has '0' size. This is
+     * checked here before proceeding to transfer the invalid file.
+     */
+    if (inputFiles[0].size === 0) {
+      useToast('Multiple files not supported');
+      return;
+    }
 
     /**
      * Web worker is setup to compress the files off the main thread
@@ -85,13 +93,6 @@
     worker.addEventListener('error', err => {
       console.log('Error in compressing the files', err);
     });
-  }
-
-  /**
-   * Returns an easy to read formatted size from input file size
-   */
-  function formatSize(size) {
-    return size / (1024 * 1024) < 1 ? Math.round((size / 1024) * 10) / 10 + 'KB' : Math.round((size / (1024 * 1024) * 10)) / 10 + 'MB';
   }
 
 
@@ -280,16 +281,13 @@
       };
     });
 
-    /**
-     * Visualizer is half the width of the browser window if on desktops
-     */
-    if (window.matchMedia('(min-width: 800px)').matches)
+    if (window.matchMedia('(min-width: 800px)').matches) {
+      // Visualizer is half the width of the browser window if on desktops
       visualizer = new Visualizer(Math.floor(window.innerWidth / 2), Math.floor(window.innerHeight / 2), canvas);
-    /**
-     * On mobiles, occupy full width of the screen
-     */
-    else
+    } else {
+      // On mobiles, occupy full width of the screen
       visualizer = new Visualizer(window.innerWidth, Math.floor(window.innerHeight / 2), canvas);
+    }
 
     visualizer.addNode(client.name, true);
 
@@ -414,7 +412,7 @@
       id="inpFiles"
       type="file"
       hidden
-      on:change={selectFiles}
+      on:change={ev => selectFiles(ev.target.files)}
       multiple
     >
 
@@ -453,12 +451,18 @@
   </main>
 
   <Fab
+    name="fab"
     icon="icon-add"
     disabled={!isSelectorEnabled}
     text="Add File"
     on:click={() => document.getElementById('inpFiles').click()}
-  >
-  </Fab>
+  />
+
+  {#if isSelectorEnabled}
+    <FileDrop
+      on:files={files => selectFiles(files)}
+    />
+  {/if}
 
 </div>
 
