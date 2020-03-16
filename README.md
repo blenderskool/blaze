@@ -32,6 +32,21 @@ Read more about how Blaze works at a basic level in this [Medium article](https:
   </a>
 </p>
 
+
+## Table of Contents
+- [Project structure](#project-structure)
+  - [Backend](#backend)
+  - [Frontend](#frontend)
+    - [`static` folder](#static-folder)
+    - [`public` folder](#public-folder)
+  - [Build process](#build-process)
+- [Contributing](#contributing)
+- [Running Blaze in production](#running-blaze-in-production)
+  - [Building the frontend](#building-the-frontend)
+  - [Starting the server](#starting-the-server)
+- [License](#license)
+
+
 ## Project structure
 The project is divided into the backend and the frontend.
 
