@@ -13,7 +13,6 @@
   </a>
 </p>
 
-
 # Blaze - A file sharing web app
 Blaze is a file sharing progressive web app(PWA) that allows users to transfer files between multiple devices.
 It works similar to SHAREit or the Files app by Google but uses web technologies to eliminate the process of installing
@@ -24,6 +23,11 @@ It currently uses `socket.io` to make real-time connections on `express` backend
 The current method of sharing files involves compressing the files to `zip` format and sharing this zip file as chunks of ArrayBuffer. This may change to increase the efficiency of the file transfer.  
 Read more about how Blaze works at a basic level in this [Medium article](https://medium.com/@AkashHamirwasia/new-ways-of-sharing-files-across-devices-over-the-web-using-webrtc-2554abaeb2e6).
 
+<p>
+  <a href="https://heroku.com/deploy?template=https://github.com/blenderskool/blaze/tree/master">
+    <img src="https://www.herokucdn.com/deploy/button.svg" alt="Deploy">
+  </a>
+</p>
 
 ## Project structure
 The project is divided into the backend and the frontend.
