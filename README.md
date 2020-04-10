@@ -127,4 +127,4 @@ npm start
 Blaze should be running on port `3030` :tada:.
 
 ## License
-Blaze is [MIT Licensed](https://github.com/blenderskool/blaze/blob/master/LICENSE.md)
+Blaze is [MIT Licensed](https://github.com/blenderskool/blaze/blob/master/LICENSE)
