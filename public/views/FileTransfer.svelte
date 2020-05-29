@@ -335,7 +335,7 @@
      * Component being unmounted
      */
     return () => {
-      socket.disconnect();
+      socket.close();
     };
 
   });

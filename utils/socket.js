@@ -48,6 +48,10 @@ class Socket {
     }
   }
 
+  close(code, reason) {
+    this.socket.close(code, reason);
+  }
+
   get id() {
     return this.socket.id;
   }

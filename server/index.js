@@ -66,7 +66,7 @@ wss.on('connection', (ws) => {
       const user = room.getSocketFromName(socket.name);
 
       if (user) {
-        ws.close(1, "User with same name exists");
+        socket.close(1000, 'User with same name exists');
         return;
       }
     }
