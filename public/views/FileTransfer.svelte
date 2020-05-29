@@ -9,6 +9,7 @@
   import Modal from '../components/Modal.svelte';
   import FileDrop from '../components/FileDrop.svelte';
   import useToast from '../components/Toast/';
+  import constants from '../../constants';
 
   const data = JSON.parse(localStorage.getItem('blaze'));
   let errorModal = {
@@ -113,7 +114,7 @@
     /**
      * Initially meta data is shared
      */
-    socket.emit('file', {
+    socket.send(constants.FILE_INIT, {
       user: client.name,
       size,
       meta: files.filter(item => !item.sent)
@@ -131,11 +132,11 @@
            * Indicates that the stream has ended and file should now be built
            * on the receiver's system
            */
-          socket.emit('file', {
+          socket.send(constants.FILE_INIT, {
             end: true,
           });
           // Switch off the status event listener as transfer is complete
-          socket.off('rec-status');
+          socket.off(constants.FILE_STATUS);
 
           /**
            * 2 seconds timeout before the file transfer is resolved
@@ -156,7 +157,7 @@
         /**
          * Send a chunk of data
          */
-        socket.emit('file-data', data.slice(0, block));
+        socket.send(constants.CHUNK, data.slice(0, block));
 
         /**
          * Update for next iteration
@@ -179,7 +180,7 @@
       }
       stream();
 
-      socket.on('rec-status', data => {
+      socket.listen(constants.FILE_STATUS, data => {
         if (data.percent !== transferStatus.percent) {
           transferStatus.percent = data.percent;
           transferStatus.peers = [ data.peer ];
@@ -214,39 +215,20 @@
 
   onMount(() => {
 
-    socket = new P2P(socketConnect(client.room, client.name), {
-      peerOpts: {
-        config: {
-          iceServers: [
-            { urls: 'stun:stun.l.google.com:19302' },
-            { urls: 'stun:global.stun.twilio.com:3478?transport=udp' },
-            { urls: 'stun:stun.services.mozilla.com' },
-            {
-              urls: 'turn:numb.viagenie.ca',
-              username: 'akash.hamirwasia@gmail.com',
-              credential: '6NfWZz9kUCPmNbe'
-            }
-          ]
-        }
-      }
-    }, () => {
-      /**
-       * Connection upgrded to WebRTC
-       */
-      backend = 'Using WebRTC';
-    });
+    socket = socketConnect(client.room, client.name);
+    backend = 'Using WebRTC';
 
     /**
      * A user joins the room
      */
-    socket.on('userJoin', users => {
+    socket.listen(constants.USER_JOIN, users => {
       /**
        * Online users list is rendered
        */
       users.forEach(user => {
-        if (user === client.name) return;
+        if (user.name === client.name) return;
 
-        visualizer.addNode(user);
+        visualizer.addNode(user.name);
 
         /**
          * Fallback WebSockets tech is used by default. When connection switches to WebRTC,
@@ -264,7 +246,7 @@
     /**
      * A user leaves the room
      */
-    socket.on('userLeft', user => {
+    socket.listen(constants.USER_LEAVE, user => {
       // Remove the user from the visualizer
       visualizer.removeNode(user);
       // Update the userCount
@@ -299,7 +281,7 @@
       let fileParts = [];
       let metaData = {};
       let intPerc = 25, size = 0;
-      socket.on('file', data => {
+      socket.listen(constants.FILE_INIT, data => {
 
         if (data.end) {
 
@@ -328,7 +310,7 @@
         }
       });
 
-      socket.on('file-data', data => {
+      socket.listen(constants.CHUNK, data => {
         // document.getElementById('btn-addFiles').disabled = true;
 
         fileParts.push(data);
@@ -338,7 +320,7 @@
 
         if (percentage >= intPerc) {
           intPerc += 15;
-          socket.emit('rec-status', {
+          socket.send(constants.FILE_STATUS, {
             percent: intPerc,
             peer: client.name,
             sender: metaData.user
