@@ -5,8 +5,8 @@ const babel = require('gulp-babel');
 const workboxBuild = require('workbox-build');
 const rollup = require('gulp-better-rollup');
 const svelte = require('rollup-plugin-svelte');
-const resolve = require('rollup-plugin-node-resolve');
-const commonjs = require('rollup-plugin-commonjs');
+const resolve = require('@rollup/plugin-node-resolve').default;
+const commonjs = require('@rollup/plugin-commonjs');
 const autoprefixer = require('gulp-autoprefixer');
 
 /**
