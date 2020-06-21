@@ -8,7 +8,7 @@
     "dev": "concurrently \"npm:server\" \"WS_HOST=ws://localhost:3030 preact watch\"",
     "build": "WS_HOST=ws://localhost:3030 preact build",
     "start": "concurrently \"npm:server\" \"sirv build --cors --single --port 8080 \"",
-    "lint": "eslint src"
+    "lint": "eslint src utils server"
   },
   "author": "Akash Hamirwasia",
   "license": "MIT",
