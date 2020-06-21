@@ -149,7 +149,7 @@ class FileTransfer extends Component {
   }
 
   componentDidMount() {
-    this.visualizer = new Visualizer(Math.floor(window.innerWidth / 2), Math.floor(window.innerHeight / 2), this.canvas.current);
+    this.visualizer = new Visualizer(this.canvas.current);
     this.fileShare = new SocketConnect(this.client.room, this.client.name);
 
     this.visualizer.addNode({

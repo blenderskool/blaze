@@ -1,31 +1,11 @@
 class Visualizer {
 
-  constructor(width, height, canvas) {
-
-    const dpr = window.devicePixelRatio || 1;
-
+  constructor(canvas) {
     this.canvas = canvas;
-    this.width = width;
-    this.height = height;
-
-    /**
-     * Canvas resolution correction based on the device pixel-ratio.
-     * The canvas is first scaled to it's actual size based on the pixel ratio.
-     * Then the bounds of the canvas is reduced to display size using CSS.
-     * Then the contents of the canvas are upscaled by the device pixel-ratio.
-     * 
-     * In the end, we get a sharper canvas with same size elements
-     */
-    this.canvas.width = width * dpr;
-    this.canvas.height = height * dpr;
-
-    this.canvas.style.width = `${width}px`;
-    this.canvas.style.height = `${height}px`;
-
     this.ctx = this.canvas.getContext('2d');
-    this.ctx.scale(dpr, dpr);
 
-    this.ctx.translate(width * 0.5, height * 0.5);
+    this.updateCanvasSize();
+    window.addEventListener('resize', this.updateCanvasSize.bind(this));
 
     this.nodes = [];
     this.sentTo = [];
@@ -36,6 +16,37 @@ class Visualizer {
     };
 
     this.draw();
+  }
+
+  updateCanvasSize() {
+    const dpr = window.devicePixelRatio || 1;
+
+    this.height = Math.floor(window.innerHeight / 2);
+    this.canvas.style.height = `${this.height}px`;
+    
+    if (window.innerWidth <= 800) {
+      this.width = window.innerWidth - 32;
+    } else {
+      this.width = Math.floor(window.innerWidth / 2);
+    }
+    
+    this.canvas.style.width = `${this.width}px`;
+
+    /**
+     * Canvas resolution correction based on the device pixel-ratio.
+     * The canvas is first scaled to it's actual size based on the pixel ratio.
+     * Then the bounds of the canvas is reduced to display size using CSS.
+     * Then the contents of the canvas are upscaled by the device pixel-ratio.
+     * 
+     * In the end, we get a sharper canvas with same size elements
+     */
+    this.canvas.width = this.width * dpr;
+    this.canvas.height = this.height * dpr;
+
+
+    this.ctx.scale(dpr, dpr);
+
+    this.ctx.translate(this.width * 0.5, this.height * 0.5);
   }
 
   /**
