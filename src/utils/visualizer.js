@@ -19,8 +19,8 @@ class Visualizer {
     this.canvas.width = width * dpr;
     this.canvas.height = height * dpr;
 
-    this.canvas.style.width = width + 'px';
-    this.canvas.style.height = height + 'px';
+    this.canvas.style.width = `${width}px`;
+    this.canvas.style.height = `${height}px`;
 
     this.ctx = this.canvas.getContext('2d');
     this.ctx.scale(dpr, dpr);
@@ -78,11 +78,11 @@ class Visualizer {
 
     const nodeData = {
       name,
+      peerId,
       radius: 30,
       cx: pos ? pos[0] : undefined,
       cy: pos ? pos[1] : undefined,
       textColor: isClient ? '#C5C7CC' : '#636979',
-      peerId: peerId,
     };
 
     const nodeDuplID = this.nodes.findIndex(node => node.name === name);
@@ -286,11 +286,6 @@ class Visualizer {
   setTransferPercentage(percentage) {
     if (percentage > 100) percentage = 100;
   }
-
-  sending(isSending) {
-
-  }
-
 }
 
 

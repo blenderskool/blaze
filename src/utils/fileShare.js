@@ -6,7 +6,7 @@ const trackers = {
 
 class FileShare {
 
-  constructor(socket, torrentOpts) {
+  constructor(socket) {
     this.socket = socket;
     this.torrentClient = new WebTorrent({
       tracker: {
@@ -14,7 +14,7 @@ class FileShare {
         rtcConfig: {
           iceServers: [
             {
-              'urls': ['stun:stun.l.google.com:19305', 'stun:stun1.l.google.com:19305']
+              urls: ['stun:stun.l.google.com:19305', 'stun:stun1.l.google.com:19305']
             }
           ]        
         }
@@ -46,7 +46,7 @@ class FileShare {
       if (data.end) {
         // TODO: build the file
         if (fileParts.length) {
-          callbacks.done(new Blob(fileParts));
+          onDone(new Blob(fileParts));
           fileParts = [];
           size = 0;
           statProg = 0.25;
@@ -54,7 +54,7 @@ class FileShare {
       }
       else {
         metaData = data;
-        callbacks.meta(data);
+        onMeta(data);
       }
     });
 
@@ -64,7 +64,7 @@ class FileShare {
 
       const progress = size / metaData.size;
 
-      callbacks.progress({ progress });
+      onProgress({ progress });
 
       if (progress >= statProg) {
         statProg += 0.15;
@@ -122,7 +122,7 @@ class FileShare {
       meta,
     });
 
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
 
       const stream = async () => {
         const { done, value } = await reader.read();

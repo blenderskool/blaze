@@ -18,7 +18,7 @@ class FileTransfer extends Component {
     const savedData = JSON.parse(localStorage.getItem('blaze'));
     this.client = {
       ...savedData.user,
-      room: room,
+      room,
     };
     
     this.state = {
@@ -190,7 +190,7 @@ class FileTransfer extends Component {
           });
         }
         else {
-          receivedBy.push(sender);
+          receivedBy.push(this.sender);
         }
 
         this.visualizer.startSharing(sentTo, receivedBy);
@@ -332,7 +332,7 @@ class FileTransfer extends Component {
               {errorModal.message}
             </p>
 
-            <button class="wide" onClick={this.handleNewRoom.bind(this)}>
+            <button class="wide" onClick={() => this.handleNewRoom()}>
               Select new room
             </button>
           </div>
