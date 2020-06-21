@@ -1,6 +1,5 @@
 const express = require('express');
 const http = require('http');
-const path = require('path');
 const WebSocket = require('ws');
 const Socket = require('../utils/socket');
 const log = require('./log');
@@ -11,6 +10,10 @@ const server = http.createServer(app);
 
 const wss = new WebSocket.Server({ server });
 const rooms = {};
+
+if (process.env.NODE_ENV === 'production') {
+  require('dotenv').config();
+}
 
 class Room {
   constructor(name) {
@@ -36,7 +39,7 @@ class Room {
   }
 
   get socketsData() {
-    return this.sockets.map(({ name, isWebRTC }) => ({ name, isWebRTC }));
+    return this.sockets.map(({ name, peerId }) => ({ name, peerId }));
   }
 
   getSocketFromName(name) {
@@ -56,17 +59,16 @@ wss.on('connection', (ws) => {
   let room;
   
   socket.listen(constants.JOIN, (data) => {
-    const { roomName, name, isWebRTC } = data;
+    const { roomName, name, peerId } = data;
     socket.name = name;
-    socket.isWebRTC = isWebRTC;
+    socket.peerId = peerId;
 
     room = rooms[roomName];
 
     if (room) {
       const user = room.getSocketFromName(socket.name);
-
       if (user) {
-        socket.close(1000, 'User with same name exists');
+        socket.close(1000, constants.ERR_SAME_NAME);
         return;
       }
     }
@@ -81,7 +83,8 @@ wss.on('connection', (ws) => {
     room.broadcast(constants.USER_JOIN, room.socketsData);
   });
 
-  socket.on('close', () => {
+  socket.on('close', data => {
+    if (data.reason === constants.ERR_SAME_NAME) return;
     if (!room) return;
 
     log(`${socket.name} has left ${room.name}`);
@@ -99,7 +102,11 @@ wss.on('connection', (ws) => {
 
   socket.listen(constants.FILE_INIT, (data) => {
     // TODO: Prevent init from multiple sockets if a sender is already there
-    log(`${socket.name} has initiated file transfer`);
+    if (data.end) {
+      log(`File transfer just finished!`);
+    } else {
+      log(`${socket.name} has initiated file transfer`);
+    }
 
     room.sender = socket.name;
     room.broadcast(constants.FILE_INIT, data, [ socket.name ]);
@@ -116,35 +123,13 @@ wss.on('connection', (ws) => {
   socket.listen(constants.CHUNK, (data) => {
     room.broadcast(constants.CHUNK, data, [ room.sender ]);
   });
-});
 
-
-app.use(express.static('dist'));
-app.use('/app(/*)?', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '../dist/app.html'));
-});
-app.use('/sw.js', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '../dist/sw.js'), {
-    headers: {
-      'Service-Worker-Allow': '/app'
-    }
+  socket.listen(constants.FILE_TORRENT, (data) => {
+    room.broadcast(constants.FILE_TORRENT, data, [ socket.name ]);
   });
 });
 
-
-const port = process.env.PORT ? process.env.PORT : 3030;
-server.listen(port, () => {
+const port = process.env.SERVER_PORT ? process.env.SERVER_PORT : 3030;
+server.listen(port, '0.0.0.0', () => {
   log('listening on *:'+port);
 });
-
-if (process.env.NODE_ENV === 'production') {
-  // Redirect http to https
-  app.enable('trust proxy');
-  app.use((req, res, next) => {
-    if (req.secure) {
-      next();
-    } else {
-      res.redirect('https://' + req.headers.host + req.url);
-    }
-  });
-}

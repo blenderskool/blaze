@@ -4,7 +4,7 @@ class Socket {
     this.socket = socket;
     this.socket.binaryType = 'arraybuffer';
     this.callbacks = {};
-    this.isWebRTC = false;
+    this.peerId = '';
 
     socket.addEventListener('message', msg => {
       let callback, data;
