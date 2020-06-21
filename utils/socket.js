@@ -41,10 +41,7 @@ class Socket {
       this.socket.send(data);
     }
     else {
-      this.socket.send(JSON.stringify({
-        event: event,
-        data: data,
-      }));
+      this.socket.send(JSON.stringify({ event, data }));
     }
   }
 
