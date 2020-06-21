@@ -19,6 +19,7 @@
     ]
   },
   "dependencies": {
+    "concurrently": "^5.2.0",
     "dotenv": "^8.2.0",
     "downloadjs": "^1.4.7",
     "express": "^4.17.1",
@@ -32,7 +33,6 @@
     "node": "10.x"
   },
   "devDependencies": {
-    "concurrently": "^5.2.0",
     "dotenv-webpack": "^1.8.0",
     "enzyme": "^3.10.0",
     "enzyme-adapter-preact-pure": "^2.0.0",
