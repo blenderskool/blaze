@@ -5,40 +5,46 @@
   "private": true,
   "scripts": {
     "server": "node server/index",
-    "watch": "gulp dev",
-    "dev": "concurrently \"npm:watch\" \"npm:server\"",
-    "build": "gulp",
-    "start": "npm run server"
+    "dev": "concurrently \"npm:server\" \"preact watch\"",
+    "build": "preact build",
+    "start": "concurrently \"npm:server\" \"sirv build --cors --single --port 8080 \"",
+    "lint": "eslint src"
   },
   "author": "Akash Hamirwasia",
   "license": "MIT",
+  "eslintConfig": {
+    "extends": "preact",
+    "ignorePatterns": [
+      "build/"
+    ]
+  },
   "dependencies": {
+    "dotenv": "^8.2.0",
     "downloadjs": "^1.4.7",
-    "express": "^4.16.4",
-    "svelte-routing": "^1.2.1",
+    "express": "^4.17.1",
+    "preact": "^10.3.2",
+    "preact-render-to-string": "^5.1.4",
+    "preact-router": "^3.2.1",
+    "scriptjs": "^2.5.9",
     "ws": "^7.3.0"
   },
   "engines": {
     "node": "10.x"
   },
   "devDependencies": {
-    "@babel/core": "^7.2.2",
-    "@babel/preset-env": "^7.2.3",
-    "@rollup/plugin-commonjs": "^12.0.0",
-    "@rollup/plugin-node-resolve": "^8.0.0",
-    "babel-core": "^7.0.0-bridge.0",
-    "babel-preset-minify": "^0.5.0",
     "concurrently": "^5.2.0",
-    "gulp": "^4.0.2",
-    "gulp-autoprefixer": "^7.0.1",
-    "gulp-babel": "^8.0.0",
-    "gulp-better-rollup": "^4.0.1",
-    "gulp-htmlmin": "^5.0.1",
-    "gulp-replace": "^1.0.0",
-    "gulp-sass": "^4.0.2",
-    "rollup": "^1.18.0",
-    "rollup-plugin-svelte": "^5.1.0",
-    "svelte": "^3.18.1",
-    "workbox-build": "^4.3.1"
+    "dotenv-webpack": "^1.8.0",
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-preact-pure": "^2.0.0",
+    "eslint": "^6.0.1",
+    "eslint-config-preact": "^1.1.0",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^24.9.0",
+    "jest-preset-preact": "^1.0.0",
+    "node-sass": "^4.14.1",
+    "preact-cli": "^3.0.0-rc.6",
+    "preact-render-spy": "^1.2.1",
+    "sass-loader": "^8.0.2",
+    "sirv-cli": "^0.4.5"
   }
 }

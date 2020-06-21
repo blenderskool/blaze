@@ -1,0 +1,9 @@
+@import '../../scss/base/index';
+@import '../../scss/app/mobile';
+
+// Desktop styles
+@media screen and (min-width: 800px) {
+
+  @import '../../scss/app/desktop';
+
+}
