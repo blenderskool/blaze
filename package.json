@@ -5,8 +5,8 @@
   "private": true,
   "scripts": {
     "server": "node server/index",
-    "dev": "concurrently \"npm:server\" \"preact watch\"",
-    "build": "preact build",
+    "dev": "concurrently \"npm:server\" \"WS_HOST=ws://localhost:3030 preact watch\"",
+    "build": "WS_HOST=ws://localhost:3030 preact build",
     "start": "concurrently \"npm:server\" \"sirv build --cors --single --port 8080 \"",
     "lint": "eslint src"
   },
@@ -20,7 +20,6 @@
   },
   "dependencies": {
     "concurrently": "^5.2.0",
-    "dotenv": "^8.2.0",
     "downloadjs": "^1.4.7",
     "express": "^4.17.1",
     "preact": "^10.3.2",
@@ -33,7 +32,6 @@
     "node": "10.x"
   },
   "devDependencies": {
-    "dotenv-webpack": "^1.8.0",
     "enzyme": "^3.10.0",
     "enzyme-adapter-preact-pure": "^2.0.0",
     "eslint": "^6.0.1",
@@ -45,6 +43,7 @@
     "preact-cli": "^3.0.0-rc.6",
     "preact-render-spy": "^1.2.1",
     "sass-loader": "^8.0.2",
-    "sirv-cli": "^0.4.5"
+    "sirv-cli": "^0.4.5",
+    "webpack": "^4.43.0"
   }
 }

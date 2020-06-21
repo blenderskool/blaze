@@ -129,7 +129,7 @@ wss.on('connection', (ws) => {
   });
 });
 
-const port = process.env.SERVER_PORT ? process.env.SERVER_PORT : 3030;
+const port = process.env.PORT ? process.env.PORT : 3030;
 server.listen(port, '0.0.0.0', () => {
   log('listening on *:'+port);
 });

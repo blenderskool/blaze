@@ -1,4 +1,4 @@
-const Dotenv = require('dotenv-webpack');
+const { DefinePlugin } = require('webpack');
 
 module.exports = function (config, env, helpers) {
   // disable css modules
@@ -6,7 +6,12 @@ module.exports = function (config, env, helpers) {
   let css = helpers.getLoadersByName(config, 'css-loader')[0];
   css.loader.options.modules = false;
 
-  config.plugins.push(new Dotenv());
+  const envKeys = Object.keys(process.env).reduce((prev, next) => {
+    prev[`process.env.${next}`] = JSON.stringify(process.env[next]);
+    return prev;
+  }, {});
+
+  config.plugins.push(new DefinePlugin(envKeys));
 
   return config;
 }
