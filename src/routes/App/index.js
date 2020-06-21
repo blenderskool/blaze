@@ -13,7 +13,11 @@ export default function App() {
   const [isLoaded, setLoaded] = useState(false);
 
   if (!isRegistered) {
-    return <NewUser onRegister={() => setRegistered(true)} />
+    return (
+      <div class="app-container">
+        <NewUser onRegister={() => setRegistered(true)} />
+      </div>
+    );
   }
 
   useEffect(() => {
@@ -29,11 +33,15 @@ export default function App() {
   }, []);
 
   return (
-    isLoaded ? (
-      <Router>
-        <Rooms path="/app/" />
-        <FileTransfer path="/app/t/:room" />
-      </Router>
-    ) : null
+    <div class="app-container">
+      {
+        isLoaded ? (
+          <Router>
+            <Rooms path="/app/" />
+            <FileTransfer path="/app/t/:room" />
+          </Router>
+        ) : null
+      }
+    </div>
   );
 }

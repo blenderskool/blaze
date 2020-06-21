@@ -71,7 +71,7 @@ function Rooms() {
 
   return (
     <>
-      <header>
+      <header class="app-header">
         <h1 class="title">Recent Rooms</h1>
       </header>
 

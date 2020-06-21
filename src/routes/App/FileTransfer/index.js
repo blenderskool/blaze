@@ -232,7 +232,7 @@ class FileTransfer extends Component {
 
     return (
       <div style={{ textAlign: 'center' }}>
-        <header>
+        <header class="app-header">
           <button
             class="thin icon icon-navigate_before left"
             aria-label="Go back"

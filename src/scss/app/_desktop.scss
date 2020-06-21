@@ -2,10 +2,7 @@ body {
 
   div {
 
-
-    &#app {
-
-
+    &.app-container {
 
       ul.recent-rooms {
         display: flex;

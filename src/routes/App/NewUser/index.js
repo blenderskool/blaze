@@ -1,6 +1,5 @@
 import { h } from 'preact';
 import { useState } from 'preact/hooks';
-import { route } from 'preact-router';
 
 function NewUser({ onRegister }) {
   const [username, setUsername] = useState('');
@@ -17,8 +16,7 @@ function NewUser({ onRegister }) {
   };
 
   return (
-    <main>
-      
+    <main style={{ margin: 'auto' }}>
       <form class="new-user" onSubmit={registerUser}>
         <input
           required
