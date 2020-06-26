@@ -1,58 +1,22 @@
-const express = require('express');
-const http = require('http');
-const WebSocket = require('ws');
-const Socket = require('../utils/socket');
-const log = require('./log');
-const constants = require('../constants');
+import express from 'express';
+import http from 'http';
+import WebSocket from 'ws';
+import cors from 'cors';
+import Socket from '../utils/socket';
+import Room from '../utils/room';
+import log from './log';
+import constants from '../constants';
 
 const app = express();
+app.use(express.json());
+app.use(cors({
+  origin: process.env.ORIGIN || '*',
+}));
+
 const server = http.createServer(app);
 
 const wss = new WebSocket.Server({ server });
 const rooms = {};
-
-if (process.env.NODE_ENV === 'production') {
-  require('dotenv').config();
-}
-
-class Room {
-  constructor(name) {
-    this.sockets = [];
-    this.sender = null;
-    this.name = name;
-  }
-
-  addSocket(socket) {
-    this.sockets.push(socket);
-  }
-
-  removeSocket(socket) {
-    this.sockets = this.sockets.filter(client => client.name !== socket.name);
-  }
-
-  broadcast(event, message, ignore) {
-    this.sockets.forEach(client => {
-      if (ignore && ignore.includes(client.name)) return;
-
-      client.send(event, message);
-    });
-  }
-
-  get socketsData() {
-    return this.sockets.map(({ name, peerId }) => ({ name, peerId }));
-  }
-
-  getSocketFromName(name) {
-    return this.sockets.find(socket => socket.name === name);
-  }
-
-  get senderSocket() {
-    if (!this.sender) return undefined;
-
-    return this.sockets.find(socket => socket.name === this.sender);
-  }
-}
-
 
 wss.on('connection', (ws) => {
   const socket = new Socket(ws);
@@ -129,7 +93,15 @@ wss.on('connection', (ws) => {
   });
 });
 
-const port = process.env.PORT ? process.env.PORT : 3030;
+app.get('/', (req, res) => {
+  res.send({
+    message: 'Blaze WebSockets running',
+    rooms: Object.keys(rooms).length,
+    peers: Object.values(rooms).reduce((sum, room) => sum + room.sockets.length, 0),
+  });
+});
+
+const port = process.env.PORT || 3030;
 server.listen(port, '0.0.0.0', () => {
   log(`listening on *:${port}`);
 });

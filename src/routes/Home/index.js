@@ -24,9 +24,9 @@ const Home = () => (
 
         <img class="network-img" src={network} alt="Devices connected using Blaze" />
 
-        {/*<svg class="waves" viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg">
+        <svg class="waves" viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg">
           <path d="M0,160L21.8,160C43.6,160,87,160,131,181.3C174.5,203,218,245,262,234.7C305.5,224,349,160,393,133.3C436.4,107,480,117,524,106.7C567.3,96,611,64,655,80C698.2,96,742,160,785,176C829.1,192,873,160,916,138.7C960,117,1004,107,1047,112C1090.9,117,1135,139,1178,170.7C1221.8,203,1265,245,1309,234.7C1352.7,224,1396,160,1418,128L1440,96L1440"></path>
-        </svg>*/}
+        </svg>
 
       </section>
 
@@ -63,7 +63,7 @@ const Home = () => (
           <span>"</span>I built Blaze because I wanted a fast, radically different way to transfer files between my laptop and mobile<span>"</span>
 
           <footer>
-            <a href="https://github.com/blenderskool" target="_blank">
+            <a href="https://github.com/blenderskool" target="_blank" rel="noopener noreferrer">
               <img src="https://github.com/blenderskool.png?size=100" alt="Akash Hamirwasia" />
             </a>
             <cite class="author">Akash Hamirwasia</cite>
@@ -85,7 +85,7 @@ const Home = () => (
       </section>
 
       <footer>
-        A project by <a href="https://github.com/blenderskool" target="_blank">Akash Hamirwasia</a>
+        A project by <a href="https://github.com/blenderskool" target="_blank" rel="noopener noreferrer">Akash Hamirwasia</a>
       </footer>
 
     </main>

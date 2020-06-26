@@ -54,4 +54,4 @@ class Socket {
   }
 }
 
-module.exports = Socket;
+export default Socket;

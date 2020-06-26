@@ -9,4 +9,4 @@ function log(message) {
   console.log(`[${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}] ${message}`);
 }
 
-module.exports = log;
+export default log;

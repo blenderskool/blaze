@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   CHUNK: 'chunk',
   JOIN: 'join',
   USER_JOIN: 'user-join',
