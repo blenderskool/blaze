@@ -4,7 +4,7 @@
   "description": "Quickly share files with multiple users",
   "private": true,
   "scripts": {
-    "server": "node server/index",
+    "server": "sucrase-node server/index",
     "dev": "concurrently \"npm:server\" \"WS_HOST=ws://localhost:3030 preact watch\"",
     "build": "WS_HOST=ws://localhost:3030 preact build",
     "start": "concurrently \"npm:server\" \"sirv build --cors --single --port 8080 \"",
@@ -20,12 +20,14 @@
   },
   "dependencies": {
     "concurrently": "^5.2.0",
+    "cors": "^2.8.5",
     "downloadjs": "^1.4.7",
     "express": "^4.17.1",
     "preact": "^10.3.2",
     "preact-render-to-string": "^5.1.4",
     "preact-router": "^3.2.1",
     "scriptjs": "^2.5.9",
+    "sucrase": "^3.15.0",
     "ws": "^7.3.0"
   },
   "engines": {
