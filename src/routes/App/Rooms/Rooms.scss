@@ -69,9 +69,6 @@
     width: 100%;
   }
 
-  form.join-room {
-    margin-bottom: auto;
-  }
 
   @media screen and (min-width: $tablet) {
 
@@ -97,12 +94,13 @@
         }
       }
     }
+  }
+}
 
+form.join-room {
+  margin-bottom: auto;
 
-    form.join-room {
-      input {
-        margin-bottom: 40px;
-      }
-    }
+  input {
+    margin-bottom: 40px;
   }
 }
