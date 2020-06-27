@@ -2,6 +2,8 @@ import { h, createRef } from 'preact';
 import download from 'downloadjs';
 import { route } from 'preact-router';
 import { PureComponent } from 'preact/compat';
+import { ArrowLeft, CheckCircle, Plus } from 'preact-feather';
+
 import Fab from '../../../components/Fab/Fab';
 import Modal from '../../../components/Modal/Modal';
 import FileDrop from '../../../components/FileDrop/FileDrop';
@@ -37,6 +39,7 @@ class FileTransfer extends PureComponent {
     };
     
     this.canvas = createRef();
+    this.fileInput = createRef();
 
     /**
      * Add the current room in recent rooms list
@@ -97,7 +100,7 @@ class FileTransfer extends PureComponent {
     });
 
     // Remove the file from the input
-    document.getElementById('inpFiles').value = '';
+    this.fileInput.current.value = '';
   }
 
   selectFiles(inputFiles) {
@@ -148,6 +151,7 @@ class FileTransfer extends PureComponent {
             files: this.state.files.map(file => ({ ...file, sent: true })),
           });
           this.visualizer.stopSharing();
+          this.resetState();
         },
       });
   }
@@ -238,10 +242,12 @@ class FileTransfer extends PureComponent {
       <div class="file-transfer">
         <header class="app-header">
           <button
-            class="thin icon icon-navigate_before left"
+            class="thin icon left"
             aria-label="Go back"
             onClick={() => window.history.back()}
-          />
+          >
+            <ArrowLeft />
+          </button>
 
           <h1 class="room-name">
             {room}
@@ -275,7 +281,7 @@ class FileTransfer extends PureComponent {
 
 
           <input
-            id="inpFiles"
+            ref={this.fileInput}
             type="file"
             hidden
             onChange={e => this.selectFiles(e.target.files)}
@@ -299,9 +305,12 @@ class FileTransfer extends PureComponent {
                         </div>
 
                         {
-                          file.sent ? <div class="file-status icon-checkmark" />
-                          : (
-                            <svg width="50" height="50" class="file-status">
+                          file.sent ? (
+                            <div class="file-complete">
+                              <CheckCircle />
+                            </div>
+                          ) : (
+                            <svg width="50" height="50" class="file-progress">
                               <circle cx="25" cy="25" r="10" style={`stroke-dashoffset:${63 * percentage/100 - 63}`} />
                             </svg>
                           )
@@ -315,13 +324,8 @@ class FileTransfer extends PureComponent {
             )
           }
 
-          <Fab
-            name="fab"
-            icon="icon-add"
-            disabled={!this.isSelectorEnabled}
-            onClick={() => document.getElementById('inpFiles').click()}
-          >
-            Add File
+          <Fab text="Send File" disabled={!this.isSelectorEnabled} onClick={() => this.fileInput.current.click()}>
+            <Plus />
           </Fab>
 
         </main>

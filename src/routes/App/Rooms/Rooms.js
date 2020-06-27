@@ -1,6 +1,7 @@
 import { h } from 'preact';
 import { route } from 'preact-router';
 import { useState, useEffect } from 'preact/hooks';
+import { Plus, X } from 'preact-feather';
 
 import Fab from '../../../components/Fab/Fab';
 import Modal from '../../../components/Modal/Modal';
@@ -86,30 +87,28 @@ function Rooms() {
                     <li role="link" tabIndex="0" onClick={() => route(`/app/t/${room}`)}>
                       <div>{room}</div>
                       <button
-                        class="thin icon icon-cancel"
+                        class="thin icon remove-room"
                         aria-label="Remove room"
                         onClick={e => {
                           e.stopPropagation();
                           removeRoom(room);
                         }}
-                      />
+                      >
+                        <X />
+                      </button>
                     </li>
                   ))
                 }
               </ul>
-              <Fab icon="icon-add" onClick={() => setModal(true)}>
-                New Room
+              <Fab text="New Room" onClick={() => setModal(true)}>
+                <Plus />
               </Fab>
             </>
           ) : <div class="message">Connect to the internet to start sharing files</div>
         }
       </main>
 
-      <NewRoomModal
-        isOpen={isModalOpen}
-        onNewRoom={handleNewRoom}
-        onClose={() => setModal(false)}
-      />
+      <NewRoomModal isOpen={isModalOpen} onNewRoom={handleNewRoom} onClose={() => setModal(false)} />
     </div>
   );
 }

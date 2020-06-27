@@ -1,10 +1,10 @@
 @import '../../../../scss/variables';
 
-$header-height: 80px;
+$header-height: 85px;
 
 .page-header {
   display: flex;
-  // padding: 0 60px;
+  align-items: center;
   height: $header-height;
   position: fixed;
   left: 0;
@@ -32,14 +32,10 @@ $header-height: 80px;
   }
 
   .mobile-menu {
-    line-height: $header-height;
     font-size: 20px;
     margin-left: auto;
+    margin-right: -16px;
     z-index: 3;
-    height: auto;
-    text-align: right;
-    padding: 0;
-    width: 80px;
   }
   
   nav {

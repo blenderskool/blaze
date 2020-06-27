@@ -1,5 +1,7 @@
 import { h } from 'preact';
 import { useState } from 'preact/hooks';
+import { Menu, X } from 'preact-feather';
+
 import Pill from '../../../../components/Pill/Pill';
 import './Header.scss';
 
@@ -19,11 +21,9 @@ function Header() {
         <Pill>Beta</Pill>
       </a>
       
-      <button
-        class={`thin mobile-menu ${isMenuOpen ? 'icon-cancel' : 'icon-menu'}`}
-        onClick={toggleMenu}
-        aria-label="Toggle Menu"
-      />
+      <button class="thin icon mobile-menu" onClick={toggleMenu} aria-label="Toggle Menu">
+         {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
+      </button>
       <nav style={{ display: isMenuOpen ? 'flex' : 'none' }}>
         {/* <a href="#">How it works</a> */}
         <a href="#about">About</a>

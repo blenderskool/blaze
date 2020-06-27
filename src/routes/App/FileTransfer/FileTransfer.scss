@@ -27,9 +27,9 @@
     }
 
     button {
-      height: auto;
 
       &.left {
+        margin-top: -15px;
         margin-right: auto;
         text-align: left;
       }
@@ -115,7 +115,7 @@
           }
         }
 
-        svg.file-status {
+        .file-progress {
           transform: rotateZ(-90deg) scaleY(-1);
           margin-left: auto;
 
@@ -127,16 +127,11 @@
           }
         }
 
-        div.file-status {
+        .file-complete {
           width: 22px;
           height: 22px;
-          border-radius: 100%;
-          margin: 15px;
-          background-color: $primary;
-          color: #0B101C;
-          line-height: 1.6em;
-          font-size: 0.9rem;
-          margin-left: auto;
+          margin: 15px 15px 19px auto;
+          color: $primary;
         }
 
       }

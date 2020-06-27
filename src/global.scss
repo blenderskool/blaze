@@ -1,5 +1,4 @@
 @import './scss/variables';
-@import './scss/fonts';
 
 * {
   box-sizing: border-box;
@@ -44,8 +43,9 @@ button, .btn {
   border-radius: 4px;
   font-weight: $font-bold;
   font-size: 1.4rem;
-  display: inline-block;
-  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 
   height: 50px;
   line-height: 50px;
@@ -88,6 +88,7 @@ button, .btn {
   &.icon {
     width: 50px;
     font-size: 2rem;
+    transform: none;
   }
 
 }

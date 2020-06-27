@@ -1,6 +1,7 @@
 import { h } from 'preact';
 import { createPortal } from 'preact/compat';
 import { useEffect } from 'preact/hooks';
+import { XCircle } from 'preact-feather';
 
 import './Modal.scss';
 
@@ -16,11 +17,13 @@ function Modal({ isClosable, isOpen, onClose, children }) {
 
       { isClosable && (
           <button
-            class="thin icon icon-cancel"
+            class="thin icon close"
             aria-label="Close Modal"
             onClick={onClose}
             onKeyDown={e => { e.which === 13 && onClose(e) }}
-          />
+          >
+            <XCircle />
+          </button>
         )
       }
 
