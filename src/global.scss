@@ -117,6 +117,14 @@ input {
 
 }
 
+img {
+  user-select: none;
+}
+
+#app {
+  transition: filter 0.2s ease;
+}
+
 @media screen and (min-width: 800px) {
 
   body {
