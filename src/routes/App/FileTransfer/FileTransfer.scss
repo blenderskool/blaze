@@ -162,14 +162,12 @@
   text-align: center;
 
   h2 {
-    font-weight: $font-bold;
-    margin-top: 0;
-    margin-bottom: 15px;
+    margin-bottom: 1rem;
   }
 
   p {
-    font-weight: $font-bold;
+    font-size: 1.1rem;
     color: $secondary;
-    margin: 0 0 30px;
+    margin: 0 0 2rem;
   }
 }

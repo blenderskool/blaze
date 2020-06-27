@@ -3,12 +3,11 @@
 .pill {
   display: inline-block;
   background-color: rgba($primary, 0.21);
-  border-radius: 50px;
+  border-radius: 10px;
   height: 20px;
-  padding: 0 18px;
-  font-size: 13px;
+  padding: 0 1rem;
+  font-size: 0.8rem;
   color: $primary;
-  font-weight: $font-bold;
-  line-height: 1.6em;
+  line-height: 20px;
   vertical-align: middle;
 }
