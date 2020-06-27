@@ -1,0 +1,182 @@
+@import '../../../scss/variables';
+
+.file-transfer {
+  text-align: center;
+  
+  .app-header {
+    display: flex;
+    margin: 0 0 25px;
+
+    .room-name {
+      flex: 1;
+      font-size: 1.5rem;
+      position: relative;
+      text-transform: capitalize;
+
+      &:after {
+        content: 'room name';
+        position: absolute;
+        text-transform: uppercase;
+        color: $secondary;
+        display: block;
+        font-size: 0.85rem;
+        text-align: center;
+        opacity: 0.5;
+        width: 100%;
+      }
+    }
+
+    button {
+      height: auto;
+
+      &.left {
+        margin-right: auto;
+        text-align: left;
+      }
+
+      &.right {
+        margin-left: auto;
+        text-align: right;
+      }
+
+    }
+  }
+
+  .transfer-percentage {
+    margin: 10px 0;
+    color: $primary;
+    font-size: 1.5rem;
+    font-weight: $font-bold;
+  }
+
+  .transfer-tech {
+    margin: 0 0 20px;
+    color: $secondary;
+    font-weight: $font-bold;
+    font-size: 1rem;
+  }
+
+
+  .card {
+    width: 95%;
+    border-radius: 5px;
+    border: $border;
+    background-color: #0B101C;
+    box-shadow: $shadow;
+
+    .header {
+      border-bottom: $border;
+      padding: 10px 15px;
+      
+      display: flex;
+      align-items: center;
+
+      h2 {
+        margin: 0;
+        font-weight: $font-bold;
+      }
+    }
+
+  }
+
+
+  .files-container {
+    margin: 2rem auto 0;
+
+    ul.files {
+      margin: 5px 0;
+      padding: 0;
+
+      li {
+        padding: 10px 15px;
+        display: flex;
+        align-items: center;
+
+
+        div.info {
+          text-align: left;
+          width: 85%;
+
+          h4 {
+            margin: 0;
+            font-weight: $font-normal;
+            font-size: 1.1rem;
+            text-overflow: ellipsis;
+            overflow-x: hidden;
+            white-space: nowrap;
+            width: 100%;
+          }
+
+          h5 {
+            margin: 5px 0 0;
+            color: $secondary;
+            font-weight: $font-normal;
+            font-size: 0.95rem;
+          }
+        }
+
+        svg.file-status {
+          transform: rotateZ(-90deg) scaleY(-1);
+          margin-left: auto;
+
+          circle {
+            stroke: $primary;
+            stroke-width: 2px;
+            stroke-dasharray: 63;
+            fill: #0B101C;
+          }
+        }
+
+        div.file-status {
+          width: 22px;
+          height: 22px;
+          border-radius: 100%;
+          margin: 15px;
+          background-color: $primary;
+          color: #0B101C;
+          line-height: 1.6em;
+          font-size: 0.9rem;
+          margin-left: auto;
+        }
+
+      }
+    }
+  }
+
+  @media screen and (min-width: $tablet) {
+    main {
+      display: flex;
+      justify-content: center;
+      height: 75vh;
+    }
+
+    .files-container {
+      flex: 1;
+      align-self: center;
+      margin-top: -8rem;
+
+      ul.files {
+        margin: 0;
+        max-height: calc(60vh - 50px);
+        overflow-y: auto;
+      }
+    }
+  }
+
+}
+
+.socket-error {
+  text-align: center;
+
+  h2 {
+    font-weight: $font-bold;
+    margin-top: 0;
+    margin-bottom: 15px;
+  }
+
+  p {
+    font-weight: $font-bold;
+    color: $secondary;
+    margin: 0 0 30px;
+  }
+}
