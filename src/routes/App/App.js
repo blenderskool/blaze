@@ -2,9 +2,9 @@ import { h } from 'preact';
 import { useState, useEffect } from 'preact/hooks';
 import { Router } from 'preact-router';
 
-import Rooms from './Rooms';
-import NewUser from './NewUser';
-import FileTransfer from './FileTransfer';
+import Rooms from './Rooms/Rooms';
+import NewUser from './NewUser/NewUser';
+import FileTransfer from './FileTransfer/FileTransfer';
 
 import './app.scss';
 

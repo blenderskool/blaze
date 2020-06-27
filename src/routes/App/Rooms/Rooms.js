@@ -2,8 +2,8 @@ import { h } from 'preact';
 import { route } from 'preact-router';
 import { useState, useEffect } from 'preact/hooks';
 
-import Fab from '../../../components/Fab';
-import Modal from '../../../components/Modal';
+import Fab from '../../../components/Fab/Fab';
+import Modal from '../../../components/Modal/Modal';
 
 import './Rooms.scss';
 

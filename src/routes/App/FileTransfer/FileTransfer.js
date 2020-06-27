@@ -2,9 +2,9 @@ import { h, createRef } from 'preact';
 import download from 'downloadjs';
 import { route } from 'preact-router';
 import { PureComponent } from 'preact/compat';
-import Fab from '../../../components/Fab';
-import Modal from '../../../components/Modal';
-import FileDrop from '../../../components/FileDrop';
+import Fab from '../../../components/Fab/Fab';
+import Modal from '../../../components/Modal/Modal';
+import FileDrop from '../../../components/FileDrop/FileDrop';
 import { toast } from '../../../components/Toast';
 
 import SocketConnect from '../../../utils/socketConnect';

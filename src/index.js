@@ -2,7 +2,7 @@ import { h } from 'preact';
 import { Router, Route } from 'preact-router';
 
 import Pages from './routes/Pages/Pages';
-import App from './routes/App';
+import App from './routes/App/App';
 
 import './global.scss';
 
