@@ -1,0 +1,14 @@
+@import '../../scss/variables';
+
+.page-container {
+  padding: 0 30px;
+  overflow-x: hidden;
+}
+
+
+@media screen and (min-width: $tablet) {
+
+  .page-container {
+    padding: 0 60px;
+  }
+}

@@ -1,12 +1,7 @@
-@import '../../scss/base/index';
+@import '../../../scss/variables';
 
 html {
   // TODO: Remove this
-  overflow-x: hidden;
-}
-
-.page-container {
-  padding: 0 30px;
   overflow-x: hidden;
 }
 
@@ -176,10 +171,6 @@ svg.waves {
 
 
 @media screen and (min-width: 800px) {
-
-  .page-container {
-    padding: 0 60px;
-  }
 
   .hero {
     height: 100vh;
