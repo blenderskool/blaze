@@ -28,9 +28,9 @@ const setQueue = (newQueue) => {
 const toast = (message) => {
   setQueue([ ...queue, message ]);
 
-  // setTimeout(() => {
-  //   setQueue(queue.slice(0, -1));
-  // }, 4000);
+  setTimeout(() => {
+    setQueue(queue.slice(0, -1));
+  }, 4000);
 }
 
 export { toast };
