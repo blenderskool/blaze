@@ -42,45 +42,35 @@
 
     }
 
-    &:empty::after {
-      content: 'Devices must join same room to share files with each other';
-      color: $secondary;
-      opacity: 0.5;
-      display: block;
-      text-align: center;
-      font-size: 1rem;
-      margin-top: 25px;
-      width: 100%;
-    }
-
   }
 
-  div.message, ul.recent-rooms:empty::before {
-    content: 'Start by joining a room using the + button';
-    font-weight: $font-bold;
-    font-size: 1.2rem;
-    line-height: 1.3em;
+  div.message {
+    font-size: 1.3rem;
     color: $secondary;
     text-align: center;
-    display: block;
-    margin-top: 15px;
-    width: 100%;
+    margin-top: 5rem;
+  }
+
+  .devices-same-room {
+    font-size: 1.1rem;
+    color: $secondary;
+    opacity: 0.6;
+    margin-top: 1.35rem;
   }
 
 
   @media screen and (min-width: $tablet) {
 
     ul.recent-rooms {
-      display: flex;
-      flex-wrap: wrap;
-      margin: 0 -15px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 2rem;
 
       li {
+        margin: 0;
         flex-direction: column;
-        min-width: 12.5%;
-        margin: 15px;
         padding: 13px 15px;
-        
+
         div {
           order: 2;
           margin-top: 2rem;

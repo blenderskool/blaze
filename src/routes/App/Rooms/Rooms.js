@@ -1,6 +1,6 @@
 import { h } from 'preact';
 import { route } from 'preact-router';
-import { useState, useEffect } from 'preact/hooks';
+import { useState } from 'preact/hooks';
 import { Plus, X } from 'preact-feather';
 
 import Fab from '../../../components/Fab/Fab';
@@ -38,15 +38,10 @@ function NewRoomModal({ onNewRoom, ...props }) {
 }
 
 
-function Rooms() {
+function Rooms({ isOnline }) {
   const [isModalOpen, setModal] = useState(false);
-  const [isOnline, setOnline] = useState(navigator.onLine);
   let data = JSON.parse(localStorage.getItem('blaze'));
   const [rooms, setRooms] = useState(data.rooms);
-
-  const onOnline = () => {
-    setOnline(navigator.onLine);
-  };
 
   const handleNewRoom = (room) => {
     setModal(false);
@@ -65,12 +60,6 @@ function Rooms() {
     localStorage.setItem('blaze', JSON.stringify(data));
   };
 
-  useEffect(() => {
-    window.addEventListener('online', onOnline);
-
-    return () => window.removeEventListener('online', onOnline);
-  }, []);
-
   return (
     <div class="rooms">
       <header class="app-header">
@@ -81,25 +70,38 @@ function Rooms() {
         {
           isOnline ? (
             <>
-              <ul class="recent-rooms">
-                {
-                  rooms.map(room => (
-                    <li role="link" tabIndex="0" onClick={() => route(`/app/t/${room}`)}>
-                      <div>{room}</div>
-                      <button
-                        class="thin icon remove-room"
-                        aria-label="Remove room"
-                        onClick={e => {
-                          e.stopPropagation();
-                          removeRoom(room);
-                        }}
-                      >
-                        <X />
-                      </button>
-                    </li>
-                  ))
-                }
-              </ul>
+              {
+                rooms.length ? (
+                  <ul class="recent-rooms">
+                    {
+                      rooms.map(room => (
+                        <li role="link" tabIndex="0" onClick={() => route(`/app/t/${room}`)}>
+                          <div>{room}</div>
+                          <button
+                            class="thin icon remove-room"
+                            aria-label="Remove room"
+                            onClick={e => {
+                              e.stopPropagation();
+                              removeRoom(room);
+                            }}
+                          >
+                            <X />
+                          </button>
+                        </li>
+                      ))
+                    }
+                  </ul>
+                ) : (
+                  <>
+                    <div class="message">
+                      Start by joining a room using the + button
+                      <p class="devices-same-room">
+                        Devices must join same room to share files with each other
+                      </p>
+                    </div>
+                  </>
+                )
+              }
               <Fab text="New Room" onClick={() => setModal(true)}>
                 <Plus />
               </Fab>
