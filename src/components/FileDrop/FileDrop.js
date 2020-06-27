@@ -14,6 +14,17 @@ function FileDrop({ onFile, ...props }) {
   useEffect(() => {
     const onDragOver = handleDrag('solid');
     const onDragLeave = handleDrag('none');
+    const dropHandler = e => {
+      e.preventDefault();
+
+      const files = e.dataTransfer.files;
+      setBorder('none');
+
+      if (files != null) {
+        onFile(files);
+      }
+    }
+
     window.addEventListener('dragover', onDragOver);
     window.addEventListener('dragleave', onDragLeave);
     window.addEventListener('drop', dropHandler);
@@ -23,18 +34,7 @@ function FileDrop({ onFile, ...props }) {
       window.removeEventListener('dragleave', onDragLeave);
       window.removeEventListener('drop', dropHandler);
     };
-  }, []);
-
-  const dropHandler = e => {
-    e.preventDefault();
-
-    const files = e.dataTransfer.files;
-    setBorder('none');
-
-    if (files != null) {
-      onFile(files);
-    }
-  }
+  });
 
   return (
     <div class="dropzone" style={{ border }} {...props} />
