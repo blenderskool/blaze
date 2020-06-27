@@ -344,7 +344,7 @@ class FileTransfer extends PureComponent {
           </div>
         </Modal>
 
-        <FileDrop onFile={files => this.selectFiles(files)} />
+        { this.isSelectorEnabled && <FileDrop onFile={files => this.selectFiles(files)} /> }
       </div>
     );
   }
