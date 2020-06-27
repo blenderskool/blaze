@@ -7,17 +7,20 @@ button.fab {
   position: fixed;
   bottom: 30px;
   right: 30px;
-  font-size: 3rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   font-size: 2.3rem;
+  padding: 0;
+
   &:disabled {
     background-color: $secondary;
     opacity: 0.5;
     cursor: not-allowed;
     pointer-events: none;
     box-shadow: none;
+  }
+
+  svg {
+    width: 32px;
+    height: 32px;
   }
 
   .lg-text {
@@ -45,6 +48,11 @@ button.fab {
       display: block;
       font-size: 1.25rem;
       margin: 0 5px;
+    }
+
+    svg {
+      width: auto;
+      height: auto;
     }
   }
 }
