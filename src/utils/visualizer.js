@@ -21,7 +21,7 @@ class Visualizer {
   updateCanvasSize() {
     const dpr = window.devicePixelRatio || 1;
 
-    this.height = Math.floor(window.innerHeight / 2);
+    this.height = Math.floor(window.innerHeight / 2.2);
     this.canvas.style.height = `${this.height}px`;
     
     if (window.innerWidth <= 800) {
@@ -157,7 +157,7 @@ class Visualizer {
      */
     this.ctx.clearRect(-this.width, -this.height, 2*this.width, 2*this.height);
 
-    const a = (sender, receiver) => {
+    const connect = (sender, receiver) => {
       // Get the (x, y) coordinates of sender and receiver node
       const x1 = sender.cx;
       const y1 = sender.cy;
@@ -191,12 +191,12 @@ class Visualizer {
     if (this.sentTo.length || this.receivedBy.length) {
 
       this.sentTo.forEach(node => {
-        a(this.nodes[0], node);
+        connect(this.nodes[0], node);
       });
 
       this.receivedBy.forEach(node => {
-        a(node, this.nodes[0]);
-      })
+        connect(node, this.nodes[0]);
+      });
 
       this.state.start += 3;
     }
@@ -233,10 +233,8 @@ class Visualizer {
             x: node.cx,
             y: node.cy,
             r: radius,
-            // If the current client is the sender, then show green waves, otherwise gray
-            // background: this.senders.name === node.name ? 'rgba(59, 232, 176, 0.1)' : 'rgba(99, 105, 121, 0.1)',
             background: 'rgba(99, 105, 121, 0.1)',
-            ctx: this.ctx
+            ctx: this.ctx,
           })
         );
       }
@@ -248,7 +246,7 @@ class Visualizer {
         background: '#0D1322',
         borderColor: primaryColor(node),
         borderWidth: 2.5,
-        ctx: this.ctx
+        ctx: this.ctx,
       });
     });
 
@@ -265,7 +263,7 @@ class Visualizer {
         baseline: 'middle',
         size: node.radius/1.2,
         background: primaryColor(node),
-        ctx: this.ctx
+        ctx: this.ctx,
       })
     });
 
@@ -283,7 +281,7 @@ class Visualizer {
         size: 13,
         background: node.textColor,
         weight: '500',
-        ctx: this.ctx
+        ctx: this.ctx,
       })
     );
 
