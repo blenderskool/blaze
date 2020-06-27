@@ -16,7 +16,6 @@
       display: flex;
       text-transform: capitalize;
       font-size: 1.3rem;
-      font-weight: $font-bold;
       outline: none;
       cursor: pointer;
       user-select: none;
@@ -45,7 +44,6 @@
 
     &:empty::after {
       content: 'Devices must join same room to share files with each other';
-      font-weight: $font-bold;
       color: $secondary;
       opacity: 0.5;
       display: block;

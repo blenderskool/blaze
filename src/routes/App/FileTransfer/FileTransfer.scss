@@ -8,6 +8,7 @@
     margin: 0 0 25px;
 
     .room-name {
+      font-weight: $font-normal;
       flex: 1;
       font-size: 1.5rem;
       position: relative;
@@ -23,6 +24,7 @@
         text-align: center;
         opacity: 0.5;
         width: 100%;
+        font-weight: $font-bold;
       }
     }
 
@@ -52,7 +54,6 @@
   .transfer-tech {
     margin: 0 0 20px;
     color: $secondary;
-    font-weight: $font-bold;
     font-size: 1rem;
   }
 
@@ -72,8 +73,9 @@
       align-items: center;
 
       h2 {
-        margin: 0;
-        font-weight: $font-bold;
+        font-size: 1.25rem;
+        font-weight: $font-normal;
+        color: $secondary;
       }
     }
 
@@ -98,9 +100,8 @@
           width: 85%;
 
           h4 {
-            margin: 0;
             font-weight: $font-normal;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             text-overflow: ellipsis;
             overflow-x: hidden;
             white-space: nowrap;
@@ -108,10 +109,9 @@
           }
 
           h5 {
-            margin: 5px 0 0;
-            color: $secondary;
             font-weight: $font-normal;
-            font-size: 0.95rem;
+            color: $secondary;
+            font-size: 0.85rem;
           }
         }
 
@@ -128,8 +128,6 @@
         }
 
         .file-complete {
-          width: 22px;
-          height: 22px;
           margin: 15px 15px 19px auto;
           color: $primary;
         }

@@ -258,7 +258,7 @@ class Visualizer {
         x: node.cx,
         y: node.cy,
         text: node.name[0].toUpperCase(),
-        font: '"Rubik", sans-serif',
+        font: '"Jost", sans-serif',
         align: 'center',
         baseline: 'middle',
         size: node.radius/1.2,
@@ -275,12 +275,11 @@ class Visualizer {
         x: node.cx,
         y: node.cy + node.radius + 20,
         text: node.name,
-        font: '"Rubik", sans-serif',
+        font: '"Jost", sans-serif',
         align: 'center',
         baseline: 'middle',
-        size: 13,
+        size: 14,
         background: node.textColor,
-        weight: '500',
         ctx: this.ctx,
       })
     );

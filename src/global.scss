@@ -41,7 +41,6 @@ button, .btn {
   padding: 0 25px;
   outline: none;
   border-radius: 4px;
-  font-weight: $font-bold;
   font-size: 1.4rem;
   display: inline-flex;
   align-items: center;
@@ -96,10 +95,9 @@ button, .btn {
 input {
   background-color: transparent;
   border: 1px solid rgba($secondary, 0.6);
-  font-weight: $font-bold;
   padding: 12px 18px;
   border-radius: 4px;
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   color: $light;
   outline: none;
   margin: 15px 0;
@@ -118,8 +116,9 @@ input {
 
 }
 
-img {
+img, svg {
   user-select: none;
+  vertical-align: middle;
 }
 
 #app {

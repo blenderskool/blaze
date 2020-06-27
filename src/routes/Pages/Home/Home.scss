@@ -26,6 +26,7 @@ html {
     margin: 10px 0;
     font-size: 1.3rem;
     color: $secondary;
+    font-weight: $font-normal;
   }
 
   .ph-mob {
@@ -71,7 +72,6 @@ html {
     p {
       font-size: 1.1rem;
       color: $secondary;
-      font-weight: $font-bold;
     }
 
   }
@@ -81,7 +81,6 @@ html {
 .about {
   text-align: center;
   margin: 10rem 0;
-  font-weight: $font-bold;
   font-size: 20px;
 
   blockquote {
@@ -116,10 +115,11 @@ html {
 
       cite {
         font-style: normal;
-
+        
         &.position {
           color: $secondary;
           font-size: 1rem;
+          font-weight: $font-bold;
         }
       }
     }
@@ -136,9 +136,12 @@ html {
 
 footer {
   margin: 2rem 0;
-  font-weight: $font-bold;
   color: $secondary;
   text-align: center;
+  
+  a {
+    font-weight: $font-bold;
+  }
 }
 
 svg.waves {
