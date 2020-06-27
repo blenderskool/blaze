@@ -1,5 +1,7 @@
 import { h } from 'preact';
-import { useState } from 'preact/hooks';
+import { useState, useEffect } from 'preact/hooks';
+
+import './FileDrop.scss';
 
 function FileDrop({ onFile, ...props }) {
   const [border, setBorder] = useState('none');
@@ -7,7 +9,21 @@ function FileDrop({ onFile, ...props }) {
   const handleDrag = borderStyle => e => {
     e.preventDefault();
     setBorder(borderStyle);
-  }
+  };
+
+  useEffect(() => {
+    const onDragOver = handleDrag('solid');
+    const onDragLeave = handleDrag('none');
+    window.addEventListener('dragover', onDragOver);
+    window.addEventListener('dragleave', onDragLeave);
+    window.addEventListener('drop', dropHandler);
+
+    return () => {
+      window.removeEventListener('dragover', onDragOver);
+      window.removeEventListener('dragleave', onDragLeave);
+      window.removeEventListener('drop', dropHandler);
+    };
+  }, []);
 
   const dropHandler = e => {
     e.preventDefault();
@@ -21,14 +37,7 @@ function FileDrop({ onFile, ...props }) {
   }
 
   return (
-    <div
-      class="dropzone"
-      onDrop={dropHandler}
-      onDragOver={handleDrag('solid')}
-      onDragLeave={handleDrag('none')}
-      style={{ border }}
-      {...props}
-    />
+    <div class="dropzone" style={{ border }} {...props} />
   );
 }
 

@@ -1,0 +1,108 @@
+@import '../../../scss/variables';
+
+.rooms {
+  ul.recent-rooms {
+    padding: 0;
+    list-style: none;
+    margin: 0;
+
+    li {
+      border: 1px solid rgba($secondary, 0.6);
+      border-radius: 4px;
+      box-shadow: $shadow;
+      background-color: $bg;
+      margin: 15px 0;
+      padding: 18px 20px;
+      display: flex;
+      text-transform: capitalize;
+      font-size: 1.3rem;
+      font-weight: $font-bold;
+      outline: none;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.2s ease;
+
+      &:hover {
+        box-shadow: none;
+      }
+
+      &:active {
+        transform: scale(0.98);
+      }
+      
+      &:focus {
+        border: 2px solid darken($primary, 25);
+      }
+
+      .icon-cancel {
+        margin-left: auto;
+        margin-right: -16px;
+        height: auto;
+        font-size: 1.3rem;
+      }
+
+    }
+
+    &:empty::after {
+      content: 'Devices must join same room to share files with each other';
+      font-weight: $font-bold;
+      color: $secondary;
+      opacity: 0.5;
+      display: block;
+      text-align: center;
+      font-size: 1rem;
+      margin-top: 25px;
+      width: 100%;
+    }
+
+  }
+
+  div.message, ul.recent-rooms:empty::before {
+    content: 'Start by joining a room using the + button';
+    font-weight: $font-bold;
+    font-size: 1.2rem;
+    line-height: 1.3em;
+    color: $secondary;
+    text-align: center;
+    display: block;
+    margin-top: 15px;
+    width: 100%;
+  }
+
+  form.join-room {
+    margin-bottom: auto;
+  }
+
+  @media screen and (min-width: $tablet) {
+
+    ul.recent-rooms {
+      display: flex;
+      flex-wrap: wrap;
+      margin: 0 -15px;
+
+      li {
+        flex-direction: column;
+        min-width: 12.5%;
+        margin: 15px;
+        padding: 13px 15px;
+        
+        div {
+          order: 2;
+          margin-top: 2rem;
+        }
+
+        .icon-cancel {
+          margin: 0 -15px 0 auto;
+          order: 1;
+        }
+      }
+    }
+
+
+    form.join-room {
+      input {
+        margin-bottom: 40px;
+      }
+    }
+  }
+}

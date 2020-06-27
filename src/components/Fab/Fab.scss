@@ -1,0 +1,50 @@
+@import '../../scss/variables';
+
+button.fab {
+  width: 65px;
+  height: 65px;
+  border-radius: 33px;
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  font-size: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.3rem;
+  &:disabled {
+    background-color: $secondary;
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+    box-shadow: none;
+  }
+
+  .lg-text {
+    display: none;
+  }
+
+  label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    cursor: inherit;
+  }
+}
+
+@media screen and (min-width: $tablet) {
+  button.fab {
+    height: 55px;
+    width: auto;
+    padding: 0 1rem;
+    font-size: 2rem;
+
+    .lg-text {
+      display: block;
+      font-size: 1.2rem;
+      margin-right: 5px;
+    }
+  }
+}

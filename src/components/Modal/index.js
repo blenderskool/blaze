@@ -2,6 +2,8 @@ import { h } from 'preact';
 import { createPortal } from 'preact/compat';
 import { useEffect } from 'preact/hooks';
 
+import './Modal.scss';
+
 function Modal({ isClosable, isOpen, onClose, children }) {
 
   useEffect(() => {

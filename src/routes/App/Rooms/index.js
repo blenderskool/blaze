@@ -5,6 +5,7 @@ import { useState, useEffect } from 'preact/hooks';
 import Fab from '../../../components/Fab';
 import Modal from '../../../components/Modal';
 
+import './Rooms.scss';
 
 function NewRoomModal({ onNewRoom, ...props }) {
   const [room, setRoom] = useState();
@@ -70,7 +71,7 @@ function Rooms() {
   }, []);
 
   return (
-    <>
+    <div class="rooms">
       <header class="app-header">
         <h1 class="title">Recent Rooms</h1>
       </header>
@@ -109,7 +110,7 @@ function Rooms() {
         onNewRoom={handleNewRoom}
         onClose={() => setModal(false)}
       />
-    </>
+    </div>
   );
 }
 

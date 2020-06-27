@@ -1,0 +1,14 @@
+@import '../../scss/variables';
+
+.pill {
+  display: inline-block;
+  background-color: rgba($primary, 0.21);
+  border-radius: 50px;
+  height: 20px;
+  padding: 0 18px;
+  font-size: 13px;
+  color: $primary;
+  font-weight: $font-bold;
+  line-height: 1.6em;
+  vertical-align: middle;
+}

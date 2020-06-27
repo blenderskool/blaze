@@ -26,6 +26,7 @@ function NewUser({ onRegister }) {
           aria-label="Enter a nickname"
           value={username}
           onChange={e => setUsername(e.target.value)}
+          style={{ marginBottom: 40 }}
         />
         <button type="submit" class="wide">
           Continue

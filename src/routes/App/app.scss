@@ -1,9 +1,13 @@
-@import '../../scss/base/index';
-@import '../../scss/app/mobile';
+@import '../../scss/variables';
 
-// Desktop styles
-@media screen and (min-width: 800px) {
+.app-container {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 1.6rem;
+  min-height: 100vh;
+  max-width: 100vw;
+}
 
-  @import '../../scss/app/desktop';
-
+.app-header {
+  margin: 0 0 25px;
 }
