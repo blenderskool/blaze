@@ -1,16 +1,20 @@
-import { h, Component, createRef } from 'preact';
+import { h, createRef } from 'preact';
 import download from 'downloadjs';
 import { route } from 'preact-router';
+import { PureComponent } from 'preact/compat';
 import Fab from '../../../components/Fab';
 import Modal from '../../../components/Modal';
 import FileDrop from '../../../components/FileDrop';
+import { toast } from '../../../components/Toast';
 
 import SocketConnect from '../../../utils/socketConnect';
 import Visualizer from '../../../utils/visualizer';
 import formatSize from '../../../utils/formatSize';
 import constants from '../../../../constants';
 
-class FileTransfer extends Component {
+import './FileTransfer.scss';
+
+class FileTransfer extends PureComponent {
   
   constructor(props) {
     super(props);
@@ -104,7 +108,7 @@ class FileTransfer extends Component {
      * checked here before proceeding to transfer the invalid file.
      */
     if (inputFiles[0].size === 0) {
-      // useToast('Multiple files not supported');
+      toast('Multiple files not supported on this browser');
       return;
     }
 
@@ -231,7 +235,7 @@ class FileTransfer extends Component {
   render({ room }, { percentage, peers, isP2P, files, errorModal }) {
 
     return (
-      <div style={{ textAlign: 'center' }}>
+      <div class="file-transfer">
         <header class="app-header">
           <button
             class="thin icon icon-navigate_before left"
@@ -247,9 +251,9 @@ class FileTransfer extends Component {
           <button class="thin icon right" style="visibility: hidden" />
         </header>
 
-        <main class="row file-transfer">
+        <main>
 
-          <div class="column">
+          <div>
             <canvas ref={this.canvas} style="margin-left: -1rem" />
 
             {
@@ -280,35 +284,33 @@ class FileTransfer extends Component {
 
           {
             !!files.length && (
-              <div class="column">
-                <div class="card files">
-                  <div class="header">
-                    <h2>Files</h2>
-                  </div>
-                  <ul class="files">
-
-                    {
-                      files.map(file => (
-                        <li>
-                          <div class="info">
-                            <h4>{file.name}</h4>
-                            { <h5>{formatSize(file.size)}</h5> }
-                          </div>
-
-                          {
-                            file.sent ? <div class="file-status icon-checkmark" />
-                            : (
-                              <svg width="50" height="50" class="file-status">
-                                <circle cx="25" cy="25" r="10" style={`stroke-dashoffset:${63 * percentage/100 - 63}`} />
-                              </svg>
-                            )
-                          }
-                        </li>
-                      ))
-                    }
-
-                  </ul>
+              <div class="card files-container">
+                <div class="header">
+                  <h2>Files</h2>
                 </div>
+                <ul class="files">
+
+                  {
+                    files.map(file => (
+                      <li>
+                        <div class="info">
+                          <h4>{file.name}</h4>
+                          { <h5>{formatSize(file.size)}</h5> }
+                        </div>
+
+                        {
+                          file.sent ? <div class="file-status icon-checkmark" />
+                          : (
+                            <svg width="50" height="50" class="file-status">
+                              <circle cx="25" cy="25" r="10" style={`stroke-dashoffset:${63 * percentage/100 - 63}`} />
+                            </svg>
+                          )
+                        }
+                      </li>
+                    ))
+                  }
+
+                </ul>
               </div>
             )
           }
