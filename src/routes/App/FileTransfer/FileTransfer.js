@@ -115,6 +115,11 @@ class FileTransfer extends PureComponent {
       return;
     }
 
+    if (!this.isSelectorEnabled) {
+      toast('File transfer is not possible right now');
+      return;
+    }
+
     /**
      * Start sending files
      */
@@ -246,7 +251,7 @@ class FileTransfer extends PureComponent {
     this.fileShare.socket.close();
   }
 
-  renderFileIcon(file) {
+  getFileIcon(file) {
     const size = 20;
 
     switch (file.type.split('/')[0]) {
@@ -261,6 +266,36 @@ class FileTransfer extends PureComponent {
       default:
         return <File size={size} />;
     }
+  }
+
+  renderFile(file) {
+    return (
+      <li>
+        <div class="file-type">
+          {this.getFileIcon(file)}
+        </div>
+        <div class="info">
+          <h4>{file.name}</h4>
+          <p>
+            {formatSize(file.size)}
+            {!!file.sentBy && ` | Sent by ${file.sentBy}`}
+            {!!file.sentTo && ` | You sent to ${file.sentTo.join(', ')}`}
+          </p>
+        </div>
+
+        {
+          file.sent ? (
+            <div class="file-complete">
+              <CheckCircle />
+            </div>
+          ) : (
+            <svg width="30" height="30" class="file-progress">
+              <circle cx="15" cy="15" r="10" style={`stroke-dashoffset:${63 * this.state.percentage/100 - 63}`} />
+            </svg>
+          )
+        }
+      </li>
+    );
   }
 
   renderErrorContent() {
@@ -351,37 +386,7 @@ class FileTransfer extends PureComponent {
                   <h2>Files</h2>
                 </div>
                 <ul class="files">
-
-                  {
-                    files.map(file => (
-                      <li>
-                        <div class="file-type">
-                          {this.renderFileIcon(file)}
-                        </div>
-                        <div class="info">
-                          <h4>{file.name}</h4>
-                          <p>
-                            {formatSize(file.size)}
-                            {!!file.sentBy && ` | Sent by ${file.sentBy}`}
-                            {!!file.sentTo && ` | You sent to ${file.sentTo.join(', ')}`}
-                          </p>
-                        </div>
-
-                        {
-                          file.sent ? (
-                            <div class="file-complete">
-                              <CheckCircle />
-                            </div>
-                          ) : (
-                            <svg width="30" height="30" class="file-progress">
-                              <circle cx="15" cy="15" r="10" style={`stroke-dashoffset:${63 * percentage/100 - 63}`} />
-                            </svg>
-                          )
-                        }
-                      </li>
-                    ))
-                  }
-
+                  {files.map(file => this.renderFile(file))}
                 </ul>
               </div>
             )
