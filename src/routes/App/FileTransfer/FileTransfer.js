@@ -2,7 +2,7 @@ import { h, createRef } from 'preact';
 import download from 'downloadjs';
 import { route } from 'preact-router';
 import { PureComponent } from 'preact/compat';
-import { ArrowLeft, CheckCircle, Plus } from 'preact-feather';
+import { ArrowLeft, CheckCircle, Plus, Image, Film, Box, Music, File } from 'preact-feather';
 
 import Fab from '../../../components/Fab/Fab';
 import Modal from '../../../components/Modal/Modal';
@@ -125,6 +125,11 @@ class FileTransfer extends PureComponent {
         useTorrent: this.state.isP2P,
 
         onMeta: (metaData) => {
+          metaData = metaData.map(file => ({
+            ...file,
+            sentTo: this.state.peers.slice(1),
+          }));
+
           this.setState({
             files: [...metaData, ...this.state.files],
           });
@@ -159,15 +164,16 @@ class FileTransfer extends PureComponent {
   componentDidMount() {
     this.visualizer = new Visualizer(this.canvas.current);
     this.fileShare = new SocketConnect(this.client.room, this.client.name);
+    const { socket } = this.fileShare;
 
     this.visualizer.addNode({
       name: this.client.name,
       isClient: true,
     });
 
-    this.fileShare.socket.listen(constants.USER_JOIN, this.onUserJoin.bind(this));
-    this.fileShare.socket.listen(constants.USER_LEAVE, this.onUserLeave.bind(this));
-    this.fileShare.socket.on('close', data => {
+    socket.listen(constants.USER_JOIN, this.onUserJoin.bind(this));
+    socket.listen(constants.USER_LEAVE, this.onUserLeave.bind(this));
+    socket.on('close', data => {
       this.setState({
         errorModal: {
           isOpen: true,
@@ -179,7 +185,11 @@ class FileTransfer extends PureComponent {
 
     this.fileShare.receiveFiles({
       onMeta: (data) => {
-        this.sender = data.user;
+        this.sender = data.sender;
+        data.meta.forEach(file => {
+          file.sentBy = data.sender;
+        });
+
         this.setState({
           files: [...data.meta, ...this.state.files],
         });
@@ -206,7 +216,7 @@ class FileTransfer extends PureComponent {
           percentage: progress * 100,
         });
       },
-      onDone: (file) => {
+      onDone: (file, meta) => {
         if (file !== undefined) {
           if (Array.isArray(file)) {
             file.forEach(file => {
@@ -214,7 +224,7 @@ class FileTransfer extends PureComponent {
             });
           }
           else {
-            download(file);
+            download(file, meta.name, meta.type);
           }
         }
         this.resetState();
@@ -234,6 +244,23 @@ class FileTransfer extends PureComponent {
 
   componentWillUnmount() {
     this.fileShare.socket.close();
+  }
+
+  renderFileIcon(file) {
+    const size = 20;
+
+    switch (file.type.split('/')[0]) {
+      case 'image':
+        return <Image size={size} />;
+      case 'video':
+        return <Film size={size} />;
+      case 'audio':
+        return <Music size={size} />;
+      case 'application':
+        return <Box size={size} />;
+      default:
+        return <File size={size} />;
+    }
   }
 
   render({ room }, { percentage, peers, isP2P, files, errorModal }) {
@@ -260,7 +287,7 @@ class FileTransfer extends PureComponent {
         <main>
 
           <div>
-            <canvas ref={this.canvas} style="margin-left: -1rem" />
+            <canvas ref={this.canvas} style="margin-left: -0.6rem" />
 
             {
               percentage !== null && (
@@ -299,9 +326,16 @@ class FileTransfer extends PureComponent {
                   {
                     files.map(file => (
                       <li>
+                        <div class="file-type">
+                          {this.renderFileIcon(file)}
+                        </div>
                         <div class="info">
                           <h4>{file.name}</h4>
-                          { <h5>{formatSize(file.size)}</h5> }
+                          <p>
+                            {formatSize(file.size)}
+                            {!!file.sentBy && ` | Sent by ${file.sentBy}`}
+                            {!!file.sentTo && ` | You sent to ${file.sentTo.join(', ')}`}
+                          </p>
                         </div>
 
                         {
@@ -310,8 +344,8 @@ class FileTransfer extends PureComponent {
                               <CheckCircle />
                             </div>
                           ) : (
-                            <svg width="50" height="50" class="file-progress">
-                              <circle cx="25" cy="25" r="10" style={`stroke-dashoffset:${63 * percentage/100 - 63}`} />
+                            <svg width="30" height="30" class="file-progress">
+                              <circle cx="15" cy="15" r="10" style={`stroke-dashoffset:${63 * percentage/100 - 63}`} />
                             </svg>
                           )
                         }

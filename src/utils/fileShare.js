@@ -44,9 +44,8 @@ class FileShare {
     let size = 0, statProg = 0.25;
     this.socket.listen(constants.FILE_INIT, (data) => {
       if (data.end) {
-        // TODO: build the file
         if (fileParts.length) {
-          onDone(new Blob(fileParts));
+          onDone(new Blob(fileParts), metaData.meta[0]);
           fileParts = [];
           size = 0;
           statProg = 0.25;
@@ -112,12 +111,13 @@ class FileShare {
     const meta = [{
       name: file.name,
       size: file.size,
+      type: file.type,
     }];
 
     onMeta(meta);
     
     this.socket.send(constants.FILE_INIT, {
-      user: this.socket.name,
+      sender: this.socket.name,
       size: file.size,
       meta,
     });
@@ -162,7 +162,15 @@ class FileShare {
   }
 
   async sendFiles({ numPeers, input, useTorrent, onMeta, onSocketProgress, onTorrentProgress, onDone }) {
+    if (!input) return;
+    
     if (useTorrent) {
+      const inputMap = {};
+      for (let i = 0; i < input.length; i++) {
+        const file = input[i];
+        inputMap[file.name + file.size] = file;
+      }
+
       this.torrentClient.seed(input, trackers, torrent => {
         this._onTorrent({
           torrent,
@@ -173,12 +181,13 @@ class FileShare {
         const filesMeta = torrent.files.map(file => ({
           name: file.name,
           size: file.length,
+          type: inputMap[file.name + file.length].type,
         }));
 
         onMeta(filesMeta);
         this.socket.send(constants.FILE_TORRENT, {
           infoHash: torrent.infoHash,
-          user: this.socket.name,
+          sender: this.socket.name,
           size: torrent.length,
           meta: filesMeta,
         });
@@ -186,13 +195,11 @@ class FileShare {
       });
     }
     else {
-      if (!input) return;
-      input = input && (input.length ? [...input] : [ input ]);
+      input = Array.from(input);
 
       for(const file of input) {
         await this.sendFileSocket({ file, numPeers, onMeta, onSocketProgress });
       }
-
     }
   }
 

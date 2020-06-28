@@ -90,12 +90,16 @@
       padding: 0;
 
       li {
-        padding: 10px 15px;
+        padding: 0.9rem 1.25rem;
         display: flex;
         align-items: center;
 
+        .file-type {
+          margin-right: 1rem;
+          color: $secondary;
+        }
 
-        div.info {
+        .info {
           text-align: left;
           width: 85%;
 
@@ -108,27 +112,30 @@
             width: 100%;
           }
 
-          h5 {
+          p {
+            margin: 0;
             font-weight: $font-normal;
             color: $secondary;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
           }
         }
 
         .file-progress {
           transform: rotateZ(-90deg) scaleY(-1);
           margin-left: auto;
+          margin-right: 10px;
 
           circle {
             stroke: $primary;
             stroke-width: 2px;
-            stroke-dasharray: 63;
+            stroke-dasharray: 69;
             fill: #0B101C;
           }
         }
 
         .file-complete {
-          margin: 15px 15px 19px auto;
+          margin-left: auto;
+          margin-right: 13px;
           color: $primary;
         }
 
