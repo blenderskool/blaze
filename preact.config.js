@@ -6,12 +6,11 @@ module.exports = function (config, env, helpers) {
   let css = helpers.getLoadersByName(config, 'css-loader')[0];
   css.loader.options.modules = false;
 
-  const envKeys = Object.keys(process.env).reduce((prev, next) => {
-    prev[`process.env.${next}`] = JSON.stringify(process.env[next]);
-    return prev;
-  }, {});
-
-  config.plugins.push(new DefinePlugin(envKeys));
+  config.plugins.push(
+    new DefinePlugin({
+      WS_HOST: JSON.stringify(process.env.WS_HOST || 'ws://localhost:3030'),
+    })
+  );
 
   return config;
 }

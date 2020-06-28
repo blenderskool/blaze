@@ -8,7 +8,7 @@ import FileShare from './fileShare';
  * @param {String} username Name of the user joining the room
  */
 function socketConnect(room, username) {
-  const socket = new Socket(new WebSocket(process.env.WS_HOST));
+  const socket = new Socket(new WebSocket(WS_HOST));
   const fileShare = new FileShare(socket);
   socket.name = username;
   

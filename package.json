@@ -5,8 +5,8 @@
   "private": true,
   "scripts": {
     "server": "sucrase-node server/index",
-    "dev": "concurrently \"npm:server\" \"WS_HOST=ws://localhost:3030 preact watch\"",
-    "build": "WS_HOST=ws://localhost:3030 preact build",
+    "dev": "concurrently \"npm:server\" \"preact watch\"",
+    "build": "preact build",
     "start": "concurrently \"npm:server\" \"sirv build --cors --single --port 8080 \"",
     "lint": "eslint src utils server"
   },
