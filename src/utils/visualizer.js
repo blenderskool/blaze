@@ -22,15 +22,12 @@ class Visualizer {
     const dpr = window.devicePixelRatio || 1;
 
     this.height = Math.floor(window.innerHeight / 2.2);
-    this.canvas.style.height = `${this.height}px`;
     
     if (window.innerWidth <= 800) {
       this.width = window.innerWidth - 32;
     } else {
       this.width = Math.floor(window.innerWidth / 2);
     }
-    
-    this.canvas.style.width = `${this.width}px`;
 
     /**
      * Canvas resolution correction based on the device pixel-ratio.
@@ -43,6 +40,8 @@ class Visualizer {
     this.canvas.width = this.width * dpr;
     this.canvas.height = this.height * dpr;
 
+    this.canvas.style.width = `${this.width}px`;
+    this.canvas.style.height = `${this.height}px`;
 
     this.ctx.scale(dpr, dpr);
 
