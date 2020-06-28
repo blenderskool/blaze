@@ -1,7 +1,7 @@
 import { h, createRef } from 'preact';
 import download from 'downloadjs';
 import { route } from 'preact-router';
-import { PureComponent } from 'preact/compat';
+import { PureComponent, forwardRef, memo } from 'preact/compat';
 import { ArrowLeft, CheckCircle, Plus, Image, Film, Box, Music, File } from 'preact-feather';
 
 import Fab from '../../../components/Fab/Fab';
@@ -15,6 +15,10 @@ import formatSize from '../../../utils/formatSize';
 import constants from '../../../../constants';
 
 import './FileTransfer.scss';
+
+const Canvas = memo(forwardRef((props, ref) => {
+  return <canvas ref={ref} {...props} />;
+}));
 
 class FileTransfer extends PureComponent {
   
@@ -370,7 +374,7 @@ class FileTransfer extends PureComponent {
         <main>
 
           <div>
-            <canvas ref={this.canvas} style="margin-left: -0.6rem" />
+            <Canvas ref={this.canvas} style="margin-left: -0.6rem" />
 
             {
               percentage !== null && (
