@@ -277,7 +277,7 @@ class Visualizer {
         font: '"Jost", sans-serif',
         align: 'center',
         baseline: 'middle',
-        size: 14,
+        size: 15,
         background: node.textColor,
         ctx: this.ctx,
       })

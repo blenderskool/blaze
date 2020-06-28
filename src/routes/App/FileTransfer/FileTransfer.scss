@@ -10,7 +10,7 @@
     .room-name {
       font-weight: $font-normal;
       flex: 1;
-      font-size: 1.5rem;
+      font-size: 1.6rem;
       position: relative;
       text-transform: capitalize;
 
@@ -20,9 +20,9 @@
         text-transform: uppercase;
         color: $secondary;
         display: block;
-        font-size: 0.85rem;
+        font-size: 0.9rem;
         text-align: center;
-        opacity: 0.5;
+        opacity: 0.65;
         width: 100%;
         font-weight: $font-bold;
       }
