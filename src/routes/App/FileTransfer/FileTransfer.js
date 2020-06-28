@@ -177,7 +177,7 @@ class FileTransfer extends PureComponent {
       this.setState({
         errorModal: {
           isOpen: true,
-          message: data.reason,
+          type: data.reason || constants.ERR_CONN_CLOSED,
         },
       });
     });
@@ -260,6 +260,35 @@ class FileTransfer extends PureComponent {
         return <Box size={size} />;
       default:
         return <File size={size} />;
+    }
+  }
+
+  renderErrorContent() {
+    const { errorModal } = this.state;
+
+    switch (errorModal.type) {
+      case constants.ERR_SAME_NAME:
+        return (
+          <>
+            <h2>Connection Error!</h2>
+            <p class="message">User with same name exists in this room</p>
+            <button class="wide" onClick={() => this.handleNewRoom()}>
+              Select new room
+            </button>
+          </>
+        );
+      case constants.ERR_CONN_CLOSED:
+      default:
+        return (
+          <>
+            <h2>Connection closed</h2>
+            <p class="message">Tip: Try refreshing this page</p>
+
+            <button class="wide" onClick={() => window.location.reload()}>
+              Refresh page
+            </button>
+          </>
+        );
     }
   }
 
@@ -366,15 +395,7 @@ class FileTransfer extends PureComponent {
 
         <Modal isClosable={false} isOpen={errorModal.isOpen}>
           <div class="socket-error">
-            <h2>Connection Error!</h2>
-
-            <p class="message">
-              {errorModal.message}
-            </p>
-
-            <button class="wide" onClick={() => this.handleNewRoom()}>
-              Select new room
-            </button>
+            {this.renderErrorContent()}
           </div>
         </Modal>
 

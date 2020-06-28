@@ -6,5 +6,6 @@ export default {
   FILE_INIT: 'file-init',
   FILE_STATUS: 'file-status',
   FILE_TORRENT: 'file-torrent',
-  ERR_SAME_NAME: 'User with same name exists',
+  ERR_SAME_NAME: 'ERR_SAME_NAME',
+  ERR_CONN_CLOSED: 'ERR_CONN_CLOSED',
 };
