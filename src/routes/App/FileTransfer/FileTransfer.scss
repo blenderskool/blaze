@@ -67,10 +67,10 @@
 
     .header {
       border-bottom: $border;
-      padding: 10px 15px;
+      padding: 0.6rem 1.25rem;
       
       display: flex;
-      align-items: center;
+      align-items: baseline;
 
       h2 {
         font-size: 1.25rem;
@@ -84,6 +84,10 @@
 
   .files-container {
     margin: 2rem auto 0;
+
+    .header {
+      justify-content: space-between;
+    }
 
     ul.files {
       margin: 5px 0;

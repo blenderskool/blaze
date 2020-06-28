@@ -32,10 +32,11 @@ class FileTransfer extends PureComponent {
       peers: [],
       isP2P: true,
       files: [],
+      filesQueued: 0,
       errorModal: {
         isOpen: false,
         message: '',
-      }
+      },
     };
     
     this.canvas = createRef();
@@ -106,6 +107,14 @@ class FileTransfer extends PureComponent {
   selectFiles(inputFiles) {
 
     /**
+     * When no files are selected(can occur when text selection is dropped)
+     */
+    if (!inputFiles || !inputFiles.length) {
+      toast('Invalid file selected');
+      return;
+    }
+
+    /**
      * Firefox for mobile has issue with selection of multiple files.
      * Only one file gets selected and that has '0' size. This is
      * checked here before proceeding to transfer the invalid file.
@@ -115,10 +124,18 @@ class FileTransfer extends PureComponent {
       return;
     }
 
+    /**
+     * File selector was disabled, but somehow new files were received
+     */
     if (!this.isSelectorEnabled) {
       toast('File transfer is not possible right now');
       return;
     }
+
+    let filesQueued = inputFiles.length;
+    this.setState({
+      filesQueued: inputFiles.length,
+    });
 
     /**
      * Start sending files
@@ -135,7 +152,9 @@ class FileTransfer extends PureComponent {
             sentTo: this.state.peers.slice(1),
           }));
 
+          filesQueued -= metaData.length;
           this.setState({
+            filesQueued,
             files: [...metaData, ...this.state.files],
           });
         },
@@ -327,7 +346,7 @@ class FileTransfer extends PureComponent {
     }
   }
 
-  render({ room }, { percentage, peers, isP2P, files, errorModal }) {
+  render({ room }, { percentage, peers, isP2P, files, filesQueued, errorModal }) {
 
     return (
       <div class="file-transfer">
@@ -380,10 +399,18 @@ class FileTransfer extends PureComponent {
           />
 
           {
-            !!files.length && (
+            (!!files.length || !!filesQueued) && (
               <div class="card files-container">
                 <div class="header">
                   <h2>Files</h2>
+                  {
+                    !!filesQueued && (
+                      <div class="queue">
+                        {`${filesQueued} file${filesQueued > 1 ? 's are ' : ' is '}`}
+                        in queue
+                      </div>
+                    )
+                  }
                 </div>
                 <ul class="files">
                   {files.map(file => this.renderFile(file))}
