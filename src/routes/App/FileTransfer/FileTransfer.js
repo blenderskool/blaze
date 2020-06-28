@@ -2,7 +2,7 @@ import { h, createRef } from 'preact';
 import download from 'downloadjs';
 import { route } from 'preact-router';
 import { PureComponent, forwardRef, memo } from 'preact/compat';
-import { ArrowLeft, CheckCircle, Plus, Image, Film, Box, Music, File, Zap } from 'preact-feather';
+import { ArrowLeft, CheckCircle, Plus, Image, Film, Box, Music, File, Zap, Share2 } from 'preact-feather';
 
 import Fab from '../../../components/Fab/Fab';
 import Modal from '../../../components/Modal/Modal';
@@ -108,7 +108,7 @@ class FileTransfer extends PureComponent {
     this.fileInput.current.value = '';
   }
 
-  selectFiles(inputFiles) {
+  selectFiles = (inputFiles) => {
 
     /**
      * When no files are selected(can occur when text selection is dropped)
@@ -260,7 +260,11 @@ class FileTransfer extends PureComponent {
     });
   }
 
-  handleNewRoom() {
+  componentWillUnmount() {
+    this.fileShare.socket.close();
+  }
+
+  handleNewRoom = () => {
     this.setState({
       errorModal: {
         isOpen: false,
@@ -270,8 +274,15 @@ class FileTransfer extends PureComponent {
     route('/app', true);
   }
 
-  componentWillUnmount() {
-    this.fileShare.socket.close();
+  handleShare = () => {
+    if (!navigator.share) return;
+    
+    navigator.share({
+      title: 'Share files',
+      text: `Join my room '${this.props.room}' on Blaze to share files`,
+      url: window.location.href,
+    })
+    .catch(() => toast('Room link could\'t be shared!'));
   }
 
   getFileIcon(file) {
@@ -330,7 +341,7 @@ class FileTransfer extends PureComponent {
           <>
             <h2>Connection Error!</h2>
             <p class="message">User with same name exists in this room</p>
-            <button class="wide" onClick={() => this.handleNewRoom()}>
+            <button class="wide" onClick={this.handleNewRoom}>
               Select new room
             </button>
           </>
@@ -355,11 +366,7 @@ class FileTransfer extends PureComponent {
     return (
       <div class="file-transfer">
         <header class="app-header">
-          <button
-            class="thin icon left"
-            aria-label="Go back"
-            onClick={() => window.history.back()}
-          >
+          <button class="thin icon left" aria-label="Go back" onClick={() => window.history.back()}>
             <ArrowLeft />
           </button>
 
@@ -367,8 +374,14 @@ class FileTransfer extends PureComponent {
             {room}
           </h1>
 
-          {/* <!-- Fake element to correct the flex spacing --> */}
-          <button class="thin icon right" style="visibility: hidden" />
+          <button
+            class="thin icon right"
+            style={{ visibility: navigator.share ? 'visible' : 'hidden' }}
+            aria-label="Share room link"
+            onClick={this.handleShare}
+          >
+            <Share2 />
+          </button>
         </header>
 
         <main>
@@ -439,7 +452,7 @@ class FileTransfer extends PureComponent {
           </div>
         </Modal>
 
-        { this.isSelectorEnabled && <FileDrop onFile={files => this.selectFiles(files)} /> }
+        { this.isSelectorEnabled && <FileDrop onFile={this.selectFiles} /> }
       </div>
     );
   }

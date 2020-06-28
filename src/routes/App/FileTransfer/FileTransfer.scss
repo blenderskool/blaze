@@ -29,16 +29,16 @@
     }
 
     button {
+      margin-top: -5px;
 
       &.left {
-        margin-top: -15px;
         margin-right: auto;
-        text-align: left;
+        margin-left: -16px;
       }
 
       &.right {
         margin-left: auto;
-        text-align: right;
+        margin-right: -15px;
       }
 
     }
