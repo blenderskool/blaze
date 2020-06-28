@@ -256,7 +256,7 @@ class Visualizer {
     this.nodes.forEach(node => {
       new CanvasElements.Text({
         x: node.cx,
-        y: node.cy,
+        y: node.cy + 2,
         text: node.name[0].toUpperCase(),
         font: '"Jost", sans-serif',
         align: 'center',
