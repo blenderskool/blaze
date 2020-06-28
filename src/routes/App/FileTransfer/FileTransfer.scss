@@ -51,10 +51,15 @@
     font-weight: $font-bold;
   }
 
-  .transfer-tech {
+  .transfer-help {
     margin: 0 0 20px;
     color: $secondary;
-    font-size: 1rem;
+    font-size: 1.2rem;
+    transition: color 0.5s ease;
+
+    &.p2p {
+      color: darken($primary, 22);
+    }
   }
 
 

@@ -2,7 +2,7 @@ import { h, createRef } from 'preact';
 import download from 'downloadjs';
 import { route } from 'preact-router';
 import { PureComponent, forwardRef, memo } from 'preact/compat';
-import { ArrowLeft, CheckCircle, Plus, Image, Film, Box, Music, File } from 'preact-feather';
+import { ArrowLeft, CheckCircle, Plus, Image, Film, Box, Music, File, Zap } from 'preact-feather';
 
 import Fab from '../../../components/Fab/Fab';
 import Modal from '../../../components/Modal/Modal';
@@ -384,11 +384,15 @@ class FileTransfer extends PureComponent {
               )
             }
 
-            <div class="transfer-tech">
+            <div class={`transfer-help ${peers.length > 1 && isP2P && 'p2p'}`}>
               {
                 peers.length <= 1 ? 'Waiting for other devices to join same room'
-                : isP2P === true ? 'Established a P2P connection'
-                : 'Using an intermediate server'
+                : isP2P ? (
+                  <>
+                    <Zap size={20} /> Established a P2P connection!
+                  </>
+                )
+                : 'Using an intermediate server for sharing files'
               }
             </div>
           </div>
