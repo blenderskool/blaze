@@ -1,4 +1,5 @@
 const { DefinePlugin } = require('webpack');
+const ip = require('ip');
 
 module.exports = function (config, env, helpers) {
   // disable css modules
@@ -8,7 +9,7 @@ module.exports = function (config, env, helpers) {
 
   config.plugins.push(
     new DefinePlugin({
-      WS_HOST: JSON.stringify(process.env.WS_HOST || 'ws://localhost:3030'),
+      WS_HOST: JSON.stringify(process.env.WS_HOST || `ws://${ip.address()}:3030`),
     })
   );
 
