@@ -12,11 +12,12 @@ const rooms = {};
 
 wss.on('connection', (ws) => {
   ws.isAlive = true;
-  const socket = new Socket(ws);
+  const ip = request.connection.remoteAddress;
+  const socket = new Socket(ws, ip);
   let room;
   
   socket.listen(constants.JOIN, (data) => {
-    const { roomName, name, peerId } = data;
+    const { roomName = socket.ip, name, peerId } = data;
     socket.name = name;
     socket.peerId = peerId;
 
@@ -51,7 +52,7 @@ wss.on('connection', (ws) => {
     if (Array.isArray(sockets)) {
       if (sockets.length) {
         room.broadcast(constants.USER_LEAVE, socket.name, [ socket.name ]);
-      } else {
+      } else if (!room.watchers.length) {
         delete rooms[room.name];
       }
     }

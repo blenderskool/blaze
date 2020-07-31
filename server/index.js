@@ -1,6 +1,7 @@
 import express from 'express';
 import http from 'http';
 import cors from 'cors';
+import shortid from 'shortid';
 
 import log from './utils/log';
 import instantRoom from './instantRoom';
@@ -51,4 +52,35 @@ server.on('upgrade', (request, socket, head) => {
 
 server.listen(PORT, '0.0.0.0', () => {
   log(`listening on *:${PORT}`);
+});
+
+app.get('/local-peers', (req, res) => {
+  const { ip } = req;
+  const headers = {
+    'Content-Type': 'text/event-stream',
+    Connection: 'keep-alive',
+    'Cache-Control': 'no-cache',
+  };
+  res.writeHead(200, headers);
+
+  const watcher = { id: shortid.generate(), res };
+
+  if (!rooms[ip]) {
+    rooms[ip] = new Room(ip);
+  } else {
+    rooms[ip].addWatcher(watcher);
+  }
+
+  rooms[ip].informWatchers([ watcher ]);
+
+  req.on('close', () => {
+    const room = rooms[ip];
+    if (!room) return;
+
+    room.removeWatcher(watcher);
+
+    if (!room.watchers.length && !room.socketsData.length) {
+      delete rooms[ip];
+    }
+  });
 });
