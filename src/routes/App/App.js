@@ -31,7 +31,7 @@ export default function App() {
 
     scriptjs([
       'https://unpkg.com/canvas-elements/build/cdn/canvas-elements.min.js',
-      'https://cdn.jsdelivr.net/npm/webtorrent@latest/webtorrent.min.js',
+      'https://cdn.jsdelivr.net/npm/webtorrent@0.108.6/webtorrent.min.js',
     ], () => {
       setLoaded(true);
     });
