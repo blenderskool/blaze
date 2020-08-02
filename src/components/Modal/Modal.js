@@ -8,12 +8,11 @@ import './Modal.scss';
 function Modal({ isClosable, isOpen, onClose, children }) {
 
   useEffect(() => {
-    document.getElementById('app').style.filter = isOpen ? 'blur(18px)' : '';
     document.body.classList.toggle('no-bg-image', isOpen);
   }, [ isOpen ]);
   
-  const ModalRender = (
-    <div class="modal-wrapper">
+  return createPortal(
+    <div class="modal-wrapper" style={isOpen ? { opacity: 1, visibility: 'visible' } : {}}>
 
       { isClosable && (
           <button
@@ -30,14 +29,9 @@ function Modal({ isClosable, isOpen, onClose, children }) {
       <div class="modal">
         { children }
       </div>
-    </div>
+    </div>,
+    document.body
   );
-
-  if (isOpen) {
-    return createPortal(ModalRender, document.body);
-  }
-
-  return null;
 }
 
 Modal.defaultProps = {
