@@ -37,7 +37,7 @@ button.fab {
   }
 }
 
-@media screen and (min-width: $tablet) {
+@media screen and (min-width: $mobile-sm) {
   button.fab {
     height: 55px;
     width: auto;
