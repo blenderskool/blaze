@@ -1,6 +1,6 @@
 import { h } from 'preact';
 import { useState } from 'preact/hooks';
-import { Menu, X } from 'preact-feather';
+import { Menu, X, Github } from 'preact-feather';
 
 import Pill from '../../../../components/Pill/Pill';
 import './Header.scss';
@@ -27,7 +27,10 @@ function Header() {
       <nav style={{ display: isMenuOpen ? 'flex' : 'none' }}>
         {/* <a href="#">How it works</a> */}
         <a href="#about">About</a>
-        <a href="https://github.com/blenderskool/blaze">GitHub</a>
+        <a href="https://github.com/blenderskool/blaze">
+          GitHub&nbsp;
+          <Github size={16} style="margin-bottom: 4px" />
+        </a>
         <a class="ph-desktop" href="https://www.producthunt.com/posts/blaze-2?utm_source=badge-top-post-badge&utm_medium=badge&utm_souce=badge-blaze-2" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/top-post-badge.svg?post_id=174403&theme=dark&period=daily" alt="Blaze - Fast peer to peer file sharing web app ⚡ | Product Hunt Embed" style="width: 250px; height: 54px;" width="250px" height="54px" /></a>
       </nav>
     </header>
