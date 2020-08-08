@@ -5,6 +5,7 @@ import { Router, route } from 'preact-router';
 import Rooms from './Rooms/Rooms';
 import NewUser from './NewUser/NewUser';
 import FileTransfer from './FileTransfer/FileTransfer';
+import Loading from '../../components/Loading/Loading';
 
 import './app.scss';
 
@@ -51,15 +52,15 @@ export default function App() {
   }
 
   return (
-    <div class="app-container">
+    <main class="app-container">
       {
         isLoaded ? (
           <Router>
             <Rooms path="/app/" isOnline={isOnline} />
             <FileTransfer path="/app/t/:room" />
           </Router>
-        ) : null
+        ) : <Loading fullScreen />
       }
-    </div>
+    </main>
   );
 }
