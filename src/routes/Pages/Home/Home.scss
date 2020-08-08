@@ -155,11 +155,8 @@ svg.waves {
 
   path {
     fill: none;
-    stroke: $primary;
     stroke-width: 10px;
-    stroke-dasharray: 1650;
-    stroke-dashoffset: 0;
-    animation: waves 1.8s ease-in-out;
+    stroke: $primary;
   }
 }
 
