@@ -41,6 +41,7 @@ class FileTransfer extends PureComponent {
         isOpen: false,
         message: '',
       },
+      isSelectorEnabled: false,
     };
     
     this.canvas = createRef();
@@ -60,10 +61,6 @@ class FileTransfer extends PureComponent {
     }
   }
 
-  get isSelectorEnabled() {
-    return this.state.percentage === null ? (this.state.peers.length - 1 > 0) : false;
-  }
-
   onUserJoin(users) {
     let isP2P = this.state.isP2P;
 
@@ -80,13 +77,16 @@ class FileTransfer extends PureComponent {
     this.setState({
       peers: users.map(user => user.name),
       isP2P,
+      isSelectorEnabled: users.length - 1 > 0
     });
   }
 
   onUserLeave(user) {
     this.visualizer.removeNode(user);
+    const peers = this.state.peers.filter(peer => peer !== user);
     this.setState({
-      peers: this.state.peers.filter(peer => peer !== user),
+      peers,
+      isSelectorEnabled: peers.length - 1 > 0,
     });
   }
 
@@ -102,6 +102,7 @@ class FileTransfer extends PureComponent {
         file.sent = true;
         return file;
       }),
+      isSelectorEnabled: this.state.peers.length - 1 > 0,
     });
 
     // Remove the file from the input
@@ -131,7 +132,7 @@ class FileTransfer extends PureComponent {
     /**
      * File selector was disabled, but somehow new files were received
      */
-    if (!this.isSelectorEnabled) {
+    if (!this.state.isSelectorEnabled) {
       toast('File transfer is not possible right now');
       return;
     }
@@ -160,6 +161,7 @@ class FileTransfer extends PureComponent {
           this.setState({
             filesQueued,
             files: [...metaData, ...this.state.files],
+            isSelectorEnabled: false,
           });
         },
         onTorrentProgress: ({ wires }) => {
@@ -169,10 +171,14 @@ class FileTransfer extends PureComponent {
               .map(wire => wire.peerId),
             []
           );
+          this.setState({ isSelectorEnabled: false });
         },
         onSocketProgress: ({ progress }) => {
           const percentage = progress * 100;
-          this.setState({ percentage });
+          this.setState({
+            percentage,
+            isSelectorEnabled: false,
+          });
           this.visualizer.startSharing();
 
           if (percentage >= 100) {
@@ -220,6 +226,7 @@ class FileTransfer extends PureComponent {
 
         this.setState({
           files: [...data.meta, ...this.state.files],
+          isSelectorEnabled: false,
         });
       },
       onProgress: ({ progress, wires }) => {
@@ -242,6 +249,7 @@ class FileTransfer extends PureComponent {
         this.visualizer.startSharing(sentTo, receivedBy);
         this.setState({
           percentage: progress * 100,
+          isSelectorEnabled: false,
         });
       },
       onDone: (file, meta) => {
@@ -281,8 +289,7 @@ class FileTransfer extends PureComponent {
       title: 'Share files',
       text: `Join my room '${this.props.room}' on Blaze to share files`,
       url: window.location.href,
-    })
-    .catch(() => toast('Room link could\'t be shared!'));
+    });
   }
 
   getFileIcon(file) {
@@ -361,7 +368,7 @@ class FileTransfer extends PureComponent {
     }
   }
 
-  render({ room }, { percentage, peers, isP2P, files, filesQueued, errorModal }) {
+  render({ room }, { percentage, peers, isP2P, files, filesQueued, errorModal, isSelectorEnabled }) {
 
     return (
       <div class="file-transfer">
@@ -440,7 +447,7 @@ class FileTransfer extends PureComponent {
             )
           }
 
-          <Fab text="Send File" disabled={!this.isSelectorEnabled} onClick={() => this.fileInput.current.click()}>
+          <Fab text="Send File" disabled={!isSelectorEnabled} onClick={() => this.fileInput.current.click()}>
             <Plus />
           </Fab>
 
@@ -452,7 +459,7 @@ class FileTransfer extends PureComponent {
           </div>
         </Modal>
 
-        { this.isSelectorEnabled && <FileDrop onFile={this.selectFiles} /> }
+        { isSelectorEnabled && <FileDrop onFile={this.selectFiles} /> }
       </div>
     );
   }
