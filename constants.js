@@ -8,4 +8,5 @@ export default {
   FILE_TORRENT: 'file-torrent',
   ERR_SAME_NAME: 'ERR_SAME_NAME',
   ERR_CONN_CLOSED: 'ERR_CONN_CLOSED',
+  ERR_LARGE_FILE: 'ERR_LARGE_FILE',
 };

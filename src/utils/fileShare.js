@@ -166,9 +166,15 @@ class FileShare {
     
     if (useTorrent) {
       const inputMap = {};
+      let totalSize = 0;
       for (let i = 0; i < input.length; i++) {
         const file = input[i];
         inputMap[file.name + file.size] = file;
+        totalSize += file.size;
+      }
+
+      if (totalSize > TORRENT_SIZE_LIMIT) {
+        throw new Error(constants.ERR_LARGE_FILE);
       }
 
       this.torrentClient.seed(input, trackers, torrent => {
@@ -198,6 +204,9 @@ class FileShare {
       input = Array.from(input);
 
       for(const file of input) {
+        if (file.size > WS_SIZE_LIMIT) {
+          throw new Error(constants.ERR_LARGE_FILE);
+        }
         await this.sendFileSocket({ file, numPeers, onMeta, onSocketProgress });
       }
     }

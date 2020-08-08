@@ -97,6 +97,7 @@ class FileTransfer extends PureComponent {
   resetState() {
     this.visualizer.stopSharing();
     this.setState({
+      filesQueued: 0,
       percentage: null,
       files: this.state.files.map(file => {
         file.sent = true;
@@ -149,7 +150,7 @@ class FileTransfer extends PureComponent {
       .sendFiles({
         numPeers: this.state.peers.length,
         input: inputFiles,
-        useTorrent: this.state.isP2P,
+        useTorrent: false && this.state.isP2P,
 
         onMeta: (metaData) => {
           metaData = metaData.map(file => ({
@@ -192,6 +193,18 @@ class FileTransfer extends PureComponent {
           this.visualizer.stopSharing();
           this.resetState();
         },
+      })
+      .catch(err => {
+        switch(err.message) {
+          case constants.ERR_LARGE_FILE:
+            // File selected by the user is larger than the set limit
+            toast(`File size is limited to ${formatSize(this.state.isP2P ? TORRENT_SIZE_LIMIT : WS_SIZE_LIMIT)}`)
+            break;
+          default:
+            // Some other error occurred
+            toast('An error occured');
+        }
+        this.resetState();
       });
   }
 
