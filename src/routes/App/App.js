@@ -2,6 +2,9 @@ import { h } from 'preact';
 import { useState, useEffect } from 'preact/hooks';
 import { Router, route } from 'preact-router';
 
+import { useOnline, useSWMessage } from '../../hooks';
+import constants from '../../../constants';
+import { QueuedFiles } from './QueuedFiles';
 import Rooms from './Rooms/Rooms';
 import NewUser from './NewUser/NewUser';
 import FileTransfer from './FileTransfer/FileTransfer';
@@ -10,23 +13,20 @@ import Loading from '../../components/Loading/Loading';
 import './app.scss';
 
 export default function App() {
-  const [isRegistered, setRegistered] = useState(!!window.localStorage.getItem('blaze'));
-  const [isOnline, setOnline] = useState(navigator.onLine);
   const [isLoaded, setLoaded] = useState(false);
-  
-  const handleNetworkStatus = () => {
-    if (!navigator.onLine) {
-      route('/app', true);
-    }
-    setOnline(navigator.onLine);
-  };
+  const [isRegistered, setRegistered] = useState(!!window.localStorage.getItem('blaze'));
+  const isOnline = useOnline();
+  const [queuedFiles, setQueuedFiles] = useSWMessage([{}], constants.SW_LOAD_FILES);
 
+  /* Mount specific effects */
   useEffect(() => {
     document.title = 'App | Blaze';
-    if (!isRegistered) return;
+    navigator.serviceWorker?.controller?.postMessage(constants.SW_SHARE_READY);
+  }, []);
 
-    window.addEventListener('offline', handleNetworkStatus);
-    window.addEventListener('online', handleNetworkStatus);
+  /* Loading extra scripts */
+  useEffect(() => {
+    if (!isRegistered) return;
 
     const scriptjs = require('scriptjs');
 
@@ -36,12 +36,15 @@ export default function App() {
     ], () => {
       setLoaded(true);
     });
-
-    return () => {
-      window.removeEventListener('online', handleNetworkStatus);
-      window.removeEventListener('offline', handleNetworkStatus);
-    };
   }, [isRegistered]);
+
+  /* Changing route when offline */
+  useEffect(() => {
+    if (isRegistered && !isOnline) {
+      route('/app', true);
+    }
+  }, [isRegistered, isOnline]);
+
 
   if (!isRegistered) {
     return (
@@ -55,10 +58,12 @@ export default function App() {
     <main class="app-container">
       {
         isLoaded ? (
-          <Router>
-            <Rooms path="/app/" isOnline={isOnline} />
-            <FileTransfer path="/app/t/:room" />
-          </Router>
+          <QueuedFiles.Provider value={{ queuedFiles, setQueuedFiles }}>
+            <Router>
+              <Rooms path="/app/" isOnline={isOnline} />
+              <FileTransfer path="/app/t/:room" />
+             </Router>
+          </QueuedFiles.Provider>
         ) : <Loading fullScreen />
       }
     </main>

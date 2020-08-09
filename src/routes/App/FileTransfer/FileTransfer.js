@@ -2,8 +2,9 @@ import { h, createRef } from 'preact';
 import download from 'downloadjs';
 import { route } from 'preact-router';
 import { PureComponent, forwardRef, memo } from 'preact/compat';
-import { ArrowLeft, CheckCircle, Plus, Image, Film, Box, Music, File, Zap, Share2 } from 'preact-feather';
+import { ArrowLeft, CheckCircle, Plus, Image, Film, Box, Music, File, Zap, Share2, Send } from 'preact-feather';
 
+import { withQueuedFiles } from '../QueuedFiles';
 import Fab from '../../../components/Fab/Fab';
 import Modal from '../../../components/Modal/Modal';
 import FileDrop from '../../../components/FileDrop/FileDrop';
@@ -12,13 +13,16 @@ import { toast } from '../../../components/Toast';
 import SocketConnect from '../../../utils/socketConnect';
 import Visualizer from '../../../utils/visualizer';
 import formatSize from '../../../utils/formatSize';
+import pluralize from '../../../utils/pluralize';
 import constants from '../../../../constants';
 
 import './FileTransfer.scss';
 
-const Canvas = memo(forwardRef((props, ref) => {
+const CanvasUnwrapped = (props, ref) => {
   return <canvas ref={ref} {...props} />;
-}));
+};
+
+const Canvas = memo(forwardRef(CanvasUnwrapped));
 
 class FileTransfer extends PureComponent {
   
@@ -150,7 +154,7 @@ class FileTransfer extends PureComponent {
       .sendFiles({
         numPeers: this.state.peers.length,
         input: inputFiles,
-        useTorrent: false && this.state.isP2P,
+        useTorrent: this.state.isP2P,
 
         onMeta: (metaData) => {
           metaData = metaData.map(file => ({
@@ -305,6 +309,11 @@ class FileTransfer extends PureComponent {
     });
   }
 
+  handleQueuedFiles = () => {
+    this.selectFiles(this.props.queuedFiles);
+    this.props.setQueuedFiles([]);
+  }
+
   getFileIcon(file) {
     const size = 20;
 
@@ -381,7 +390,7 @@ class FileTransfer extends PureComponent {
     }
   }
 
-  render({ room }, { percentage, peers, isP2P, files, filesQueued, errorModal, isSelectorEnabled }) {
+  render({ room, queuedFiles }, { percentage, peers, isP2P, files, filesQueued, errorModal, isSelectorEnabled }) {
 
     return (
       <div class="file-transfer">
@@ -447,7 +456,10 @@ class FileTransfer extends PureComponent {
                   {
                     !!filesQueued && (
                       <div class="queue">
-                        {`${filesQueued} file${filesQueued > 1 ? 's are ' : ' is '}`}
+                        {filesQueued}
+                        {' '}
+                        {pluralize(filesQueued, 'file is', 'files are')}
+                        {' '}
                         in queue
                       </div>
                     )
@@ -460,9 +472,22 @@ class FileTransfer extends PureComponent {
             )
           }
 
-          <Fab text="Send File" disabled={!isSelectorEnabled} onClick={() => this.fileInput.current.click()}>
-            <Plus />
-          </Fab>
+          {
+            queuedFiles.length ? (
+              <Fab
+                text={`Send selected ${pluralize(queuedFiles.length, 'file', 'files')}`}
+                variant="lg"
+                disabled={!isSelectorEnabled}
+                onClick={this.handleQueuedFiles}
+              >
+                <Send size={20} />
+              </Fab>
+            ) : (
+              <Fab text="Send File" disabled={!isSelectorEnabled} onClick={() => this.fileInput.current.click()}>
+                <Plus />
+              </Fab>
+            )
+          }
 
         </main>
 
@@ -478,4 +503,4 @@ class FileTransfer extends PureComponent {
   }
 }
 
-export default FileTransfer;
+export default withQueuedFiles(FileTransfer);
