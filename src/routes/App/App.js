@@ -16,7 +16,7 @@ export default function App() {
   const [isLoaded, setLoaded] = useState(false);
   const [isRegistered, setRegistered] = useState(!!window.localStorage.getItem('blaze'));
   const isOnline = useOnline();
-  const [queuedFiles, setQueuedFiles] = useSWMessage([{}], constants.SW_LOAD_FILES);
+  const [queuedFiles, setQueuedFiles] = useSWMessage([], constants.SW_LOAD_FILES);
 
   /* Mount specific effects */
   useEffect(() => {
