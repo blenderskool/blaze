@@ -1,5 +1,23 @@
 @import '../../scss/variables';
 
+@mixin fab-lg() {
+  height: 55px;
+  width: auto;
+  padding: 0 1rem;
+  font-size: 2rem;
+
+  .lg-text {
+    display: block;
+    font-size: 1.25rem;
+    margin: 0 5px;
+  }
+
+  svg {
+    width: auto;
+    height: auto;
+  }
+}
+
 button.fab {
   width: 65px;
   height: 65px;
@@ -9,6 +27,7 @@ button.fab {
   right: 30px;
   font-size: 2.3rem;
   padding: 0;
+  white-space: nowrap;
 
   &:disabled {
     background-color: $secondary;
@@ -35,24 +54,23 @@ button.fab {
     bottom: 0;
     cursor: inherit;
   }
+
+  &.lg {
+    @include fab-lg();
+  }
+}
+
+@media screen and (max-width: $mobile-sm) {
+  button.fab.lg {
+    right: 50%;
+    transform: translateX(50%);
+  }
 }
 
 @media screen and (min-width: $mobile-sm) {
   button.fab {
-    height: 55px;
-    width: auto;
-    padding: 0 1rem;
-    font-size: 2rem;
-
-    .lg-text {
-      display: block;
-      font-size: 1.25rem;
-      margin: 0 5px;
-    }
-
-    svg {
-      width: auto;
-      height: auto;
+    &:not(.sm) {
+      @include fab-lg();
     }
   }
 }
