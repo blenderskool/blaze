@@ -30,6 +30,9 @@ const Home = () => (
             to="0"
             dur="1.8s"
             fill="freeze"
+            keySplines=".42,0,.58,1"
+            calcMode="spline"
+            keyTimes="0; 1"
           />
         </path>
       </svg>

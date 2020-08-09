@@ -29,12 +29,12 @@
     filter: drop-shadow(0 0 10px rgba($primary, 0.5));
 
     path {
-      animation: grow 3.5s linear -6s infinite;
+      animation: grow 3.5s ease-in-out -6s infinite;
     }
   }
 
   .node {
-    animation: node 3.5s linear infinite;
+    animation: node 3.5s ease-in-out infinite;
 
     &:nth-child(1) {
       animation-delay: -2.05s;
@@ -46,7 +46,7 @@
     }
 
     &:nth-child(4) {
-      animation-delay: -1.7s;
+      animation-delay: -1.8s;
     }
   }
 
@@ -89,11 +89,11 @@
     fill: $primary;
   }
 
-  50% {
+  58% {
     fill: $primary;
   }
 
-  51% {
+  59% {
     fill: $secondary;
   }
 }
