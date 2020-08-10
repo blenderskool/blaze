@@ -7,11 +7,13 @@ import Room from '../utils/room';
 import log from './log';
 import constants from '../constants';
 
+const CORS_ORIGIN = process.env.ORIGIN || '*';
+const PORT = process.env.PORT || 3030;
+const WS_SIZE_LIMIT = process.env.WS_SIZE_LIMIT || 1e8;
+
 const app = express();
 app.use(express.json());
-app.use(cors({
-  origin: process.env.ORIGIN || '*',
-}));
+app.use(cors({ origin: CORS_ORIGIN }));
 
 const server = http.createServer(app);
 
@@ -66,6 +68,9 @@ wss.on('connection', (ws) => {
 
   socket.listen(constants.FILE_INIT, (data) => {
     // TODO: Prevent init from multiple sockets if a sender is already there
+    // TODO: Improve error messaging via sockets
+    if (data.size > WS_SIZE_LIMIT) return;
+
     if (data.end) {
       log(`File transfer just finished!`);
     } else {
@@ -101,7 +106,6 @@ app.get('/', (req, res) => {
   });
 });
 
-const port = process.env.PORT || 3030;
-server.listen(port, '0.0.0.0', () => {
-  log(`listening on *:${port}`);
+server.listen(PORT, '0.0.0.0', () => {
+  log(`listening on *:${PORT}`);
 });
