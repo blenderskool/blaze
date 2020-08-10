@@ -6,6 +6,7 @@ import { Plus, X } from 'preact-feather';
 import { QueuedFiles } from '../QueuedFiles';
 import Fab from '../../../components/Fab/Fab';
 import Modal from '../../../components/Modal/Modal';
+import pluralize from '../../../utils/pluralize';
 
 import './Rooms.scss';
 
@@ -78,7 +79,9 @@ function Rooms({ isOnline }) {
                     {
                       !!queuedFiles.length && (
                         <div class="message" style="margin-top: 0; margin-bottom: 2.5rem;">
-                          Join a room to share the selected files
+                          Join a room to share the selected
+                          {' '}
+                          {pluralize(queuedFiles.length, 'file', 'files')}
                         </div>
                       )
                     }
@@ -105,7 +108,11 @@ function Rooms({ isOnline }) {
                 ) : (
                   <>
                     <div class="message">
-                      {queuedFiles.length ? 'Create a room using + button to share selected files' : 'Start by joining a room using the + button'}
+                      {
+                        queuedFiles.length ?
+                          `Create a room using + button to share the selected ${pluralize(queuedFiles.length, 'file', 'files')}` :
+                          'Start by joining a room using the + button'
+                      }
                       <p class="devices-same-room">
                         Devices must join same room to share files with each other
                       </p>
