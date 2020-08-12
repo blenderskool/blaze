@@ -110,7 +110,9 @@
 
         .info {
           text-align: left;
-          width: 85%;
+          flex: 1;
+          width: 60%;
+          margin-right: 1rem;
 
           h4 {
             font-weight: $font-normal;
@@ -130,21 +132,24 @@
         }
 
         .file-progress {
-          transform: rotateZ(-90deg) scaleY(-1);
-          margin-left: auto;
-          margin-right: 10px;
+          &.spinner {
+            animation: spin 1s linear infinite;
+          }
 
-          circle {
-            stroke: $primary;
-            stroke-width: 2px;
-            stroke-dasharray: 69;
-            fill: #0B101C;
+          svg {
+            transform: rotateZ(-90deg) scaleY(-1);
+
+            circle {
+              stroke: $primary;
+              stroke-width: 2px;
+              stroke-dasharray: 69;
+              fill: #0B101C;
+            }
           }
         }
 
         .file-complete {
-          margin-left: auto;
-          margin-right: 13px;
+          margin-right: 3px;
           color: $primary;
         }
 
@@ -160,6 +165,7 @@
     }
 
     .files-container {
+      max-width: 49%;
       flex: 1;
       align-self: center;
       margin-top: -8rem;
@@ -185,5 +191,15 @@
     font-size: 1.1rem;
     color: $secondary;
     margin: 0 0 2rem;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotateZ(0);
+  }
+
+  to {
+    transform: rotateZ(360deg);
   }
 }

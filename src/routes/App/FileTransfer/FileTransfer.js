@@ -332,6 +332,30 @@ class FileTransfer extends PureComponent {
   }
 
   renderFile(file) {
+    let fileProgress = (
+      <div class="file-progress spinner">
+        <svg width="30" height="30">
+          <circle cx="15" cy="15" r="10" stroke-dashoffset="40" />
+        </svg>
+      </div>
+    );
+
+    if (file.sent) {
+      fileProgress = (
+        <div class="file-complete">
+          <CheckCircle />
+        </div>
+      );
+    } else if (this.state.percentage) {
+      fileProgress = (
+        <div class="file-progress">
+          <svg width="30" height="30">
+            <circle cx="15" cy="15" r="10" style={`stroke-dashoffset:${63 * this.state.percentage/100 - 63}`} />
+          </svg>
+        </div>
+      );
+    }
+
     return (
       <li>
         <div class="file-type">
@@ -346,17 +370,7 @@ class FileTransfer extends PureComponent {
           </p>
         </div>
 
-        {
-          file.sent ? (
-            <div class="file-complete">
-              <CheckCircle />
-            </div>
-          ) : (
-            <svg width="30" height="30" class="file-progress">
-              <circle cx="15" cy="15" r="10" style={`stroke-dashoffset:${63 * this.state.percentage/100 - 63}`} />
-            </svg>
-          )
-        }
+        {fileProgress}
       </li>
     );
   }
