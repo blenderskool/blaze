@@ -89,7 +89,7 @@ function Rooms({ isOnline }) {
                     <ul class="recent-rooms">
                       {
                         rooms.map(room => (
-                          <li role="link" tabIndex="0" onClick={() => route(`/app/t/${room}`)}>
+                          <li role="link" tabIndex="0" onClick={() => handleNewRoom(room)}>
                             <div>{room}</div>
                             <button
                               class="thin icon remove-room"
