@@ -28,7 +28,8 @@ class FileTransfer extends PureComponent {
   
   constructor(props) {
     super(props);
-    const { room } = props;
+    let { room } = props;
+    room = room.replace(/-/g, ' ');
     const savedData = JSON.parse(localStorage.getItem('blaze'));
     this.client = {
       ...savedData.user,
@@ -304,7 +305,7 @@ class FileTransfer extends PureComponent {
     
     navigator.share({
       title: 'Share files',
-      text: `Join my room '${this.props.room}' on Blaze to share files`,
+      text: `Join my room '${this.client.room}' on Blaze to share files`,
       url: window.location.href,
     });
   }
@@ -404,7 +405,7 @@ class FileTransfer extends PureComponent {
     }
   }
 
-  render({ room, queuedFiles }, { percentage, peers, isP2P, files, filesQueued, errorModal, isSelectorEnabled }) {
+  render({ queuedFiles }, { percentage, peers, isP2P, files, filesQueued, errorModal, isSelectorEnabled }) {
 
     return (
       <div class="file-transfer">
@@ -414,7 +415,7 @@ class FileTransfer extends PureComponent {
           </button>
 
           <h1 class="room-name">
-            {room}
+            {this.client.room}
           </h1>
 
           <button

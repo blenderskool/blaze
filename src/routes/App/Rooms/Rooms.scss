@@ -62,14 +62,16 @@
   @media screen and (min-width: $tablet) {
 
     ul.recent-rooms {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-      gap: 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      margin: -1rem;
 
       li {
-        margin: 0;
+        margin: 1rem;
+        min-width: 180px;
         flex-direction: column;
         padding: 13px 15px;
+        align-items: flex-start;
 
         div {
           order: 2;

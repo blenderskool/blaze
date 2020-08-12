@@ -23,10 +23,10 @@ function NewRoomModal({ onNewRoom, ...props }) {
       <form class="join-room" onSubmit={handleSubmit}>
         <input
           type="text"
-          maxlength="10"
+          maxlength="20"
           required
           placeholder="Room name"
-          pattern="[A-Za-z0-9]+"
+          pattern="^([A-Za-z0-9]+ ?)+[A-Za-z0-9]$"
           style="margin-top: 0"
           value={room}
           onChange={e => setRoom(e.target.value)}
@@ -48,7 +48,8 @@ function Rooms({ isOnline }) {
 
   const handleNewRoom = (room) => {
     setModal(false);
-    route(`/app/t/${room.toLowerCase()}`);
+    const roomURL = room.replace(/ /g, '-').toLowerCase();
+    route(`/app/t/${roomURL}`);
   };
 
   const removeRoom = (room) => {
