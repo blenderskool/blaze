@@ -1,8 +1,8 @@
 import { h } from 'preact';
-import network from '../../../assets/images/illustrations/network_compress.png';
-import twoDevices from '../../../assets/images/illustrations/two_devices_compress.png';
-import threeDevices from '../../../assets/images/illustrations/three_devices_compress.png';
-import world from '../../../assets/images/illustrations/world_compressed.png';
+import network from '../../../assets/images/illustrations/network.svg';
+import twoDevices from '../../../assets/images/illustrations/two_devices.svg';
+import threeDevices from '../../../assets/images/illustrations/three_devices.svg';
+import earth from '../../../assets/images/illustrations/earth.svg';
 import Pill from '../../../components/Pill/Pill';
 import './Home.scss';
 
@@ -42,7 +42,7 @@ const Home = () => (
 
     <section class="features">
       <div class="feature">
-        <img src={twoDevices} alt="Laptop and mobile connected together" loading="lazy" />
+        <img src={twoDevices} alt="Laptop and mobile connected together" loading="lazy" style="margin-right: -60px" />
         <h2>Easy to use</h2>
         <p>
           Blaze is a web app, just open it in your browser, join a room, and start sharing. No need to download specific apps for different platforms.
@@ -51,14 +51,14 @@ const Home = () => (
 
       <div class="feature">
         <img src={threeDevices} alt="Laptop and two mobiles connected together" loading="lazy" />
-        <h2 style="margin-top: 25px">Multi-device <Pill>Experimental</Pill></h2>
+        <h2>Multi-device <Pill>Experimental</Pill></h2>
         <p>
           Traditionally, sharing files to multiple devices has been a hassle. With Blaze, you can share files across multiple devices with ease.
         </p>
       </div>
       
       <div class="feature">
-        <img src={world} alt="Devices in different parts of the world using Blaze to share files" loading="lazy" />
+        <img src={earth} alt="Devices in different parts of the world using Blaze to share files" loading="lazy" style="transform: scale(0.9)" />
         <h2>Anywhere</h2>
         <p>
           Blaze is built on modern web technologies, allowing it to work on devices far away from each other. It just needs to be connected to the internet.

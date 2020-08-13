@@ -42,9 +42,11 @@ html {
     margin-top: 40px;
   }
   
-  img {
+  .network-img {
     order: -1;
-    width: 100%;
+    width: 75%;
+    margin-right: -50px;
+    margin-bottom: 2rem;
   }
   
 }
@@ -59,6 +61,8 @@ html {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
 
     h2 {
       font-size: 1.6rem;
@@ -66,7 +70,8 @@ html {
     }
 
     img {
-      width: 100%;
+      height: 180px;
+      margin-bottom: 2rem;
     }
 
     p {
@@ -146,18 +151,7 @@ footer {
 }
 
 svg.waves {
-  z-index: -1;
-  position: absolute;
-  bottom: 30px;
-  left: 0;
-  filter: drop-shadow(0 0 15px $primary);
-  overflow-x: hidden;
-
-  path {
-    fill: none;
-    stroke-width: 10px;
-    stroke: $primary;
-  }
+  display: none;
 }
 
 @keyframes waves {
@@ -184,13 +178,10 @@ svg.waves {
       text-align: initial;
     }
 
-    img {
+    .network-img {
       order: 0;
-      width: 70%;
-
-      &.network-img {
-        margin-right: -130px;
-      }
+      width: 43%;
+      margin-top: -4rem;
     }
 
     .ph-mob {
@@ -204,6 +195,7 @@ svg.waves {
 
     .feature {
       width: 31%;
+      margin-bottom: 0;
     }
 
   }
@@ -213,10 +205,18 @@ svg.waves {
   }
 
   svg.waves {
+    display: block;
+    z-index: -1;
+    position: absolute;
     bottom: 0;
-
+    left: 0;
+    filter: drop-shadow(0 0 15px $primary);
+    overflow-x: hidden;
+  
     path {
+      fill: none;
       stroke-width: 3px;
+      stroke: $primary;
     }
   }
 
