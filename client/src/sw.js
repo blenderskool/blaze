@@ -1,5 +1,5 @@
 import { getFiles, setupPrecaching, setupRouting } from 'preact-cli/sw';
-import constants from '../constants';
+import constants from '../../common/constants';
 
 setupRouting();
 

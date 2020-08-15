@@ -14,7 +14,7 @@ import SocketConnect from '../../../utils/socketConnect';
 import Visualizer from '../../../utils/visualizer';
 import formatSize from '../../../utils/formatSize';
 import pluralize from '../../../utils/pluralize';
-import constants from '../../../../constants';
+import constants from '../../../../../common/constants';
 
 import './FileTransfer.scss';
 

@@ -1,4 +1,4 @@
-import constants from '../../constants';
+import constants from '../../../common/constants';
 
 const trackers = {
   announce: ['wss://tracker.btorrent.xyz', 'wss://tracker.openwebtorrent.com'],

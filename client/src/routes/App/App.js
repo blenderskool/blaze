@@ -3,7 +3,7 @@ import { useState, useEffect } from 'preact/hooks';
 import { Router, route } from 'preact-router';
 
 import { useOnline, useSWMessage } from '../../hooks';
-import constants from '../../../constants';
+import constants from '../../../../common/constants';
 import { QueuedFiles } from './QueuedFiles';
 import Rooms from './Rooms/Rooms';
 import NewUser from './NewUser/NewUser';
