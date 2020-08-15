@@ -4,49 +4,20 @@
   "description": "Quickly share files with multiple users",
   "private": true,
   "scripts": {
-    "server": "sucrase-node server/index",
-    "dev": "concurrently \"npm:server\" \"preact watch\"",
-    "build": "preact build",
-    "start": "concurrently \"npm:server\" \"sirv build --cors --single --port 8080 \"",
-    "lint": "eslint src utils server"
+    "dev:fe": "npm run --prefix client dev",
+    "build:fe": "npm run --prefix client build",
+    "start:fe": "npm start --prefix client",
+    "start:server": "npm start --prefix server",
+    "dev": "concurrently \"npm:start:server\" \"npm:dev:fe\"",
+    "start": "concurrently \"npm:start:server\" \"npm:start:fe\"",
+    "postinstall": "npm install --prefix client && npm install --prefix server"
   },
   "author": "Akash Hamirwasia",
   "license": "MIT",
-  "eslintConfig": {
-    "extends": "preact",
-    "ignorePatterns": [
-      "build/"
-    ]
-  },
   "dependencies": {
-    "concurrently": "^5.2.0",
-    "cors": "^2.8.5",
-    "downloadjs": "^1.4.7",
-    "express": "^4.17.1",
-    "preact": "^10.3.2",
-    "preact-feather": "^4.1.0",
-    "preact-render-to-string": "^5.1.4",
-    "preact-router": "^3.2.1",
-    "prop-types": "^15.7.2",
-    "scriptjs": "^2.5.9",
-    "sucrase": "^3.15.0",
-    "ws": "^7.3.0"
+    "concurrently": "^5.2.0"
   },
   "engines": {
     "node": "10.x"
-  },
-  "devDependencies": {
-    "enzyme": "^3.10.0",
-    "enzyme-adapter-preact-pure": "^2.0.0",
-    "eslint": "^6.0.1",
-    "eslint-config-preact": "^1.1.0",
-    "identity-obj-proxy": "^3.0.0",
-    "ip": "^1.1.5",
-    "node-sass": "^4.14.1",
-    "preact-cli": "^3.0.0",
-    "preact-render-spy": "^1.2.1",
-    "sass-loader": "^8.0.2",
-    "sirv-cli": "^0.4.5",
-    "webpack": "^4.43.0"
   }
 }
