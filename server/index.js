@@ -2,10 +2,10 @@ import express from 'express';
 import http from 'http';
 import WebSocket from 'ws';
 import cors from 'cors';
-import Socket from '../utils/socket';
-import Room from '../utils/room';
+import Socket from '../common/utils/socket';
+import Room from '../common/utils/room';
 import log from './log';
-import constants from '../constants';
+import constants from '../common/constants';
 
 const CORS_ORIGIN = process.env.ORIGIN || '*';
 const PORT = process.env.PORT || 3030;
