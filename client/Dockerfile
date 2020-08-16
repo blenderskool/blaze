@@ -17,7 +17,7 @@ RUN npm install && \
     npm run build
 
 FROM nginx:alpine
-
+COPY ./client/nginx.conf /etc/nginx/nginx.conf
 COPY --from=base /app/client/build /etc/nginx/html
 
 EXPOSE 8080 80
