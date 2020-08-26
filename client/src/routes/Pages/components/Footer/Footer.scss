@@ -1,0 +1,17 @@
+@import '../../../../scss/variables';
+
+footer {
+  margin: 3rem 0;
+  color: $secondary;
+  text-align: center;
+  line-height: 1.75;
+
+  .digital-ocean {
+    width: 175px;
+    margin-bottom: 1.75rem;
+  }
+
+  span {
+    display: inline-block;
+  }
+}
