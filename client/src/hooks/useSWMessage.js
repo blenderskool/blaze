@@ -10,7 +10,7 @@ function useSWMessage(initial, action) {
   const [data, setData] = useState(initial);
 
   useEffect(() => {
-    if (!navigator.serviceWorker) return;
+    if (typeof window === 'undefined' || !navigator.serviceWorker) return;
 
     const handleMessage = (event) => {
       if (event.data.action === action) {

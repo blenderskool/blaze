@@ -5,9 +5,11 @@ import { useState, useEffect } from 'preact/hooks';
  * @returns {Boolean} Whether device is online
  */
 function useOnline() {
-  const [isOnline, setOnline] = useState(navigator.onLine);
+  const [isOnline, setOnline] = useState(typeof window !== 'undefined' ? navigator.onLine : true);
 
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+
     const handleNetworkStatus = () => {
       setOnline(navigator.onLine);
     };
@@ -19,7 +21,7 @@ function useOnline() {
       window.removeEventListener('online', handleNetworkStatus);
       window.removeEventListener('offline', handleNetworkStatus);
     };
-  },[]);
+  }, []);
   
   return isOnline;
 }
