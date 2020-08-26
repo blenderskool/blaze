@@ -14,13 +14,14 @@ import './app.scss';
 
 export default function App() {
   const [isLoaded, setLoaded] = useState(false);
-  const [isRegistered, setRegistered] = useState(!!window.localStorage.getItem('blaze'));
+  const [isRegistered, setRegistered] = useState(typeof window !== 'undefined' ? !!window.localStorage.getItem('blaze') : true);
   const isOnline = useOnline();
   const [queuedFiles, setQueuedFiles] = useSWMessage([], constants.SW_LOAD_FILES);
 
   /* Mount specific effects */
   useEffect(() => {
-    document.title = 'App | Blaze';
+    if (typeof window === 'undefined') return;
+
     navigator.serviceWorker?.controller?.postMessage(constants.SW_SHARE_READY);
   }, []);
 
