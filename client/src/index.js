@@ -8,9 +8,15 @@ import './global.scss';
 
 export default function Blaze() {
 
+  function handleRouteChange() {
+    if (typeof window === 'undefined') return;
+
+    window.scrollTo(0, 0);
+  }
+
   return (
     <div id="app">
-      <Router>
+      <Router onChange={handleRouteChange}>
         <Route path="/:*?" component={Pages} />
         <Route path="/app/:*?" component={App} />
       </Router>
