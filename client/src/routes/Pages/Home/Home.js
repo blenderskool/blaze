@@ -3,12 +3,11 @@ import network from '../../../assets/images/illustrations/network.svg';
 import twoDevices from '../../../assets/images/illustrations/two_devices.svg';
 import threeDevices from '../../../assets/images/illustrations/three_devices.svg';
 import earth from '../../../assets/images/illustrations/earth.svg';
-import Pill from '../../../components/Pill/Pill';
 import './Home.scss';
 
 const Home = () => (
-  <main>
-    <section class="hero">
+  <main class="landing-page">
+    <section class="hero full-screen">
 
       <div class="info">
         <h1 class="title">Share files the modern way</h1>
@@ -17,7 +16,20 @@ const Home = () => (
         <a href="/app" class="btn">
           Start Sharing
         </a>
-        <a class="ph-mob" href="https://www.producthunt.com/posts/blaze-2?utm_source=badge-top-post-badge&utm_medium=badge&utm_souce=badge-blaze-2" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/top-post-badge.svg?post_id=174403&theme=dark&period=daily" alt="Blaze - Fast peer to peer file sharing web app ⚡ | Product Hunt Embed" style="width: 250px; height: 54px;" width="250px" height="54px" /></a>
+        <a
+          class="ph-mob"
+          href="https://www.producthunt.com/posts/blaze-2?utm_source=badge-top-post-badge&utm_medium=badge&utm_souce=badge-blaze-2"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <img
+            src="https://api.producthunt.com/widgets/embed-image/v1/top-post-badge.svg?post_id=174403&theme=dark&period=daily"
+            alt="Blaze - Fast peer to peer file sharing web app ⚡ | Product Hunt Embed"
+            style="width: 250px; height: 54px;"
+            width="250px"
+            height="54px"
+          />
+        </a>
       </div>
 
       <img class="network-img" src={network} alt="Devices connected using Blaze" />
@@ -51,7 +63,7 @@ const Home = () => (
 
       <div class="feature">
         <img src={threeDevices} alt="Laptop and two mobiles connected together" loading="lazy" />
-        <h2>Multi-device <Pill>Experimental</Pill></h2>
+        <h2>Multi-device</h2>
         <p>
           Traditionally, sharing files to multiple devices has been a hassle. With Blaze, you can share files across multiple devices with ease.
         </p>
@@ -83,20 +95,15 @@ const Home = () => (
     </section>
 
     <section class="hero final-cta">
+      <div>
+        <h2 class="title">Let's get sharing!</h2>
+        <h3 class="subtitle">No registrations required, completely free</h3>
 
-      <h2 class="title">Let's get sharing!</h2>
-      <h3 class="subtitle">No registrations required, completely free</h3>
-
-      <a href="/app" class="btn">
-        Start sharing
-      </a>
-
+        <a href="/app" class="btn">
+          Start sharing
+        </a>
+      </div>
     </section>
-
-    <footer>
-      A project by <a href="https://github.com/blenderskool" target="_blank" rel="noopener noreferrer">Akash Hamirwasia</a>
-    </footer>
-
   </main>
 );
 
