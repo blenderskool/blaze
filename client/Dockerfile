@@ -2,6 +2,11 @@ FROM node:10.16.3 AS base
 
 WORKDIR /app
 
+COPY ./client/package*.json ./client/
+
+WORKDIR /app/client
+RUN npm install
+
 ARG WS_HOST
 ARG WS_SIZE_LIMIT
 ARG TORRENT_SIZE_LIMIT
@@ -10,11 +15,9 @@ ENV WS_HOST $WS_HOST
 ENV WS_SIZE_LIMIT $WS_SIZE_LIMIT
 ENV TORRENT_SIZE_LIMIT $TORRENT_SIZE_LIMIT
 
-COPY ./client ./client
-COPY ./common ./common
-WORKDIR client
-RUN npm install && \
-    npm run build
+COPY ./client .
+COPY ./common ../common
+RUN npm run build
 
 FROM nginx:alpine
 COPY ./client/nginx.conf /etc/nginx/nginx.conf
