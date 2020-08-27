@@ -1,3 +1,5 @@
 node_modules/
 build/
 size-plugin.json
+.vercel/
+.now/
