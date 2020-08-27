@@ -6,5 +6,9 @@
   {
     "url": "/app/",
     "title": "App | Blaze"
+  },
+  {
+    "url": "/404",
+    "title": "Page could not be found | Blaze"
   }
 ]
