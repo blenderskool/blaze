@@ -1,0 +1,5 @@
+**/node_modules
+app.json
+.now
+.vercel
+client/build
