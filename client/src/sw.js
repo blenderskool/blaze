@@ -1,11 +1,56 @@
 import { getFiles, setupPrecaching, setupRouting } from 'preact-cli/sw';
+import { registerRoute } from 'workbox-routing';
+import { StaleWhileRevalidate, CacheFirst } from 'workbox-strategies';
+import { ExpirationPlugin } from 'workbox-expiration';
+import { CacheableResponsePlugin } from 'workbox-cacheable-response';
+
 import constants from '../../common/constants';
 
 setupRouting();
 
-// TODO: Improve caching
 const urlsToCache = getFiles();
 setupPrecaching(urlsToCache);
+
+// Cache google font stylesheets
+registerRoute(
+  new RegExp('^https:\/\/fonts\.googleapis\.com'),
+  new StaleWhileRevalidate({
+    cacheName: 'blaze-google-fonts-stylesheets',
+  }),
+);
+
+// Cache google font files
+registerRoute(
+  new RegExp('^https:\/\/fonts\.gstatic\.com'),
+  new CacheFirst({
+    cacheName: 'blaze-google-fonts-webfonts',
+    plugins: [
+      new ExpirationPlugin({
+        maxAgeSeconds:  60 * 60 * 24 * 365 // An year
+      }),
+      new CacheableResponsePlugin({
+        statuses: [0, 200],
+      }),
+    ],
+  }),
+);
+
+// Cache scripts used from CDNs which don't change often
+registerRoute(
+  ({ url }) => (
+    url.pathname.endsWith('canvas-elements.min.js') ||
+    url.pathname.endsWith('webtorrent@0.108.6/webtorrent.min.js')
+  ),
+  new CacheFirst({
+    cacheName: 'blaze-resources',
+    plugins: [
+      new ExpirationPlugin({
+        maxEntries: 60,
+        maxAgeSeconds: 60 * 60 * 24 * 15, // 15 days
+      }),
+    ],
+  }),
+);
 
 function handleShareTarget(event) {
   event.respondWith(Response.redirect('/app/?share-target'));
