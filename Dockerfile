@@ -26,6 +26,9 @@ FROM nginx:alpine
 RUN apk add --no-cache --repository http://nl.alpinelinux.org/alpine/edge/main libuv \
     && apk add  --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.9/main/ nodejs=10.19.0-r0 npm=10.19.0-r0
 
+COPY ./nginx/image-nginx.template /etc/nginx/nginx.template
+COPY --from=base /app/client/build /etc/nginx/html
+
 WORKDIR /app
 
 COPY ./server/package*.json ./server/
@@ -37,9 +40,6 @@ COPY ./server .
 COPY ./common ../common
 COPY ./package*.json ../
 
-WORKDIR /
-COPY ./nginx/image-nginx.template /etc/nginx/nginx.template
-COPY --from=base /app/client/build /etc/nginx/html
+EXPOSE 3030
 
-WORKDIR /app
-CMD ["sh", "-c", "envsubst < /etc/nginx/nginx.template > /etc/nginx/nginx.conf && nginx -g 'daemon off' & npm run start:server"]
+CMD ["sh", "-c", "envsubst '$PORT' < /etc/nginx/nginx.template > /etc/nginx/nginx.conf && nginx -g 'daemon off;' & PORT=3030 npm run start"]
