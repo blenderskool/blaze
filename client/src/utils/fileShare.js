@@ -16,7 +16,7 @@ class FileShare {
             {
               urls: ['stun:stun.l.google.com:19305', 'stun:stun1.l.google.com:19305']
             }
-          ]        
+          ]
         }
       }
     });
