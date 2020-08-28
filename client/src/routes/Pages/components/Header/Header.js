@@ -35,7 +35,7 @@ function Header() {
          {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
       </button>
       <nav style={{ display: isMenuOpen ? 'flex' : 'none' }}>
-        <a href="#about">About</a>
+        <a href="/how-it-works">How it works</a>
         <a href="https://github.com/blenderskool/blaze">
           GitHub&nbsp;
           <Github size={16} style="margin-bottom: 4px" />
