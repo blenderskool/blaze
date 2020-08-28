@@ -62,7 +62,7 @@ Read more on [Deploying on your own server](#deploying-on-your-own-server)
 
 
 ## Project structure
-The project is divided into three parts - backend, frontend and common.
+The project is divided structured into following directories - backend, frontend, common and nginx.
 
 ### Backend
 All the backend(or server) related source code resides under the `server` directory. It is built on Node.js with [express](http://expressjs.com/) and [ws](https://www.npmjs.com/package/ws) library for WebSockets. Thin wrappers have been created for easier interfacing with sockets.
@@ -88,6 +88,11 @@ The frontend source code is in the `client` directory. The dependencies of the f
 ### Common
 The `common` directory contains javascript modules that are **shared by both frontend and backend**. These include constants in `constants.js` file and utility functions in `utils` sub-directory.
 
+### Nginx
+The `nginx` directory contains configuration files for nginx to be used in Docker containers. These usually don't change much.
+- `compose-nginx.conf` - Used when the project is run using docker-compose.
+- `image-nginx.template` - Used when the project is run on a single container from higher level Docker image.
+
 ### Build process
 The build process for the frontend internally setup with webpack via preact-cli. Overrides can be made in `preact.config.js` file. Following environment variables can be set in the build process:
 
@@ -104,9 +109,10 @@ The build process for the frontend internally setup with webpack via preact-cli.
 --------------------------------------------------------------------------------------------------------------------------------
 
 ## Deploying on your own server
-Blaze can be easily deployed on your own server using Docker. The frontend and the backend is completely decoupled from each other. Following two Docker images are available:
+Blaze can be easily deployed on your own server using Docker. The frontend and the backend is completely decoupled from each other. Following Docker images are available:
 - Blaze Server: This is the backend Node.js server that is used for WebSockets. The environment variables listed for the server above can be passed to the container. It exposes port `3030`.
 - Blaze Client: This is the frontend progressive web app of Blaze used by clients for sharing files. Nginx is used as a web server for this statically generated frontend. The environment variables listed above can be passed as ARGS while **building the image**. The frontend container exposes port `80`.
+- Blaze: This is a higher level image that includes both Blaze Server and Blaze Client images above. It must be used when docker-compose is not available in the environment, or there is a limit to run only a single container. docker-compose must be used to run Blaze in other cases which is explained in next section.
 
 ### Using docker-compose
 A `docker-compose.yml` file is present at the root of this project which runs both the server and client containers and sets up a proxy for WebSocket connections on the frontend in Nginx configuration. To run using docker-compose:
