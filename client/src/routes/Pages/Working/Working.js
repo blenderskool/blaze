@@ -54,7 +54,7 @@ const Working = () => (
           </p>
           <p>
             Do note that if the sender of a file leaves the room and the file isn't transferred to any user yet, the file transfer
-            would get cancelled resulting in no one receiving the file. This is because your files are not stored on any server and is
+            would get cancelled resulting in no-one receiving the file. This is because your files are not stored on any server and are
             transferred in real-time when you are online.
           </p>
         </div>
@@ -65,12 +65,12 @@ const Working = () => (
           <h2>Next steps</h2>
           <p>
             If you enjoyed using Blaze, you can add Blaze to your home screen! Doing this
-            not only makes Blaze easy to access, but also allows it shows up in the share tray when you are sharing something from other apps
+            not only makes Blaze easy to access but also allows it shows up in the share tray when you are sharing something from other apps
             using <Share2 size={20} /> button.
           </p>
           <p>
-            Since Blaze is an open source project, I would love to hear your thoughts and how Blaze can be improved. If you find this project
-            useful, considering giving
+            Since Blaze is an open-source project, I would love to hear your thoughts and how Blaze can be improved. If you find this project
+            useful, consider giving
             <a href="https://github.com/blenderskool/blaze" target="_blank" rel="noreferrer"> Blaze a star on GitHub!</a>
           </p>
         </div>
