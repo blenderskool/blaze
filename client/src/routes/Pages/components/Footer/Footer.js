@@ -20,7 +20,7 @@ const Footer = () => (
       </span>
       <span>
         Released under the
-        <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noreferrer"> MIT License</a>
+        <a href="https://github.com/blenderskool/blaze/blob/master/LICENSE" target="_blank" rel="noreferrer"> MIT License</a>
       </span>
       <div>
         Designed & Developed in 🇮🇳
