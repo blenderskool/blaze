@@ -16,4 +16,4 @@ services:
     depends_on:
       - blaze-server
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/compose-nginx.conf:/etc/nginx/nginx.conf
