@@ -2,3 +2,4 @@ node_modules/
 build/
 size-plugin.json
 server/
+nginx/
