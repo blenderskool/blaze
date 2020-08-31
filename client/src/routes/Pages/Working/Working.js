@@ -3,6 +3,10 @@ import { Share2, Zap } from 'preact-feather';
 import joinRoom from '../../../assets/images/working/join-room.png';
 import sendFile from '../../../assets/images/working/send-file.png';
 import install from '../../../assets/images/working/install.png';
+import chrome from '../../../assets/images/browser-icons/chrome.svg';
+import firefox from '../../../assets/images/browser-icons/firefox.svg';
+import edge from '../../../assets/images/browser-icons/edge.svg';
+import safari from '../../../assets/images/browser-icons/safari.svg';
 
 import './Working.scss';
 
@@ -72,6 +76,27 @@ const Working = () => (
             Since Blaze is an open-source project, I would love to hear your thoughts and how Blaze can be improved. If you find this project
             useful, consider giving
             <a href="https://github.com/blenderskool/blaze" target="_blank" rel="noreferrer"> Blaze a star on GitHub!</a>
+          </p>
+          <p>
+            Blaze has been tested on:
+            <ul class="browsers">
+              <li>
+                <img src={chrome} />
+                <span>Google Chrome</span>
+              </li>
+              <li>
+                <img src={edge} />
+                <span>Microsoft Edge</span>
+              </li>
+              <li>
+                <img src={firefox} />
+                <span>Firefox Browser</span>
+              </li>
+              <li>
+                <img src={safari} />
+                <span>Safari</span>
+              </li>
+            </ul>
           </p>
         </div>
         <img src={install} alt="Adding Blaze to home screen" loading="lazy" />

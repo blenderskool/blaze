@@ -44,6 +44,28 @@
     }
   }
 
+  .browsers {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0;
+    margin-top: 12px;
+
+    li {
+      user-select: none;
+      display: flex;
+      margin: 0 20px 20px 0;
+      align-items: center;
+
+      img {
+        width: 32px;
+        height: 32px;
+        opacity: 0.8;
+        margin-right: 4px;
+      }
+    }
+  }
+
 
   @media screen and (min-width: $tablet) {
     .body-wrapper {
