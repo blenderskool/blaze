@@ -5,7 +5,7 @@ import './Footer.scss';
 const Footer = () => (
   <footer>
     <div>
-      <a href="https://www.digitalocean.com" target="_blank" rel="noreferrer">
+      <a href="https://m.do.co/c/ddb2a965377c" target="_blank" rel="noreferrer">
         <img class="digital-ocean" src="https://opensource.nyc3.cdn.digitaloceanspaces.com/attribution/assets/PoweredByDO/DO_Powered_by_Badge_white.svg" />
       </a>
     </div>

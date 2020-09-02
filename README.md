@@ -9,7 +9,7 @@
     <a href="https://www.producthunt.com/posts/blaze-2?utm_source=badge-top-post-badge&utm_medium=badge&utm_souce=badge-blaze-2" target="_blank">
       <img src="https://api.producthunt.com/widgets/embed-image/v1/top-post-badge.svg?post_id=174403&theme=dark&period=daily" alt="Blaze - Fast peer to peer file sharing web app ⚡ | Product Hunt Embed" width="139px" height="30px" />
     </a>
-    <a href="https://www.digitalocean.com" target="_blank">
+    <a href="https://m.do.co/c/ddb2a965377c" target="_blank">
       <img src="https://opensource.nyc3.cdn.digitaloceanspaces.com/attribution/assets/PoweredByDO/DO_Powered_by_Badge_blue.svg" alt="Digital Ocean" height="25px" />
     </a>
   </p>
@@ -45,6 +45,7 @@ Read more about how Blaze works at a basic level in this [Medium article](https:
 Read more on [Deploying on your own server](#deploying-on-your-own-server)
 
 ## Table of Contents
+- [Sponsors](#sponsors)
 - [Project structure](#project-structure)
   - [Backend](#backend)
   - [Frontend](#frontend)
@@ -53,13 +54,20 @@ Read more on [Deploying on your own server](#deploying-on-your-own-server)
   - [Build process](#build-process)
 - [Deploying on your own server](#deploying-on-your-own-server)
   - [Using docker-compose](#using-docker-compose)
-- [Sponsors](#sponsors)
 - [Contributing](#contributing)
 - [Running Blaze in production](#running-blaze-in-production)
   - [Building the frontend](#building-the-frontend)
   - [Starting the server](#starting-the-server)
 - [License](#license)
 
+
+## Sponsors
+Blaze is sponsored by:
+<p>
+  <a href="https://m.do.co/c/ddb2a965377c">
+    <img src="https://opensource.nyc3.cdn.digitaloceanspaces.com/attribution/assets/SVG/DO_Logo_horizontal_blue.svg" width="201px">
+  </a>
+</p>
 
 ## Project structure
 The project is divided structured into following directories - backend, frontend, common and nginx.
@@ -122,14 +130,6 @@ git clone https://github.com/blenderskool/blaze
 cd blaze
 docker-compose up -d
 ```
-
-## Sponsors
-Blaze is sponsored by:
-<p>
-  <a href="https://www.digitalocean.com/">
-    <img src="https://opensource.nyc3.cdn.digitaloceanspaces.com/attribution/assets/SVG/DO_Logo_horizontal_blue.svg" width="201px">
-  </a>
-</p>
 
 ## Contributing
 Documentation on contributing can be found in [CONTRIBUTING.md](https://github.com/blenderskool/blaze/blob/master/CONTRIBUTING.md)
