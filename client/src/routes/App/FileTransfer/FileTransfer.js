@@ -235,7 +235,7 @@ class FileTransfer extends PureComponent {
     });
 
 
-    this.fileShare.receiveFiles({
+    this.clearReceiver = this.fileShare.receiveFiles({
       onMeta: (data) => {
         this.sender = data.sender;
         data.meta.forEach(file => {
@@ -287,7 +287,15 @@ class FileTransfer extends PureComponent {
   }
 
   componentWillUnmount() {
-    this.fileShare.socket.close();
+    const { socket } = this.fileShare;
+
+    if (this.clearReceiver) {
+      this.clearReceiver();
+    }
+
+    socket.off(constants.USER_JOIN);
+    socket.off(constants.USER_LEAVE);
+    socket.close();
   }
 
   handleNewRoom = () => {

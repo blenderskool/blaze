@@ -1,4 +1,6 @@
 import constants from '../../../common/constants';
+import { toast } from '../components/Toast';
+import pluralize from '../utils/pluralize';
 
 const trackers = {
   announce: ['wss://tracker.btorrent.xyz', 'wss://tracker.openwebtorrent.com'],
@@ -73,6 +75,12 @@ class FileShare {
         });
       }
     });
+
+    return () => {
+      this.socket.off(constants.FILE_TORRENT);
+      this.socket.off(constants.FILE_INIT);
+      this.socket.off(constants.CHUNK);
+    };
   }
 
   _onTorrent({ torrent, onProgress, onDone }) {
@@ -175,6 +183,8 @@ class FileShare {
 
       if (totalSize > TORRENT_SIZE_LIMIT) {
         throw new Error(constants.ERR_LARGE_FILE);
+      } else if (totalSize > 7e7) {
+        toast(`File${pluralize(input.length, ' is', 's are')} large, transfer may take long time`);
       }
 
       this.torrentClient.seed(input, trackers, torrent => {
