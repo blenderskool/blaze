@@ -21,6 +21,7 @@ const wss = new WebSocket.Server({ server });
 const rooms = {};
 
 wss.on('connection', (ws) => {
+  ws.isAlive = true;
   const socket = new Socket(ws);
   let room;
   
@@ -66,6 +67,10 @@ wss.on('connection', (ws) => {
     }
   });
 
+  socket.on('pong', () => {
+    socket.socket.isAlive = true;
+  });
+
   socket.listen(constants.FILE_INIT, (data) => {
     // TODO: Prevent init from multiple sockets if a sender is already there
     // TODO: Improve error messaging via sockets
@@ -96,6 +101,20 @@ wss.on('connection', (ws) => {
   socket.listen(constants.FILE_TORRENT, (data) => {
     room.broadcast(constants.FILE_TORRENT, data, [ socket.name ]);
   });
+});
+
+const interval = setInterval(() => {
+  log("Checking alive sockets");
+  wss.clients.forEach(ws => {
+    if (ws.isAlive === false) return ws.terminate();
+
+    ws.isAlive = false;
+    ws.ping();
+  });
+}, 30000);
+
+wss.on('close', () => {
+  clearInterval(interval);
 });
 
 app.get('/', (req, res) => {
