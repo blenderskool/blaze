@@ -40,6 +40,7 @@ function Header() {
           GitHub&nbsp;
           <Github size={16} style="margin-bottom: 4px" />
         </a>
+        <a href="https://paypal.me/akashhamirwasia">Donate</a>
         <a
           class="ph-desktop"
           href="https://www.producthunt.com/posts/blaze-2?utm_source=badge-top-post-badge&utm_medium=badge&utm_souce=badge-blaze-2"

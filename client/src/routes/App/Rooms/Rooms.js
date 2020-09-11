@@ -111,6 +111,10 @@ function Rooms({ isOnline }) {
                         ))
                       }
                     </ul>
+                    <div class="donate">
+                      Like using Blaze? Consider
+                      <a href="https://paypal.me/akashhamirwasia"> donating</a>
+                    </div>
                   </>
                 ) : (
                   <>
