@@ -1,6 +1,6 @@
 import { h } from 'preact';
 import { route } from 'preact-router';
-import { useState, useContext } from 'preact/hooks';
+import { useState, useContext, useEffect } from 'preact/hooks';
 import { Plus, X } from 'preact-feather';
 
 import { QueuedFiles } from '../QueuedFiles';
@@ -63,6 +63,12 @@ function Rooms({ isOnline }) {
 
     localStorage.setItem('blaze', JSON.stringify(data));
   };
+
+  useEffect(() => {
+    if (rooms.length === 0) {
+      setModal(true);
+    }
+  }, [setModal]);
 
   return (
     <div class="rooms">
