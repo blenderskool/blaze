@@ -1,0 +1,182 @@
+@import '../../../scss/variables';
+
+.landing-page {
+  html {
+    // TODO: Remove this
+    overflow-x: hidden;
+  }
+
+  .hero {
+    text-align: left;
+
+    .ph-mob {
+      margin-top: 20px;
+      display: block;
+
+      img {
+        vertical-align: middle;
+      }
+    }
+
+    .network-img {
+      order: -1;
+      width: 75%;
+      margin-right: -50px;
+      margin-bottom: 2rem;
+    }
+    
+  }
+
+  .features {
+    display: flex;
+    flex-direction: column;
+    
+    .feature {
+      width: 100%;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+
+      h2 {
+        font-size: 1.6rem;
+        margin: 0;
+      }
+
+      img {
+        height: 180px;
+        margin-bottom: 2rem;
+      }
+
+      p {
+        line-height: 1.3em;
+        font-size: 1.1rem;
+        color: $secondary;
+      }
+
+    }
+
+  }
+
+  .about {
+    text-align: center;
+    margin: 10rem 0;
+    font-size: 20px;
+
+    blockquote {
+      font-size: 1.4rem;
+      margin: 0;
+
+      span {
+        color: $secondary;
+        font-size: 2rem;
+        // Line height is zero as large block quotes create large line heights
+        line-height: 0;
+      }
+
+      footer {
+        margin: 35px 0 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: $light;
+
+        img {
+          width: 50px;
+          border-radius: 50px;
+          margin-bottom: 1.3rem;
+          transition: transform 0.2s ease;
+
+          &:hover {
+            transform: scale(1.1);
+          }
+
+        }
+
+        cite {
+          font-style: normal;
+          
+          &.position {
+            color: $secondary;
+            font-size: 1rem;
+            font-weight: $font-bold;
+          }
+        }
+      }
+
+    }
+  }
+
+  .final-cta {
+    display: block;
+    margin: 7rem 0;
+    text-align: center;
+  }
+
+  svg.waves {
+    display: none;
+  }
+
+  @keyframes waves {
+    0% {
+      stroke-dashoffset: 1650;
+    }
+    
+    100% {
+      stroke-dashoffset: 0;
+    }
+  }
+
+
+  @media screen and (min-width: 800px) {
+
+    .hero {
+      justify-content: space-between;
+
+      .info {
+        width: 35%;
+        text-align: initial;
+      }
+
+      .network-img {
+        order: 0;
+        width: 43%;
+        margin-top: -4rem;
+      }
+
+      .ph-mob {
+        display: none;
+      }
+    }
+
+    .features {
+      flex-direction: row;
+      justify-content: space-between;
+
+      .feature {
+        width: 31%;
+        margin-bottom: 0;
+      }
+
+    }
+
+    svg.waves {
+      display: block;
+      z-index: -1;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      filter: drop-shadow(0 0 15px $primary);
+      overflow-x: hidden;
+    
+      path {
+        fill: none;
+        stroke-width: 3px;
+        stroke: $primary;
+      }
+    }
+
+  }
+}

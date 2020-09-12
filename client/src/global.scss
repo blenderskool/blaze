@@ -1,0 +1,138 @@
+@import './scss/variables';
+
+* {
+  box-sizing: border-box;
+}
+
+body, input, button {
+  font-family: $font;
+  color: $white;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+
+  background-image: $noise;
+  background-color: $bg;
+  background-size: 32%;
+
+  color: $light;
+
+  a {
+    text-decoration: none;
+    color: $light;
+
+    &:hover {
+      color: $primary;
+    }
+  }
+
+  &.no-bg-image {
+    background-image: none;
+  }
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: $font-bold;
+  margin: 0;
+}
+
+button, .btn {
+  color: $bg;
+  background-color: $primary;
+  border: 0;
+  padding: 0 25px;
+  outline: none;
+  border-radius: 4px;
+  font-size: 1.4rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 50px;
+  line-height: 50px;
+  box-shadow: $shadow;
+
+  transition: all 0.2s ease;
+
+  -webkit-tap-highlight-color: rgba(darken($primary, 50), 0.2);
+  cursor: pointer;
+  user-select: none;
+
+  &:hover {
+    color: $bg;
+    box-shadow: 0 8px 35px rgba($primary, 0.2);
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  &:focus {
+    opacity: 0.7;
+  }
+
+  &.wide {
+    width: 100%;
+  }
+
+  &.thin {
+    background-color: transparent;
+    box-shadow: none;
+    color: $secondary;
+    padding: 0;
+
+
+    &:hover, &:focus {
+      color: $light;
+    }
+  }
+  
+  &.icon {
+    width: 50px;
+    font-size: 2rem;
+    transform: none;
+  }
+
+}
+
+input {
+  background-color: transparent;
+  border: 1px solid rgba($secondary, 0.6);
+  padding: 12px 18px;
+  border-radius: 4px;
+  font-size: 1.25rem;
+  color: $light;
+  outline: none;
+  margin: 15px 0;
+  width: 100%;
+
+  transition: all 0.2s ease;
+  box-shadow: $shadow inset;
+
+  &:focus {
+    border-color: lighten($secondary, 15);
+  }
+
+  &::-webkit-input-placeholder {
+    color: $secondary;
+  }
+
+}
+
+img, svg {
+  user-select: none;
+  vertical-align: middle;
+}
+
+#app {
+  transition: filter 0.2s ease;
+}
+
+@media screen and (min-width: 800px) {
+
+  body {
+    background-size: 13%;
+  }
+}

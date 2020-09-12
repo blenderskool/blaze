@@ -1,0 +1,56 @@
+@import '../../scss/variables';
+
+.page-container {
+  padding: 0 30px;
+  overflow-x: hidden;
+}
+
+.hero {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+
+  &.full-screen {
+    height: 95vh;
+  }
+  
+  .info {
+    width: 100%;
+    text-align: center;
+  }
+  
+  .title {
+    font-size: 2.2rem;
+    margin: 10px 0;
+  }
+  
+  .subtitle {
+    margin: 10px 0;
+    font-size: 1.3rem;
+    color: $secondary;
+    font-weight: $font-normal;
+  }
+
+  button, .btn {
+    margin-top: 40px;
+  }
+}
+
+@media screen and (min-width: $tablet) {
+
+  .page-container {
+    padding: 0 60px;
+  }
+
+  .hero {
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    &.full-screen {
+      height: 100vh;
+    }
+  }
+
+}

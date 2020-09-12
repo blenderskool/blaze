@@ -1,14 +1,45 @@
 FROM node:10.16.3 AS base
+
 WORKDIR /app
 
-FROM base AS build
-COPY . .
-RUN npm install && \
-    npm run build
+COPY ./client/package*.json ./client/
 
-FROM base AS release
-COPY --from=build /app/node_modules ./node_modules
-COPY --from=build /app/dist ./dist
-COPY --from=build /app/index.js ./
+WORKDIR /app/client
+RUN npm install
+
+ARG WS_HOST
+ARG WS_SIZE_LIMIT
+ARG TORRENT_SIZE_LIMIT
+
+ENV WS_HOST $WS_HOST
+ENV WS_SIZE_LIMIT $WS_SIZE_LIMIT
+ENV TORRENT_SIZE_LIMIT $TORRENT_SIZE_LIMIT
+
+COPY ./client .
+COPY ./common ../common
+RUN npm run build
+
+
+FROM nginx:alpine
+
+# Installing node and npm
+RUN apk add --no-cache --repository http://nl.alpinelinux.org/alpine/edge/main libuv \
+    && apk add  --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.9/main/ nodejs=10.19.0-r0 npm=10.19.0-r0
+
+COPY ./nginx/image-nginx.template /etc/nginx/nginx.template
+COPY --from=base /app/client/build /etc/nginx/html
+
+WORKDIR /app
+
+COPY ./server/package*.json ./server/
+
+WORKDIR /app/server
+RUN npm install
+
+COPY ./server .
+COPY ./common ../common
+COPY ./package*.json ../
+
 EXPOSE 3030
-CMD ["node", "index.js"]
+
+CMD ["sh", "-c", "envsubst '$PORT' < /etc/nginx/nginx.template > /etc/nginx/nginx.conf && nginx -g 'daemon off;' & PORT=3030 npm run start"]

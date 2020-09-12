@@ -1,0 +1,42 @@
+{
+  "name": "blaze-frontend",
+  "version": "2.0.0",
+  "description": "Quickly share files with multiple users",
+  "private": true,
+  "scripts": {
+    "dev": "preact watch",
+    "build": "preact build",
+    "start": "sirv build --cors --single --port 8080",
+    "lint": "eslint src"
+  },
+  "author": "Akash Hamirwasia",
+  "license": "MIT",
+  "eslintConfig": {
+    "extends": "preact",
+    "ignorePatterns": [
+      "build/"
+    ]
+  },
+  "dependencies": {
+    "downloadjs": "^1.4.7",
+    "preact": "^10.3.2",
+    "preact-feather": "^4.1.0",
+    "preact-render-to-string": "^5.1.4",
+    "preact-router": "^3.2.1",
+    "prop-types": "^15.7.2",
+    "scriptjs": "^2.5.9"
+  },
+  "engines": {
+    "node": "10.x"
+  },
+  "devDependencies": {
+    "eslint": "^6.0.1",
+    "eslint-config-preact": "^1.1.0",
+    "ip": "^1.1.5",
+    "node-sass": "^4.14.1",
+    "preact-cli": "^3.0.0",
+    "sass-loader": "^8.0.2",
+    "sirv-cli": "^0.4.5",
+    "webpack": "^4.43.0"
+  }
+}

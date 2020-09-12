@@ -1,0 +1,205 @@
+@import '../../../scss/variables';
+
+.file-transfer {
+  text-align: center;
+  
+  .app-header {
+    display: flex;
+    margin: 0 0 25px;
+
+    .room-name {
+      font-weight: $font-normal;
+      flex: 1;
+      font-size: 1.3rem;
+      position: relative;
+      text-transform: capitalize;
+
+      &:after {
+        content: 'room name';
+        position: absolute;
+        text-transform: uppercase;
+        color: $secondary;
+        display: block;
+        font-size: 0.9rem;
+        text-align: center;
+        opacity: 0.65;
+        width: 100%;
+        font-weight: $font-bold;
+      }
+    }
+
+    button {
+      margin-top: -5px;
+
+      &.left {
+        margin-right: auto;
+        margin-left: -16px;
+      }
+
+      &.right {
+        margin-left: auto;
+        margin-right: -15px;
+      }
+
+    }
+  }
+
+  .transfer-percentage {
+    margin: 10px 0;
+    color: $primary;
+    font-size: 1.5rem;
+    font-weight: $font-bold;
+  }
+
+  .transfer-help {
+    margin: 0 0 20px;
+    color: $secondary;
+    font-size: 1.2rem;
+    transition: color 0.5s ease;
+
+    &.p2p {
+      color: darken($primary, 22);
+    }
+  }
+
+
+  .card {
+    width: 95%;
+    border-radius: 5px;
+    border: $border;
+    background-color: #0B101C;
+    box-shadow: $shadow;
+
+    .header {
+      border-bottom: $border;
+      padding: 0.6rem 1.25rem;
+      
+      display: flex;
+      align-items: baseline;
+
+      h2 {
+        font-size: 1.25rem;
+        font-weight: $font-normal;
+        color: $secondary;
+      }
+    }
+
+  }
+
+
+  .files-container {
+    margin: 2rem auto 0;
+
+    .header {
+      justify-content: space-between;
+    }
+
+    ul.files {
+      margin: 5px 0;
+      padding: 0;
+
+      li {
+        padding: 0.9rem 1.25rem;
+        display: flex;
+        align-items: center;
+
+        .file-type {
+          margin-right: 1rem;
+          color: $secondary;
+        }
+
+        .info {
+          text-align: left;
+          flex: 1;
+          width: 60%;
+          margin-right: 1rem;
+
+          h4 {
+            font-weight: $font-normal;
+            font-size: 1.2rem;
+            text-overflow: ellipsis;
+            overflow-x: hidden;
+            white-space: nowrap;
+            width: 100%;
+          }
+
+          p {
+            margin: 0;
+            font-weight: $font-normal;
+            color: $secondary;
+            font-size: 0.8rem;
+          }
+        }
+
+        .file-progress {
+          &.spinner {
+            animation: spin 1s linear infinite;
+          }
+
+          svg {
+            transform: rotateZ(-90deg) scaleY(-1);
+
+            circle {
+              stroke: $primary;
+              stroke-width: 2px;
+              stroke-dasharray: 69;
+              fill: #0B101C;
+            }
+          }
+        }
+
+        .file-complete {
+          margin-right: 3px;
+          color: $primary;
+        }
+
+      }
+    }
+  }
+
+  @media screen and (min-width: $tablet) {
+    main {
+      display: flex;
+      justify-content: center;
+      height: 75vh;
+    }
+
+    .files-container {
+      max-width: 49%;
+      flex: 1;
+      align-self: center;
+      margin-top: -8rem;
+
+      ul.files {
+        margin: 0;
+        max-height: calc(60vh - 50px);
+        overflow-y: auto;
+      }
+    }
+  }
+
+}
+
+.socket-error {
+  text-align: center;
+
+  h2 {
+    margin-bottom: 1rem;
+  }
+
+  p {
+    font-size: 1.1rem;
+    color: $secondary;
+    margin: 0 0 2rem;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotateZ(0);
+  }
+
+  to {
+    transform: rotateZ(360deg);
+  }
+}

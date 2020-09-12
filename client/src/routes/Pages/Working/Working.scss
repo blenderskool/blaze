@@ -1,0 +1,105 @@
+@import '../../../scss/variables';
+
+.how-it-works {
+  .hero {
+    margin: 12rem 0 8rem;
+  }
+
+  .step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 1.2rem;
+    margin: 3rem 0;
+    text-align: justify;
+
+    p {
+      color: $secondary;
+    }
+
+    .info {
+      width: 85%;
+    }
+
+    img {
+      width: 85%;
+      order: -1;
+    }
+
+    h2 {
+      text-align: center;
+    }
+  }
+
+  .callout {
+    display: flex;
+    justify-content: space-between;
+    margin: 2rem 0 7rem;
+    flex-direction: column;
+    align-items: center;
+
+    h2 {
+      margin-bottom: 2rem;
+    }
+  }
+
+  .browsers {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0;
+    margin-top: 12px;
+
+    li {
+      user-select: none;
+      display: flex;
+      margin: 0 20px 20px 0;
+      align-items: center;
+
+      img {
+        width: 32px;
+        height: 32px;
+        opacity: 0.8;
+        margin-right: 4px;
+      }
+    }
+  }
+
+
+  @media screen and (min-width: $tablet) {
+    .body-wrapper {
+      max-width: 1124px;
+      margin: 0 auto;
+    }
+
+    .step {
+      flex-direction: row;
+      text-align: left;
+
+      .info {
+        width: 50%;
+      }
+
+      img {
+        width: auto;
+        height: 90vh;
+        order: initial;
+      }
+
+      h2 {
+        text-align: left;
+      }
+    }
+
+    .callout {
+      display: flex;
+      flex-direction: row;
+
+      h2 {
+        margin: 0;
+      }
+    }
+  }
+
+}

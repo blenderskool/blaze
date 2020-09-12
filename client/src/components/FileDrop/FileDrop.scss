@@ -1,0 +1,15 @@
+@import '../../scss/variables';
+
+.dropzone{
+  background: none;
+  color: $primary;
+  border: none;
+  width:  100%;
+  height: 100%;
+  border-radius: 10px;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  z-index: 0;
+  pointer-events: none;
+}

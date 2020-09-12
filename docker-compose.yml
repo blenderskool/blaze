@@ -1,6 +1,19 @@
 version: '3'
 services:
-  blaze:
-    image: "akashhamirwasia/blaze"
+  blaze-server:
+    build:
+      context: .
+      dockerfile: ./server/Dockerfile
     ports:
-      - "8000:3030"
+      - 3030:3030
+
+  blaze-client:
+    build:
+      context: .
+      dockerfile: ./client/Dockerfile
+    ports:
+      - 80:80
+    depends_on:
+      - blaze-server
+    volumes:
+      - ./nginx/compose-nginx.conf:/etc/nginx/nginx.conf

@@ -1,0 +1,16 @@
+@import '../../scss/variables';
+
+.toast-container {
+  position: fixed;
+  bottom: 47px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  user-select: none;
+}
+
+@media screen and (min-width: $mobile-sm) {
+  .toast-container {
+    bottom: 80px;
+  }
+}

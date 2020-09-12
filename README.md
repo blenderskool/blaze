@@ -1,28 +1,38 @@
-<p align="center">
-  <a href="https://blaze.unubo.app">
-    <img src="https://github.com/blenderskool/blaze/raw/master/static/images/apple-touch-icon-152x152.png">
-  </a>
-</p>
+<div align="center">
+  <p align="center">
+    <a href="https://blaze.now.sh">
+      <img src="https://github.com/blenderskool/blaze/raw/next/client/src/assets/images/apple-touch-icon-152x152.png">
+    </a>
+  </p>
 
-<p align="center">
-  <a href="https://www.producthunt.com/posts/blaze-2?utm_source=badge-top-post-badge&utm_medium=badge&utm_souce=badge-blaze-2" target="_blank">
-    <img src="https://api.producthunt.com/widgets/embed-image/v1/top-post-badge.svg?post_id=174403&theme=dark&period=daily" alt="Blaze - Fast peer to peer file sharing web app ⚡ | Product Hunt Embed" style="width: 139px; height: 30px;" width="139px" height="30px" />
-  </a>
-  <a title="MadeWithSvelte.com Shield" href="https://madewithsvelte.com/p/blaze/shield-link">
-    <img src="https://madewithsvelte.com/storage/repo-shields/1916-shield.svg"/>
-  </a>
-</p>
+  <p align="center">
+    <a href="https://www.producthunt.com/posts/blaze-2?utm_source=badge-top-post-badge&utm_medium=badge&utm_souce=badge-blaze-2" target="_blank">
+      <img src="https://api.producthunt.com/widgets/embed-image/v1/top-post-badge.svg?post_id=174403&theme=dark&period=daily" alt="Blaze - Fast peer to peer file sharing web app ⚡ | Product Hunt Embed" width="139px" height="30px" />
+    </a>
+    <a href="https://m.do.co/c/ddb2a965377c" target="_blank">
+      <img src="https://opensource.nyc3.cdn.digitaloceanspaces.com/attribution/assets/PoweredByDO/DO_Powered_by_Badge_blue.svg" alt="Digital Ocean" height="25px" />
+    </a>
+  </p>
 
-# Blaze - A file sharing web app
-Blaze is a file sharing progressive web app(PWA) that allows users to transfer files between multiple devices.
+  <h1>Blaze - A file sharing web app ⚡</h1>
+</div>
+
+Blaze is a file sharing progressive web app(PWA) that allows **users to transfer files between multiple devices.**
 It works similar to SHAREit or the Files app by Google but uses web technologies to eliminate the process of installing
-native apps for different devices and operating systems. It also supports instant file sharing with multiple devices at once which many file sharing apps lack.
+native apps for different devices and operating systems. It also supports instant file sharing with **multiple devices at once** which many file sharing apps lack.
 
-Blaze uses WebSockets and WebRTC to transfer files between multiple devices.
-It currently uses `socket.io` to make real-time connections on `express` backend. The frontend is built on [Svelte](https://svelte.dev).
-The current method of sharing files involves compressing the files to `zip` format and sharing this zip file as chunks of ArrayBuffer. This may change to increase the efficiency of the file transfer.  
+Blaze primarily uses [WebTorrent](https://webtorrent.io) and WebSockets protocol (as a fallback) to transfer files between multiple devices. Files shared **via WebTorrent are peer-to-peer**(as they use WebRTC internally) which means there is direct transfer between the sender and receiver **without any intermediate server**. Do note that tracker servers in WebTorrent are used which carry metadata and facilitate the file transfer but do not get the complete file in any form.
+
+### Try it out!
+- Go to a deployed client of Blaze - https://blaze.now.sh
+- Set a basic nickname(this is not stored on any server)
+- Create a new room. Room is where peers must join to share files among each other.
+- On another device, follow the above steps and join the same room. (Make sure to give a different nickname)
+- Both your devices should show up. Now start sharing some files!
+ 
 Read more about how Blaze works at a basic level in this [Medium article](https://medium.com/@AkashHamirwasia/new-ways-of-sharing-files-across-devices-over-the-web-using-webrtc-2554abaeb2e6).
 
+### Deploy your own instance of Blaze
 <p>
   <a href="https://heroku.com/deploy?template=https://github.com/blenderskool/blaze/tree/master">
     <img src="https://www.herokucdn.com/deploy/button.svg" alt="Deploy">
@@ -32,99 +42,120 @@ Read more about how Blaze works at a basic level in this [Medium article](https:
   </a>
 </p>
 
+Read more on [Deploying on your own server](#deploying-on-your-own-server)
 
 ## Table of Contents
+- [Sponsors](#sponsors)
 - [Project structure](#project-structure)
   - [Backend](#backend)
   - [Frontend](#frontend)
-    - [`static` folder](#static-folder)
-    - [`public` folder](#public-folder)
+    - [Sub-directories](#sub-directories)
+  - [Common](#common)
   - [Build process](#build-process)
+- [Deploying on your own server](#deploying-on-your-own-server)
+  - [Using docker-compose](#using-docker-compose)
 - [Contributing](#contributing)
 - [Running Blaze in production](#running-blaze-in-production)
   - [Building the frontend](#building-the-frontend)
   - [Starting the server](#starting-the-server)
+- [Privacy and Analytics](#privacy-and-analytics)
 - [License](#license)
 
 
-## Project structure
-The project is divided into the backend and the frontend.
+## Sponsors
+Blaze is sponsored by:
+<p>
+  <a href="https://m.do.co/c/ddb2a965377c">
+    <img src="https://opensource.nyc3.cdn.digitaloceanspaces.com/attribution/assets/SVG/DO_Logo_horizontal_blue.svg" width="201px">
+  </a>
+</p>
 
+## Project structure
+The project is divided structured into following directories - backend, frontend, common and nginx.
 
 ### Backend
-Right now, only `index.js` file contains all the server-side code. It is built on `express` and `socket.io` which allows usage of WebSockets and WebRTC. **We may switch to using WebSockets natively as it is supported in almost all modern browsers.**
+All the backend(or server) related source code resides under the `server` directory. It is built on Node.js with [express](http://expressjs.com/) and [ws](https://www.npmjs.com/package/ws) library for WebSockets. Thin wrappers have been created for easier interfacing with sockets.
 
 ### Frontend
-The frontend code is in the `public`, `static` folders. Once the frontend is built for production, all the built files are stored in `dist` folder which can be deployed along with the server code.
+The frontend source code is in the `client` directory. The dependencies of the frontend has been kept to a minimum to keep bundle sizes low. Once the frontend is built for production, all the built files are stored in `build` directory which can be deployed as a static app.
 
-#### `static` folder
-This folder is used to store the static files such as images, fonts, and JavaScript files that shouldn't be bundled with the rest of the code.
+- [Preact](https://preactjs.com/) is being used on the frontend(previously used Svelte).
+- Sass is used for CSS pre-processing and maintaing consistent themeing across the frontend.
+- `/app` route is a PWA, single-page app. Rest of the routes are pre-rendered during build time.
+- [Feather icons](https://feathericons.com/) is used for icons.
 
-#### `public` folder
-This folder contains the code for the frontend (written in [Svelte](https://svelte.dev/)) which gets compiled and bundled to JavaScript. It also contains the HTML layouts of different pages, along with stylesheets written in Sass.
+#### Sub-directories
+- `assets` - used to store the static assets such as images.
+- `components` - contains all the UI components of Blaze.
+- `hooks` - custom Preact hooks
+- `routes` - components related to different routes of Blaze and router configuration.
+  - `App` - subroutes of the single-page app under `/app` route.
+  - `Pages` - rest of the routes that need to be pre-rendered.
+- `scss` - theme level scss. (Note: component specific scss goes within the corresponding component directory)
+- `utils` - javascript utility functions
 
-- Svelte is used for the UI of the app.
-- No UI library is being used as of now.
-- Sass is used for CSS pre-processing.
-- `/app` route is a PWA, single-page app.
+### Common
+The `common` directory contains javascript modules that are **shared by both frontend and backend**. These include constants in `constants.js` file and utility functions in `utils` sub-directory.
 
+### Nginx
+The `nginx` directory contains configuration files for nginx to be used in Docker containers. These usually don't change much.
+- `compose-nginx.conf` - Used when the project is run using docker-compose.
+- `image-nginx.template` - Used when the project is run on a single container from higher level Docker image.
 
 ### Build process
-Build process is setup using Gulp. It uses Rollup to bundle the Frontend Svelte code, and Workbox to create the service worker for PWA support.
+The build process for the frontend internally setup with webpack via preact-cli. Overrides can be made in `preact.config.js` file. Following environment variables can be set in the build process:
+
+| variable             | description                                                           | default                       |
+|----------------------|-----------------------------------------------------------------------|-------------------------------|
+| **client**           |                                                                       |                               |
+| `WS_HOST`            | URL to the server that is running the Blaze WebSockets server.        | 'ws://\<your-local-ip\>:3030' |
+| `WS_SIZE_LIMIT`      | Max file size limit when transferring files over WebSockets in bytes. | 100000000 (100 MBs)           |
+| `TORRENT_SIZE_LIMIT` | Max file size limit when transferring files over WebTorrent in bytes. | 700000000 (700 MBs)           |
+| **server**           |                                                                       |                               |
+| `ORIGIN`             | Array of string URLs to allow CORS.                                   | *                             |
+| `PORT`               | Port for the server to run                                            | 3030                          |
+| `WS_SIZE_LIMIT`      | Max file size limit when transferring files over WebSockets in bytes  | 100000000 (100 MBs)           |
+--------------------------------------------------------------------------------------------------------------------------------
+
+## Deploying on your own server
+Blaze can be easily deployed on your own server using Docker. The frontend and the backend is completely decoupled from each other. Following Docker images are available:
+- Blaze Server: This is the backend Node.js server that is used for WebSockets. The environment variables listed for the server above can be passed to the container. It exposes port `3030`.
+- Blaze Client: This is the frontend progressive web app of Blaze used by clients for sharing files. Nginx is used as a web server for this statically generated frontend. The environment variables listed above can be passed as ARGS while **building the image**. The frontend container exposes port `80`.
+- Blaze: This is a higher level image that includes both Blaze Server and Blaze Client images above. It must be used when docker-compose is not available in the environment, or there is a limit to run only a single container. docker-compose must be used to run Blaze in other cases which is explained in next section.
+
+### Using docker-compose
+A `docker-compose.yml` file is present at the root of this project which runs both the server and client containers and sets up a proxy for WebSocket connections on the frontend in Nginx configuration. To run using docker-compose:
+
+```bash
+git clone https://github.com/blenderskool/blaze
+cd blaze
+docker-compose up -d
+```
 
 ## Contributing
-Thanks for contributing to Blaze! Make sure to **Fork** this repository into your account before making any commits. Then use the following commands to set up the project
-```bash
-git clone https://github.com/<your-github-username>/blaze
-git remote add upstream https://github.com/blenderskool/blaze.git
-cd blaze
-npm install
-```
-
-All development happens on the `next` branch. The `master` branch contains the known stable version of Blaze. To make your contributions, create a new branch from `next`.
-```bash
-git checkout -b my-branch next
-```
-
-Start the live development server. The server would run at port `3030` and the app can be accessed on `localhost:3030/app`
-```bash
-npm run dev
-```
-
-Now you can make your changes, and commit them. Make sure you have a clear and summarized message for your commits
-```bash
-git add .
-git commit -m "My fixes"
-```
-
-Sync your forked repository with the changes in this(upstream) repository
-```bash
-git fetch upstream
-git rebase upstream/next
-```
-
-Push the changes to your fork.
-```bash
-git push origin my-branch
-```
-
-This is a good time, to open a pull request in this repository with the changes you have made. Make sure you open a pull request to merge to `next` branch and not the `master` branch directly.
-
+Documentation on contributing can be found in [CONTRIBUTING.md](https://github.com/blenderskool/blaze/blob/master/CONTRIBUTING.md)
 
 ## Running Blaze in production
 
 ### Building the frontend
 ```bash
-npm run build
+npm run build:fe
 ```
-The frontend built code would be located in the `dist` folder.
+The frontend built code would be located in the `client/build` directory.
 
 
-### Starting the server
+### Starting the server and frontend app
 ```bash
 npm start
 ```
-Blaze should be running on port `3030` :tada:.
+Blaze app can now be accessed at port `8080` :tada:
+
+## Privacy and Analytics
+- Blaze server does not track or record the files that are being shared both by WebSockets and WebTorrent.
+- Any user related data like nickname, room names are always stored on device, and are only shared with the server when the user joins a room for file sharing.
+- Blaze client uses Google Analytics to record the following:
+  - [Basic visit data](https://developers.google.com/analytics/devguides/collection/analyticsjs#what_data_does_the_google_analytics_tag_capture) as recorded by [Google Analytics](https://support.google.com/analytics/answer/6004245?ref_topic=2919631)
+  - If Blaze is installed on the device, and whether files are shared using share targets.
 
 ## License
 Blaze is [MIT Licensed](https://github.com/blenderskool/blaze/blob/master/LICENSE)

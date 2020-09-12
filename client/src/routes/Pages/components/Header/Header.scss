@@ -1,0 +1,121 @@
+@import '../../../../scss/variables';
+
+$header-height: 85px;
+
+.page-header {
+  display: flex;
+  align-items: center;
+  height: $header-height;
+  position: fixed;
+  left: 0;
+  padding: 0 30px;
+  width: 100%;
+  z-index: 2;
+  background: linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 150%);
+  
+  .brand {
+    display: flex;
+    align-items: center;
+    z-index: 3;
+
+    svg {
+      transition: all 0.3s ease;
+    }
+    
+    .pill {
+      margin-top: 8px;
+      margin-left: 15px;
+    }
+
+    &:hover svg {
+      filter: drop-shadow(0 0 20px rgba($primary, 0.5));
+    }
+  }
+
+  .mobile-menu {
+    font-size: 20px;
+    margin-left: auto;
+    margin-right: -16px;
+    z-index: 3;
+  }
+  
+  nav {
+    margin-left: auto;
+
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba($bg, 0.9);
+    background-image: $noise;
+    background-size: 32%;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    
+    a {
+      display: inline-block;
+      margin: 0;
+      font-size: 1.25rem;
+      line-height: $header-height;
+      width: 100%;
+      transition: color 0.3s ease;
+      
+      &:last-child {
+        margin-right: 0;
+      }
+      
+      &:hover {
+        color: $primary;
+      }
+
+      &.ph-desktop {
+        display: none;
+      }
+      
+    }
+  }
+}
+
+@media screen and (min-width: 1000px) {
+  .page-header {
+    padding: 0 60px;
+
+    .mobile-menu {
+      display: none;
+    }
+
+    nav {
+      position: static;
+      display: initial !important;
+      text-align: left;
+      background-color: transparent;
+      background-image: none;
+
+      a {
+        font-size: 1rem;
+        padding: 0 1rem;
+        margin: 0 0.5rem;
+        width: auto;
+
+        &.ph-desktop {
+          display: inline;
+          margin: 0;
+
+          img {
+            vertical-align: middle;
+          }
+        }
+      }
+    }
+
+  }
+}
+
+@media screen and (max-width: $mobile-sm) {
+  .page-header .pill {
+    display: none;
+  }
+}
