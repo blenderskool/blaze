@@ -8,7 +8,7 @@ import Room from '../common/utils/room';
 import log from './log';
 import constants from '../common/constants';
 
-const CORS_ORIGIN = JSON.parse(process.env.ORIGIN) || '*';
+const CORS_ORIGIN = process.env.ORIGIN ? JSON.parse(process.env.ORIGIN) : '*';
 const PORT = process.env.PORT || 3030;
 const WS_SIZE_LIMIT = process.env.WS_SIZE_LIMIT || 1e8;
 
@@ -139,8 +139,6 @@ server.on('upgrade', (request, socket, head) => {
         break;
       }
     }
-  } else if (typeof CORS_ORIGIN === 'string') {
-    allowed = CORS_ORIGIN === origin;
   }
   
   if (!allowed) {

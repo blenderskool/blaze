@@ -112,7 +112,7 @@ The build process for the frontend internally setup with webpack via preact-cli.
 | `WS_SIZE_LIMIT`      | Max file size limit when transferring files over WebSockets in bytes. | 100000000 (100 MBs)           |
 | `TORRENT_SIZE_LIMIT` | Max file size limit when transferring files over WebTorrent in bytes. | 700000000 (700 MBs)           |
 | **server**           |                                                                       |                               |
-| `CORS_ORIGIN`        | URLs to allow CORS.                                                   | *                             |
+| `ORIGIN`             | Array of string URLs to allow CORS.                                   | *                             |
 | `PORT`               | Port for the server to run                                            | 3030                          |
 | `WS_SIZE_LIMIT`      | Max file size limit when transferring files over WebSockets in bytes  | 100000000 (100 MBs)           |
 --------------------------------------------------------------------------------------------------------------------------------
