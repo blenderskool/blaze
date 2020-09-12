@@ -2,12 +2,13 @@ import express from 'express';
 import http from 'http';
 import WebSocket from 'ws';
 import cors from 'cors';
+
 import Socket from '../common/utils/socket';
 import Room from '../common/utils/room';
 import log from './log';
 import constants from '../common/constants';
 
-const CORS_ORIGIN = process.env.ORIGIN || '*';
+const CORS_ORIGIN = JSON.parse(process.env.ORIGIN) || '*';
 const PORT = process.env.PORT || 3030;
 const WS_SIZE_LIMIT = process.env.WS_SIZE_LIMIT || 1e8;
 
@@ -17,7 +18,7 @@ app.use(cors({ origin: CORS_ORIGIN }));
 
 const server = http.createServer(app);
 
-const wss = new WebSocket.Server({ server });
+const wss = new WebSocket.Server({ noServer: true });
 const rooms = {};
 
 wss.on('connection', (ws) => {
@@ -123,6 +124,33 @@ app.get('/', (req, res) => {
     rooms: Object.keys(rooms).length,
     peers: Object.values(rooms).reduce((sum, room) => sum + room.sockets.length, 0),
   });
+});
+
+server.on('upgrade', (request, socket, head) => {
+  const origin = request.headers.origin;
+
+  let allowed = false;
+  if (CORS_ORIGIN === '*') {
+    allowed = true;
+  } else if (Array.isArray(CORS_ORIGIN)) {
+    for(const o of CORS_ORIGIN) {
+      if (o === origin) {
+        allowed = true;
+        break;
+      }
+    }
+  } else if (typeof CORS_ORIGIN === 'string') {
+    allowed = CORS_ORIGIN === origin;
+  }
+  
+  if (!allowed) {
+    socket.write('HTTP/1.1 401 Unauthorized\r\n\r\n');
+    socket.destroy();
+  } else {
+    wss.handleUpgrade(request, socket, head, function done(ws) {
+      wss.emit('connection', ws, request);
+    });
+  }
 });
 
 server.listen(PORT, '0.0.0.0', () => {
