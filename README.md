@@ -7,14 +7,14 @@
 
   <p align="center">
     <a href="https://www.producthunt.com/posts/blaze-2?utm_source=badge-top-post-badge&utm_medium=badge&utm_souce=badge-blaze-2" target="_blank">
-      <img src="https://api.producthunt.com/widgets/embed-image/v1/top-post-badge.svg?post_id=174403&theme=dark&period=daily" alt="Blaze - Fast peer to peer file sharing web app ⚡ | Product Hunt Embed" width="139px" height="30px" />
+      <img src="https://api.producthunt.com/widgets/embed-image/v1/top-post-badge.svg?post_id=174403&theme=dark&period=daily" alt="Blaze - Fast peer to peer file sharing web app ⚡ | Product Hunt Embed" width="140px" height="32px" />
     </a>
     <a href="https://m.do.co/c/ddb2a965377c" target="_blank">
       <img src="https://opensource.nyc3.cdn.digitaloceanspaces.com/attribution/assets/PoweredByDO/DO_Powered_by_Badge_blue.svg" alt="Digital Ocean" height="25px" />
     </a>
   </p>
 
-  <h1>Blaze - A file sharing web app ⚡</h1>
+  <h1>Blaze - A File Sharing Web App ⚡</h1>
 </div>
 
 Blaze is a file sharing progressive web app(PWA) that allows **users to transfer files between multiple devices.**
@@ -74,7 +74,7 @@ Blaze is sponsored by:
 The project is divided structured into following directories - backend, frontend, common and nginx.
 
 ### Backend
-All the backend(or server) related source code resides under the `server` directory. It is built on Node.js with [express](http://expressjs.com/) and [ws](https://www.npmjs.com/package/ws) library for WebSockets. Thin wrappers have been created for easier interfacing with sockets.
+All the backend(or server) related source code resides under the `server' directory. It is built on Node.js with [express](http://expressjs.com/) and [ws](https://www.npmjs.com/package/ws) library for WebSockets. Thin wrappers have been created for easier interfacing with sockets.
 
 ### Frontend
 The frontend source code is in the `client` directory. The dependencies of the frontend has been kept to a minimum to keep bundle sizes low. Once the frontend is built for production, all the built files are stored in `build` directory which can be deployed as a static app.
