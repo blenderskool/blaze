@@ -34,8 +34,8 @@
     "method": "POST",
     "enctype": "multipart/form-data",
     "params": {
-      "title": "Blaze",
-      "text": "Blaze",
+      "title": "title",
+      "text": "text",
       "files": [
         {
           "name": "files",
