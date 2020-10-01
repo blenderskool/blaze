@@ -2,8 +2,8 @@ import { h, createRef } from 'preact';
 import download from 'downloadjs';
 import { route } from 'preact-router';
 import { PureComponent, forwardRef, memo } from 'preact/compat';
-import { ArrowLeft, CheckCircle, Plus, Image, Film, Box, Music, File, Zap, Share2, Send } from 'preact-feather';
-
+import { ArrowLeft, CheckCircle, Plus, Image, Film, Box, Music, File, Zap, Share2, Send, Clipboard } from 'preact-feather';
+import copy from 'copy-to-clipboard';
 import { withQueuedFiles } from '../QueuedFiles';
 import Fab from '../../../components/Fab/Fab';
 import Modal from '../../../components/Modal/Modal';
@@ -25,7 +25,7 @@ const CanvasUnwrapped = (props, ref) => {
 const Canvas = memo(forwardRef(CanvasUnwrapped));
 
 class FileTransfer extends PureComponent {
-  
+
   constructor(props) {
     super(props);
     let { room } = props;
@@ -35,7 +35,7 @@ class FileTransfer extends PureComponent {
       ...savedData.user,
       room,
     };
-    
+
     this.state = {
       percentage: null,
       peers: [],
@@ -48,7 +48,7 @@ class FileTransfer extends PureComponent {
       },
       isSelectorEnabled: false,
     };
-    
+
     this.canvas = createRef();
     this.fileInput = createRef();
 
@@ -200,7 +200,7 @@ class FileTransfer extends PureComponent {
         },
       })
       .catch(err => {
-        switch(err.message) {
+        switch (err.message) {
           case constants.ERR_LARGE_FILE:
             // File selected by the user is larger than the set limit
             toast(`File size is limited to ${formatSize(this.state.isP2P ? TORRENT_SIZE_LIMIT : WS_SIZE_LIMIT)}`)
@@ -312,7 +312,7 @@ class FileTransfer extends PureComponent {
 
   handleShare = () => {
     if (!navigator.share) return;
-    
+
     navigator.share({
       title: 'Share files',
       text: `Join my room '${this.client.room}' on Blaze to share files`,
@@ -323,6 +323,12 @@ class FileTransfer extends PureComponent {
   handleQueuedFiles = () => {
     this.selectFiles(this.props.queuedFiles);
     this.props.setQueuedFiles([]);
+  }
+  copyLink = () => {
+    if (navigator.share)
+      this.handleShare();
+    else
+      copy(window.location.href);
   }
 
   getFileIcon(file) {
@@ -361,7 +367,7 @@ class FileTransfer extends PureComponent {
       fileProgress = (
         <div class="file-progress">
           <svg width="30" height="30">
-            <circle cx="15" cy="15" r="10" style={`stroke-dashoffset:${63 * this.state.percentage/100 - 63}`} />
+            <circle cx="15" cy="15" r="10" style={`stroke-dashoffset:${63 * this.state.percentage / 100 - 63}`} />
           </svg>
         </div>
       );
@@ -428,14 +434,19 @@ class FileTransfer extends PureComponent {
             {this.client.room}
           </h1>
 
-          <button
+          {navigator.share ? <button
             class="thin icon right"
-            style={{ visibility: navigator.share ? 'visible' : 'hidden' }}
             aria-label="Share room link"
             onClick={this.handleShare}
           >
             <Share2 />
-          </button>
+          </button> : <button
+            class="thin icon right"
+            aria-label="Copy room link"
+            onClick={this.copyLink}
+          >
+              <Clipboard />
+            </button>}
         </header>
 
         <main>
@@ -454,12 +465,12 @@ class FileTransfer extends PureComponent {
             <div class={`transfer-help ${peers.length > 1 && isP2P && 'p2p'}`}>
               {
                 peers.length <= 1 ? 'Waiting for other devices to join same room'
-                : isP2P ? (
-                  <>
-                    <Zap size={20} /> Established a P2P connection!
+                  : isP2P ? (
+                    <>
+                      <Zap size={20} /> Established a P2P connection!
                   </>
-                )
-                : 'Using an intermediate server for sharing files'
+                  )
+                    : 'Using an intermediate server for sharing files'
               }
             </div>
           </div>
@@ -508,10 +519,10 @@ class FileTransfer extends PureComponent {
                 <Send size={20} />
               </Fab>
             ) : (
-              <Fab text="Send File" disabled={!isSelectorEnabled} onClick={() => this.fileInput.current.click()}>
-                <Plus />
-              </Fab>
-            )
+                <Fab text="Send File" disabled={!isSelectorEnabled} onClick={() => this.fileInput.current.click()}>
+                  <Plus />
+                </Fab>
+              )
           }
 
         </main>
@@ -522,7 +533,7 @@ class FileTransfer extends PureComponent {
           </div>
         </Modal>
 
-        { isSelectorEnabled && <FileDrop onFile={this.selectFiles} /> }
+        { isSelectorEnabled && <FileDrop onFile={this.selectFiles} />}
       </div>
     );
   }
