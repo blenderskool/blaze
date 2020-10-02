@@ -158,4 +158,4 @@ Blaze app can now be accessed at port `8080` :tada:
   - If Blaze is installed on the device, and whether files are shared using share targets.
 
 ## License
-Blaze is [MIT Licensed](https://github.com/blenderskool/blaze/blob/master/LICENSE.md)
+Blaze is [MIT Licensed](https://github.com/blenderskool/blaze/blob/master/LICENSE)
