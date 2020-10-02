@@ -65,6 +65,8 @@ function Rooms({ isOnline }) {
   };
 
   useEffect(() => {
+    document.title = 'App | Blaze';
+    
     if (rooms.length === 0) {
       setModal(true);
     }

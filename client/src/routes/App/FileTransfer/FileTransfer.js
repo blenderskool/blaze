@@ -214,6 +214,8 @@ class FileTransfer extends PureComponent {
   }
 
   componentDidMount() {
+    document.title = `${this.client.room} room | Blaze`;
+
     this.visualizer = new Visualizer(this.canvas.current);
     this.fileShare = new SocketConnect(this.client.room, this.client.name);
     const { socket } = this.fileShare;
