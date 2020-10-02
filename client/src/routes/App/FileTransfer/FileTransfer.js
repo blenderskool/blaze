@@ -311,7 +311,10 @@ class FileTransfer extends PureComponent {
   }
 
   handleShare = () => {
-    if (!navigator.share) return;
+    if (!navigator.share) {
+      this.copyLink();
+      return
+    };
 
     navigator.share({
       title: 'Share files',
@@ -327,8 +330,10 @@ class FileTransfer extends PureComponent {
   copyLink = () => {
     if (navigator.share)
       this.handleShare();
-    else
+    else {
       copy(window.location.href);
+      toast('Room link copied to clipboard');
+    }
   }
 
   getFileIcon(file) {
