@@ -5,10 +5,11 @@
   "private": true,
   "scripts": {
     "dev:fe": "npm run --prefix client dev",
+    "dev:server": "npm run --prefix server dev",
     "build:fe": "npm run --prefix client build",
     "start:fe": "npm start --prefix client",
     "start:server": "npm start --prefix server",
-    "dev": "concurrently \"npm:start:server\" \"npm:dev:fe\"",
+    "dev": "concurrently \"npm:dev:server\" \"npm:dev:fe\"",
     "start": "concurrently \"npm:start:server\" \"npm:start:fe\"",
     "postinstall": "npm install --prefix client && npm install --prefix server"
   },

@@ -4,6 +4,7 @@
   "description": "Quickly share files with multiple users",
   "private": true,
   "scripts": {
+    "dev": "nodemon index",
     "start": "sucrase-node index"
   },
   "author": "Akash Hamirwasia",
@@ -16,5 +17,8 @@
   },
   "engines": {
     "node": "10.x"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
   }
 }
