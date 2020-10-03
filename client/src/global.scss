@@ -88,6 +88,19 @@ button, .btn {
       color: $light;
     }
   }
+
+  &.outlined {
+    background-color: $bg;
+    color: $primary;
+    border: 2px solid $primary;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+    box-shadow: none;
+  }
   
   &.icon {
     width: 50px;
