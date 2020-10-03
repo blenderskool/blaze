@@ -2,6 +2,7 @@ import express from 'express';
 import http from 'http';
 import WebSocket from 'ws';
 import cors from 'cors';
+import roomGenerator from 'project-name-generator';
 
 import Socket from '../common/utils/socket';
 import Room from '../common/utils/room';
@@ -118,12 +119,22 @@ wss.on('close', () => {
   clearInterval(interval);
 });
 
-app.get('/', (req, res) => {
+app.get('/', (_, res) => {
   res.send({
     message: 'Blaze WebSockets running',
     rooms: Object.keys(rooms).length,
     peers: Object.values(rooms).reduce((sum, room) => sum + room.sockets.length, 0),
   });
+});
+
+app.get('/anonymous-room', (_, res) => {
+  let room;
+
+  do {
+    room = roomGenerator({ number: true }).dashed;
+  } while(room in rooms);
+
+  res.send({ room });
 });
 
 server.on('upgrade', (request, socket, head) => {
