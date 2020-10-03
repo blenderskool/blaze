@@ -9,7 +9,7 @@
     <a href="https://www.producthunt.com/posts/blaze-2?utm_source=badge-top-post-badge&utm_medium=badge&utm_souce=badge-blaze-2" target="_blank">
       <img src="https://api.producthunt.com/widgets/embed-image/v1/top-post-badge.svg?post_id=174403&theme=dark&period=daily" alt="Blaze - Fast peer to peer file sharing web app ⚡ | Product Hunt Embed" width="139px" height="30px" />
     </a>
-    <a href="https://m.do.co/c/ddb2a965377c" target="_blank">
+    <a href="https://bit.ly/36uX8oU" target="_blank">
       <img src="https://opensource.nyc3.cdn.digitaloceanspaces.com/attribution/assets/PoweredByDO/DO_Powered_by_Badge_blue.svg" alt="Digital Ocean" height="25px" />
     </a>
   </p>
@@ -65,7 +65,7 @@ Read more on [Deploying on your own server](#deploying-on-your-own-server)
 ## Sponsors
 Blaze is sponsored by:
 <p>
-  <a href="https://m.do.co/c/ddb2a965377c">
+  <a href="https://bit.ly/36uX8oU">
     <img src="https://opensource.nyc3.cdn.digitaloceanspaces.com/attribution/assets/SVG/DO_Logo_horizontal_blue.svg" width="201px">
   </a>
 </p>
