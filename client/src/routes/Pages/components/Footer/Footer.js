@@ -13,14 +13,14 @@ const Footer = () => (
     <div>
       <span>
         © 2018 - 2020&nbsp;
-        <a alt="DigitalOcean" href="https://github.com/blenderskool" target="_blank" rel="noreferrer">
+        <a  href="https://github.com/blenderskool" target="_blank" rel="noreferrer">
           Akash Hamirwasia
         </a>
         .&nbsp;
       </span>
       <span>
         Released under the
-        <a alt="DigitalOcean" href="https://github.com/blenderskool/blaze/blob/master/LICENSE" target="_blank" rel="noreferrer"> MIT License</a>
+        <a href="https://github.com/blenderskool/blaze/blob/master/LICENSE" target="_blank" rel="noreferrer"> MIT License</a>
       </span>
       <div>
         Designed & Developed in 🇮🇳
