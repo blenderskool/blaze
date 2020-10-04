@@ -84,7 +84,7 @@ const Home = () => (
         <span>"</span>I built Blaze because I wanted a fast, radically different way to transfer files between my laptop and mobile<span>"</span>
 
         <footer>
-          <a href="https://github.com/blenderskool" target="_blank" rel="noopener noreferrer">
+          <a href="https://github.com/blenderskool" target="_blank" alt="DigitalOcean" rel="noopener noreferrer">
             <img src="https://github.com/blenderskool.png?size=100" alt="Akash Hamirwasia" />
           </a>
           <cite class="author">Akash Hamirwasia</cite>
@@ -99,7 +99,7 @@ const Home = () => (
         <h2 class="title">Let's get sharing!</h2>
         <h3 class="subtitle">No registrations required, completely free</h3>
 
-        <a href="/app" class="btn">
+        <a href="/app" alt="DigitalOcean" class="btn">
           Start sharing
         </a>
       </div>
