@@ -5,14 +5,15 @@ Thanks for contributing to Blaze :zap:! Make sure to **Fork** this repository in
 Run the following commands to set up Blaze on your system
 ```bash
 git clone https://github.com/<your-github-username>/blaze
-git remote add upstream https://github.com/blenderskool/blaze.git
 cd blaze
+git remote add upstream https://github.com/blenderskool/blaze.git
 npm install
 ```
 
 ## Creating a feature branch
 All development happens on the `next` branch. The `master` branch contains the known stable version of Blaze. To make your contributions, create a new branch from `next`.
 ```bash
+git checkout next
 git checkout -b my-branch next
 ```
 
