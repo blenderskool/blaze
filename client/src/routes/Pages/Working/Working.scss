@@ -46,8 +46,8 @@
 
   .browsers {
     list-style: none;
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat( auto-fit, minmax(195px, 1fr) );
     padding: 0;
     margin-top: 12px;
 
