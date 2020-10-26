@@ -2,17 +2,11 @@ version: '3'
 services:
   blaze-server:
     image: node:10.16.3
-    build:
-      context: .
-      dockerfile: ./server/Dockerfile
     ports:
       - 3030:3030
 
   blaze-client:
     image: node:10.16.3
-    build:
-      context: .
-      dockerfile: ./client/Dockerfile
     ports:
       - 80:80
     depends_on:
