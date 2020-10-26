@@ -12,16 +12,17 @@ function Modal({ isClosable, isOpen, onClose, children }) {
   }, [ isOpen ]);
 
   useEffect(() => {
-
-    const handleEsc = (event) => {
-        if (event.key === "Escape"||event.keyCode === 27 || event.which===27) {
-          onClose();
-        }
-    };
-    window.addEventListener('keydown', handleEsc);
-    return () => {
-      window.removeEventListener('keydown', handleEsc);
-    };
+    if(isClosable){
+      const handleEsc = (event) => {
+          if (event.key === "Escape"||event.keyCode === 27 || event.which===27) {
+            onClose();
+          }
+      };
+      window.addEventListener('keydown', handleEsc);
+      return () => {
+        window.removeEventListener('keydown', handleEsc);
+      };
+    }
   }, []);
 
   return createPortal(
