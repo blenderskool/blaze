@@ -12,18 +12,19 @@ function Modal({ isClosable, isOpen, onClose, children }) {
   }, [ isOpen ]);
 
   useEffect(() => {
-    if(isClosable){
+    if (isClosable){
       const handleEsc = (event) => {
-          if (event.key === "Escape"||event.keyCode === 27 || event.which===27) {
-            onClose();
-          }
+        if (event.key === "Escape" || event.keyCode === 27 || event.which === 27) {
+          onClose(event);
+        }
       };
+
       window.addEventListener('keydown', handleEsc);
       return () => {
         window.removeEventListener('keydown', handleEsc);
       };
     }
-  }, []);
+  }, [ isClosable, onClose ]);
 
   return createPortal(
     <div class="modal-wrapper" style={isOpen ? { opacity: 1, visibility: 'visible' } : {}}>
