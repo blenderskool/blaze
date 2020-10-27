@@ -1,15 +1,6 @@
 version: '3'
 services:
-  blaze-server:
+  blaze:
     image: akashhamirwasia/blaze
     ports:
       - 3030:3030
-
-  blaze-client:
-    image: akashhamirwasia/blaze
-    ports:
-      - 80:80
-    depends_on:
-      - blaze-server
-    volumes:
-      - ./nginx/compose-nginx.conf:/etc/nginx/nginx.conf
