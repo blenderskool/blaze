@@ -56,10 +56,10 @@ function NewRoomModal({ onNewRoom, ...props }) {
         <button class="outlined wide" onClick={joinAnonymous} disabled={isLoading}>
           <Loader size={18} />
           &nbsp;&nbsp;
-          { isLoading ? 'Joining' : 'Join an instant room' }
+          { isLoading ? 'Joining' : 'Join an Instant Room' }
         </button>
         <p class="instant-room-help">
-          Tip: Instant rooms are created just for you!
+          Tip: Instant Rooms are created just for you!
         </p>
       </div>
     </Modal>
