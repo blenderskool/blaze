@@ -2,7 +2,7 @@ import { h, createRef } from 'preact';
 import download from 'downloadjs';
 import { route } from 'preact-router';
 import { PureComponent, forwardRef, memo } from 'preact/compat';
-import { ArrowLeft, CheckCircle, Plus, Image, Film, Box, Music, File, Zap, Share2, Send, Clipboard } from 'preact-feather';
+import { ArrowLeft, CheckCircle, Plus, Image, Film, Box, Music, File, Zap, Share2, Send } from 'preact-feather';
 import copy from 'copy-to-clipboard';
 import { withQueuedFiles } from '../QueuedFiles';
 import Fab from '../../../components/Fab/Fab';
@@ -439,19 +439,13 @@ class FileTransfer extends PureComponent {
             {this.client.room}
           </h1>
 
-          {navigator.share ? <button
+          <button
             class="thin icon right"
-            aria-label="Share room link"
-            onClick={this.handleShare}
+            aria-label={navigator.share ? 'Share room link' : 'Copy room link'}
+            onClick={navigator.share ? this.handleShare : this.copyLink}
           >
             <Share2 />
-          </button> : <button
-            class="thin icon right"
-            aria-label="Copy room link"
-            onClick={this.copyLink}
-          >
-              <Clipboard />
-            </button>}
+          </button>
         </header>
 
         <main>
