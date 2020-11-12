@@ -463,15 +463,26 @@ class FileTransfer extends PureComponent {
 
             <div class={`transfer-help ${peers.length > 1 && isP2P && 'p2p'}`}>
               {
-                peers.length <= 1 ? 'Waiting for other devices to join same room'
+                peers.length <= 1 ? 'Share room link to devices you want to share files with'
                   : isP2P ? (
                     <>
                       <Zap size={20} /> Established a P2P connection!
-                  </>
+                    </>
                   )
                     : 'Using an intermediate server for sharing files'
               }
             </div>
+
+            {
+              peers.length <= 1 && (
+                <div class="share-room-link">
+                  <input value={window.location.href} disabled />
+                  <button class="outlined" onClick={navigator.share ? this.handleShare :this.copyLink}>
+                    {navigator.share ? 'Share room link' : 'Copy room link'}
+                  </button>
+                </div>
+              )
+            }
           </div>
 
 
