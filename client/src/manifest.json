@@ -34,6 +34,8 @@
     "method": "POST",
     "enctype": "multipart/form-data",
     "params": {
+      "title": "title",
+      "text": "text",
       "files": [
         {
           "name": "files",

@@ -10,7 +10,22 @@ function Modal({ isClosable, isOpen, onClose, children }) {
   useEffect(() => {
     document.body.classList.toggle('no-bg-image', isOpen);
   }, [ isOpen ]);
-  
+
+  useEffect(() => {
+    if (isClosable){
+      const handleEsc = (event) => {
+        if (event.key === "Escape" || event.keyCode === 27 || event.which === 27) {
+          onClose(event);
+        }
+      };
+
+      window.addEventListener('keydown', handleEsc);
+      return () => {
+        window.removeEventListener('keydown', handleEsc);
+      };
+    }
+  }, [ isClosable, onClose ]);
+
   return createPortal(
     <div class="modal-wrapper" style={isOpen ? { opacity: 1, visibility: 'visible' } : {}}>
 

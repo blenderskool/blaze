@@ -5,8 +5,8 @@ import './Footer.scss';
 const Footer = () => (
   <footer>
     <div>
-      <a href="https://m.do.co/c/ddb2a965377c" target="_blank" rel="noreferrer">
-        <img class="digital-ocean" src="https://opensource.nyc3.cdn.digitaloceanspaces.com/attribution/assets/PoweredByDO/DO_Powered_by_Badge_white.svg" />
+      <a href="https://bit.ly/36uX8oU" aria-label="DigitalOcean" target="_blank" rel="noreferrer">
+        <img class="digital-ocean" src="https://opensource.nyc3.cdn.digitaloceanspaces.com/attribution/assets/PoweredByDO/DO_Powered_by_Badge_white.svg" alt="Powered by DigitalOcean"/>
       </a>
     </div>
 

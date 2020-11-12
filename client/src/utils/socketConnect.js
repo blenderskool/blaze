@@ -1,16 +1,7 @@
 import Socket from '../../../common/utils/socket';
 import constants from '../../../common/constants';
 import FileShare from './fileShare';
-
-function getSocketURL() {
-  if (WS_HOST) return WS_HOST;
-
-  if (window.location.protocol === 'https:') {
-    return `wss://${window.location.host}/ws`;
-  } else {
-    return `ws://${window.location.host}/ws`;
-  }
-}
+import urls from '../utils/urls';
 
 /**
  * Opens a socket connection to join a room
@@ -18,7 +9,7 @@ function getSocketURL() {
  * @param {String} username Name of the user joining the room
  */
 function socketConnect(room, username) {
-  const socket = new Socket(new WebSocket(getSocketURL()));
+  const socket = new Socket(new WebSocket(urls.WS_HOST));
   const fileShare = new FileShare(socket);
   socket.name = username;
   
