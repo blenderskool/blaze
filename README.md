@@ -71,7 +71,7 @@ Blaze is sponsored by:
 </p>
 
 ## Project structure
-The project is divided structured into following directories - backend, frontend, common and nginx.
+The project is structured into following directories - backend, frontend, common and nginx.
 
 ### Backend
 All the backend(or server) related source code resides under the `server` directory. It is built on Node.js with [express](http://expressjs.com/) and [ws](https://www.npmjs.com/package/ws) library for WebSockets. Thin wrappers have been created for easier interfacing with sockets.
