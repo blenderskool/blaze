@@ -62,6 +62,24 @@
     }
   }
 
+  .share-room-link {
+    input {
+      font-size: 1rem;
+      width: 50%;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+      color: darken($light, 20);
+    }
+
+    button {
+      font-size: 1rem;
+      padding-left: 8px;
+      padding-right: 8px;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+      height: 49px;
+    }
+  }
 
   .card {
     width: 95%;

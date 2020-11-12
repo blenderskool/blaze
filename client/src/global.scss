@@ -88,6 +88,19 @@ button, .btn {
       color: $light;
     }
   }
+
+  &.outlined {
+    background-color: $bg;
+    color: $primary;
+    border: 2px solid $primary;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+    box-shadow: none;
+  }
   
   &.icon {
     width: 50px;
@@ -126,8 +139,22 @@ img, svg {
   vertical-align: middle;
 }
 
-#app {
-  transition: filter 0.2s ease;
+.fade-enter {
+  opacity: 0;
+}
+
+.fade-enter.fade-enter-active {
+  opacity: 1;
+  transition: all 200ms ease-in;
+}
+
+.fade-exit {
+  opacity: 1;
+}
+
+.fade-exit.fade-exit-active {
+  opacity: 0;
+  transition: all 200ms ease-out;
 }
 
 @media screen and (min-width: 800px) {

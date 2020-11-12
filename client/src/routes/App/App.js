@@ -63,7 +63,7 @@ export default function App() {
             <Router>
               <Rooms path="/app/" isOnline={isOnline} />
               <FileTransfer path="/app/t/:room" />
-             </Router>
+            </Router>
           </QueuedFiles.Provider>
         ) : <Loading fullScreen />
       }

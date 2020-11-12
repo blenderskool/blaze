@@ -9,7 +9,7 @@
     <a href="https://www.producthunt.com/posts/blaze-2?utm_source=badge-top-post-badge&utm_medium=badge&utm_souce=badge-blaze-2" target="_blank">
       <img src="https://api.producthunt.com/widgets/embed-image/v1/top-post-badge.svg?post_id=174403&theme=dark&period=daily" alt="Blaze - Fast peer to peer file sharing web app ⚡ | Product Hunt Embed" width="139px" height="30px" />
     </a>
-    <a href="https://m.do.co/c/ddb2a965377c" target="_blank">
+    <a href="https://bit.ly/36uX8oU" target="_blank">
       <img src="https://opensource.nyc3.cdn.digitaloceanspaces.com/attribution/assets/PoweredByDO/DO_Powered_by_Badge_blue.svg" alt="Digital Ocean" height="25px" />
     </a>
   </p>
@@ -65,16 +65,16 @@ Read more on [Deploying on your own server](#deploying-on-your-own-server)
 ## Sponsors
 Blaze is sponsored by:
 <p>
-  <a href="https://m.do.co/c/ddb2a965377c">
+  <a href="https://bit.ly/36uX8oU">
     <img src="https://opensource.nyc3.cdn.digitaloceanspaces.com/attribution/assets/SVG/DO_Logo_horizontal_blue.svg" width="201px">
   </a>
 </p>
 
 ## Project structure
-The project is divided structured into following directories - backend, frontend, common and nginx.
+The project is structured into following directories - backend, frontend, common and nginx.
 
 ### Backend
-All the backend(or server) related source code resides under the `server` directory. It is built on Node.js with [express](http://expressjs.com/) and [ws](https://www.npmjs.com/package/ws) library for WebSockets. Thin wrappers have been created for easier interfacing with sockets.
+All the backend(or server) related source code resides under the `server` directory. It is built on Node.js with [express](http://expressjs.com/) for HTTP server and [ws](https://www.npmjs.com/package/ws) library for WebSockets. Thin wrappers have been created for easier interfacing with sockets.
 
 ### Frontend
 The frontend source code is in the `client` directory. The dependencies of the frontend has been kept to a minimum to keep bundle sizes low. Once the frontend is built for production, all the built files are stored in `build` directory which can be deployed as a static app.
@@ -105,17 +105,18 @@ The `nginx` directory contains configuration files for nginx to be used in Docke
 ### Build process
 The build process for the frontend internally setup with webpack via preact-cli. Overrides can be made in `preact.config.js` file. Following environment variables can be set in the build process:
 
-| variable             | description                                                           | default                       |
-|----------------------|-----------------------------------------------------------------------|-------------------------------|
-| **client**           |                                                                       |                               |
-| `WS_HOST`            | URL to the server that is running the Blaze WebSockets server.        | 'ws://\<your-local-ip\>:3030' |
-| `WS_SIZE_LIMIT`      | Max file size limit when transferring files over WebSockets in bytes. | 100000000 (100 MBs)           |
-| `TORRENT_SIZE_LIMIT` | Max file size limit when transferring files over WebTorrent in bytes. | 700000000 (700 MBs)           |
-| **server**           |                                                                       |                               |
-| `ORIGIN`             | Array of string URLs to allow CORS.                                   | *                             |
-| `PORT`               | Port for the server to run                                            | 3030                          |
-| `WS_SIZE_LIMIT`      | Max file size limit when transferring files over WebSockets in bytes  | 100000000 (100 MBs)           |
---------------------------------------------------------------------------------------------------------------------------------
+| variable             | description                                                           | default                         |
+|----------------------|-----------------------------------------------------------------------|---------------------------------|
+| **client**           |                                                                       |                                 |
+| `WS_HOST`            | URL to the server that is running the Blaze WebSockets server.        | 'ws://\<your-local-ip\>:3030'   |
+| `SERVER_HOST`        | URL to the server that running the Blaze HTTP server.                 | 'http://\<your-local-ip\>:3030' |
+| `WS_SIZE_LIMIT`      | Max file size limit when transferring files over WebSockets in bytes. | 100000000 (100 MBs)             |
+| `TORRENT_SIZE_LIMIT` | Max file size limit when transferring files over WebTorrent in bytes. | 700000000 (700 MBs)             |
+| **server**           |                                                                       |                                 |
+| `ORIGIN`             | Array of string URLs to allow CORS.                                   | *                               |
+| `PORT`               | Port for the server to run                                            | 3030                            |
+| `WS_SIZE_LIMIT`      | Max file size limit when transferring files over WebSockets in bytes  | 100000000 (100 MBs)             |
+----------------------------------------------------------------------------------------------------------------------------------
 
 ## Deploying on your own server
 Blaze can be easily deployed on your own server using Docker. The frontend and the backend is completely decoupled from each other. Following Docker images are available:
