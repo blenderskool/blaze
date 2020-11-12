@@ -6,6 +6,8 @@ let container;
 let queue = [];
 
 const setQueue = (newQueue) => {
+  if (typeof window === 'undefined') return;
+
   queue = newQueue;
 
   if (!container) {
