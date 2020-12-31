@@ -11,7 +11,7 @@ const Home = () => (
 
       <div class="info">
         <h1 class="title">Share files the modern way</h1>
-        <h2 class="subtitle">Using just a web browser across any device on Earth!</h2>
+        <h2 class="subtitle">Using just a web browser to any device on the Internet!</h2>
 
         <a href="/app" class="btn">
           Start Sharing
@@ -57,7 +57,7 @@ const Home = () => (
         <img src={twoDevices} alt="Laptop and mobile connected together" loading="lazy" style="margin-right: -60px" />
         <h2>Easy to use</h2>
         <p>
-          Blaze is a web app, just open it in your browser, join a room, and start sharing. No need to download specific apps for different platforms.
+          Blaze is a web app, just open it in your browser, join a room, and start sharing. No need to install any specific app, or create an account!
         </p>
       </div>
 
