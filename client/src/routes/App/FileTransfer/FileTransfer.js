@@ -160,7 +160,7 @@ class FileTransfer extends PureComponent {
         onMeta: (metaData) => {
           metaData = metaData.map(file => ({
             ...file,
-            sentTo: this.state.peers.slice(1),
+            sentTo: this.state.peers.filter(name => name !== this.client.name),
           }));
 
           filesQueued -= metaData.length;
