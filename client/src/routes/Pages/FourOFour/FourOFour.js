@@ -7,7 +7,7 @@ const FourOFour = () => (
   <main class="four-o-four">
     <img src={FourOFourVis} />
     <h1>Oops, this connection just broke into numbers!</h1>
-    <p>Lets get you back to Blaze to start sharing some files</p>
+    <p>Let's get you back to Blaze to start sharing some files</p>
     <a class="btn" href="/">Go to home</a>
   </main>
 );
