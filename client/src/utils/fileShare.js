@@ -16,7 +16,15 @@ class FileShare {
         rtcConfig: {
           iceServers: [
             {
-              urls: ['stun:stun.l.google.com:19305', 'stun:stun1.l.google.com:19305']
+              urls: 'stun:stun.l.google.com:19305',
+            },
+            {
+              urls: 'stun:stun1.l.google.com:19305',
+            },
+            {
+              urls: 'turn:blaze.beaconapp.in:3478',
+              username: 'blaze',
+              credential: 'iDPkk9PaewlkFWJYzTAg5',
             }
           ]
         }
