@@ -114,9 +114,11 @@ The build process for the frontend internally setup with webpack via preact-cli.
 | `TORRENT_SIZE_LIMIT` | Max file size limit when transferring files over WebTorrent in bytes. | 700000000 (700 MBs)             |
 | **server**           |                                                                       |                                 |
 | `ORIGIN`             | Array of string URLs to allow CORS.                                   | *                               |
-| `PORT`               | Port for the server to run                                            | 3030                            |
-| `WS_SIZE_LIMIT`      | Max file size limit when transferring files over WebSockets in bytes  | 100000000 (100 MBs)             |
+| `PORT`               | Port for the server to run.                                           | 3030                            |
+| `WS_SIZE_LIMIT`      | Max file size limit when transferring files over WebSockets in bytes. | 100000000 (100 MBs)             |
 ----------------------------------------------------------------------------------------------------------------------------------
+
+**NOTE:** Any URL in the environment variables should not end with `/`.
 
 ## Deploying on your own server
 Blaze can be easily deployed on your own server using Docker. The frontend and the backend is completely decoupled from each other. Following Docker images are available:
