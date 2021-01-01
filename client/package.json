@@ -1,6 +1,6 @@
 {
   "name": "blaze-frontend",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Quickly share files with multiple users",
   "private": true,
   "scripts": {
