@@ -14,6 +14,12 @@
     </a>
   </p>
 
+  <p align="center">
+    <img src="https://blaze.now.sh/api/badges/status" />
+    <img src="https://blaze.now.sh/api/badges/release" />
+    <img src="https://blaze.now.sh/api/badges/license" />
+  </p>
+
   <h1>Blaze - A file sharing web app ⚡</h1>
 </div>
 
