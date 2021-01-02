@@ -7,31 +7,20 @@ import { QueuedFiles } from '../QueuedFiles';
 import Fab from '../../../components/Fab/Fab';
 import Modal from '../../../components/Modal/Modal';
 import pluralize from '../../../utils/pluralize';
-import urls from '../../../utils/urls';
+import useInstantRoom from '../../../hooks/useInstantRoom';
 
 import './Rooms.scss';
 
 function NewRoomModal({ onNewRoom, ...props }) {
-  const [isLoading, setLoading] = useState(false);
   const [room, setRoom] = useState();
+  const [getInstantRoom, { loading: isLoading }] = useInstantRoom((room) => {
+    onNewRoom(room);
+  });
 
   const handleSubmit = e => {
     e.preventDefault();
     onNewRoom(room);
   };
-
-  const joinAnonymous = async (e) => {
-    setLoading(true);
-
-    try {
-      const res = await fetch(`${urls.SERVER_HOST}/anonymous-room`);
-      const { room } = await res.json();
-
-      onNewRoom(room);
-    } finally {
-      setLoading(false);
-    }
-  }
 
   return (
     <Modal {...props}>
@@ -53,7 +42,7 @@ function NewRoomModal({ onNewRoom, ...props }) {
           </button>
         </form>
         <hr />
-        <button class="outlined wide" onClick={joinAnonymous} disabled={isLoading}>
+        <button class="outlined wide" onClick={getInstantRoom} disabled={isLoading}>
           <Loader size={18} />
           &nbsp;&nbsp;
           { isLoading ? 'Joining' : 'Join an Instant Room' }
