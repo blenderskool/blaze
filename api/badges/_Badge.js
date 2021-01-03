@@ -46,7 +46,7 @@ function Badge({ width, height, title, value, type }) {
       </defs>
       <foreignObject width="100%" height="100%">
         <div xmlns="http://www.w3.org/1999/xhtml">
-        <div class={`badge ${type}`} style={{ height, width, lineHeight: `${height-2}px` }}>
+        <div class={`badge ${type}`} style={{ height, width, lineHeight: `${height}px` }}>
           <div class="title">
             {title}
           </div>
