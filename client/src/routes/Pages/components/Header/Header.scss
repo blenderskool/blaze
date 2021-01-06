@@ -4,6 +4,18 @@ $header-height: 85px;
 
 .active {
   color: $primary;
+  position: relative;
+}
+
+.active::after {
+  content: "";
+  height: 5px;
+  width: 5px;
+  border-radius: 50%;
+  background-color: $primary;
+  position: absolute;
+  top: 3.8rem;
+  right: 50%;
 }
 
 .page-header {
