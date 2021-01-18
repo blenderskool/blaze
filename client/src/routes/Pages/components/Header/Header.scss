@@ -2,22 +2,6 @@
 
 $header-height: 85px;
 
-.active {
-  color: $primary;
-  position: relative;
-}
-
-.active::after {
-  content: "";
-  height: 5px;
-  width: 5px;
-  border-radius: 50%;
-  background-color: $primary;
-  position: absolute;
-  top: 3.8rem;
-  right: 50%;
-}
-
 .page-header {
   display: flex;
   align-items: center;
@@ -94,6 +78,22 @@ $header-height: 85px;
       &.ph-desktop {
         display: none;
       }
+    }
+  }
+
+  .active {
+    color: $primary;
+    position: relative;
+
+    &::after {
+      content: "";
+      height: 5px;
+      width: 5px;
+      border-radius: 50%;
+      background-color: $primary;
+      position: absolute;
+      top: 3.8rem;
+      right: 50%;
     }
   }
 }
