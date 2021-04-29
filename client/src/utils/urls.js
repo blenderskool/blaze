@@ -1,5 +1,6 @@
 export default {
   WS_HOST: (() => {
+    if (typeof window === 'undefined') return '';
     if (WS_HOST) return WS_HOST;
 
     if (window.location.protocol === 'https:') {
@@ -9,12 +10,13 @@ export default {
     }
   })(),
   SERVER_HOST: (() => {
+    if (typeof window === 'undefined') return '';
     if (SERVER_HOST) return SERVER_HOST;
 
     if (window.location.protocol === 'https:') {
-      return `https://${window.location.host}/`;
+      return `https://${window.location.host}/server`;
     } else {
-      return `http://${window.location.host}/`;
+      return `http://${window.location.host}/server`;
     }
   })(),
 };

@@ -58,6 +58,14 @@
     margin-top: 1.35rem;
   }
 
+  div.donate {
+    @extend .message;
+    font-size: 1rem;
+    position: absolute;
+    left: 1.6rem;
+    right: 1.6rem;
+    bottom: 7rem;
+  }
 
   @media screen and (min-width: $tablet) {
 
@@ -83,6 +91,11 @@
           order: 1;
         }
       }
+    }
+
+    div.donate {
+      text-align: left;
+      bottom: 3rem;
     }
   }
 }

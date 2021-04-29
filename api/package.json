@@ -1,0 +1,20 @@
+{
+  "name": "blaze-serverless",
+  "version": "0.1.0",
+  "description": "Bunch of serverless functions used in Blaze",
+  "main": "badges/status.js",
+  "scripts": {
+    "vercel-build": "sucrase ./badges -d ./badges --jsx-pragma h --transforms imports,jsx"
+  },
+  "keywords": [],
+  "author": "Akash Hamirwasia",
+  "license": "ISC",
+  "dependencies": {
+    "node-fetch": "^2.6.1",
+    "preact": "^10.5.8",
+    "preact-render-to-string": "^5.1.12"
+  },
+  "devDependencies": {
+    "sucrase": "^3.17.0"
+  }
+}

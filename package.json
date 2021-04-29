@@ -1,6 +1,6 @@
 {
   "name": "blaze",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "Quickly share files with multiple users",
   "private": true,
   "scripts": {
@@ -19,6 +19,6 @@
     "concurrently": "^5.2.0"
   },
   "engines": {
-    "node": "10.x"
+    "node": "14.x"
   }
 }

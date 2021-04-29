@@ -1,6 +1,7 @@
 import { h } from 'preact';
 import { useState } from 'preact/hooks';
 import { Menu, X, Github } from 'preact-feather';
+import { Link } from 'preact-router/match';
 
 import Pill from '../../../../components/Pill/Pill';
 import { useOnHistoryPush } from '../../../../hooks';
@@ -35,11 +36,12 @@ function Header() {
          {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
       </button>
       <nav style={{ display: isMenuOpen ? 'flex' : 'none' }}>
-        <a href="/how-it-works">How it works</a>
+        <Link activeClassName="active" href="/how-it-works">How it works</Link>
         <a href="https://github.com/blenderskool/blaze">
           GitHub&nbsp;
           <Github size={16} style="margin-bottom: 4px" />
         </a>
+        <a href="https://www.buymeacoffee.com/akashhamirwasia">Donate</a>
         <a
           class="ph-desktop"
           href="https://www.producthunt.com/posts/blaze-2?utm_source=badge-top-post-badge&utm_medium=badge&utm_souce=badge-blaze-2"

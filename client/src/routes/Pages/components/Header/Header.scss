@@ -1,4 +1,4 @@
-@import '../../../../scss/variables';
+@import "../../../../scss/variables";
 
 $header-height: 85px;
 
@@ -11,8 +11,12 @@ $header-height: 85px;
   padding: 0 30px;
   width: 100%;
   z-index: 2;
-  background: linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 150%);
-  
+  background: linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.6) 150%
+  );
+
   .brand {
     display: flex;
     align-items: center;
@@ -21,7 +25,7 @@ $header-height: 85px;
     svg {
       transition: all 0.3s ease;
     }
-    
+
     .pill {
       margin-top: 8px;
       margin-left: 15px;
@@ -38,7 +42,7 @@ $header-height: 85px;
     margin-right: -16px;
     z-index: 3;
   }
-  
+
   nav {
     margin-left: auto;
 
@@ -54,7 +58,7 @@ $header-height: 85px;
     flex-direction: column;
     justify-content: center;
     text-align: center;
-    
+
     a {
       display: inline-block;
       margin: 0;
@@ -62,11 +66,11 @@ $header-height: 85px;
       line-height: $header-height;
       width: 100%;
       transition: color 0.3s ease;
-      
+
       &:last-child {
         margin-right: 0;
       }
-      
+
       &:hover {
         color: $primary;
       }
@@ -74,7 +78,22 @@ $header-height: 85px;
       &.ph-desktop {
         display: none;
       }
-      
+    }
+  }
+
+  .active {
+    color: $primary;
+    position: relative;
+
+    &::after {
+      content: "";
+      height: 5px;
+      width: 5px;
+      border-radius: 50%;
+      background-color: $primary;
+      position: absolute;
+      top: 3.8rem;
+      right: 50%;
     }
   }
 }
@@ -110,7 +129,6 @@ $header-height: 85px;
         }
       }
     }
-
   }
 }
 

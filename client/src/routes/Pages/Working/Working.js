@@ -54,7 +54,7 @@ const Working = () => (
             <a href="http://webtorrent.io/" target="_blank" rel="noreferrer"> WebTorrent </a>
             or WebSockets for sharing files depending on the WebRTC support of the browsers being used.
             <a href="https://webrtc.org/" target="_blank" rel="noreferrer"> WebRTC </a>
-            is the proctol that makes it possible for the peer-to-peer connection for file transfer.
+            is the protocol that makes it possible for the peer-to-peer connection for file transfer.
           </p>
           <p>
             Do note that if the sender of a file leaves the room and the file isn't transferred to any user yet, the file transfer

@@ -14,6 +14,12 @@
     </a>
   </p>
 
+  <p align="center">
+    <img src="https://blaze.now.sh/api/badges/status" />
+    <img src="https://blaze.now.sh/api/badges/release" />
+    <img src="https://blaze.now.sh/api/badges/license" />
+  </p>
+
   <h1>Blaze - A file sharing web app ⚡</h1>
 </div>
 
@@ -50,7 +56,9 @@ Read more on [Deploying on your own server](#deploying-on-your-own-server)
   - [Backend](#backend)
   - [Frontend](#frontend)
     - [Sub-directories](#sub-directories)
-  - [Common](#common)
+  - [common](#common)
+  - [nginx](#nginx)
+  - [api](#api)
   - [Build process](#build-process)
 - [Deploying on your own server](#deploying-on-your-own-server)
   - [Using docker-compose](#using-docker-compose)
@@ -94,13 +102,16 @@ The frontend source code is in the `client` directory. The dependencies of the f
 - `scss` - theme level scss. (Note: component specific scss goes within the corresponding component directory)
 - `utils` - javascript utility functions
 
-### Common
+### common
 The `common` directory contains javascript modules that are **shared by both frontend and backend**. These include constants in `constants.js` file and utility functions in `utils` sub-directory.
 
-### Nginx
+### nginx
 The `nginx` directory contains configuration files for nginx to be used in Docker containers. These usually don't change much.
 - `compose-nginx.conf` - Used when the project is run using docker-compose.
 - `image-nginx.template` - Used when the project is run on a single container from higher level Docker image.
+
+### api
+The `api` directory contains a few serverless functions deployed on Vercel. Serverless functions are used in Blaze only for very basic server logic that can be kept separate from the main Blaze backend (which is the `server` directory).
 
 ### Build process
 The build process for the frontend internally setup with webpack via preact-cli. Overrides can be made in `preact.config.js` file. Following environment variables can be set in the build process:
@@ -114,9 +125,11 @@ The build process for the frontend internally setup with webpack via preact-cli.
 | `TORRENT_SIZE_LIMIT` | Max file size limit when transferring files over WebTorrent in bytes. | 700000000 (700 MBs)             |
 | **server**           |                                                                       |                                 |
 | `ORIGIN`             | Array of string URLs to allow CORS.                                   | *                               |
-| `PORT`               | Port for the server to run                                            | 3030                            |
-| `WS_SIZE_LIMIT`      | Max file size limit when transferring files over WebSockets in bytes  | 100000000 (100 MBs)             |
+| `PORT`               | Port for the server to run.                                           | 3030                            |
+| `WS_SIZE_LIMIT`      | Max file size limit when transferring files over WebSockets in bytes. | 100000000 (100 MBs)             |
 ----------------------------------------------------------------------------------------------------------------------------------
+
+**NOTE:** Any URL in the environment variables should not end with `/`.
 
 ## Deploying on your own server
 Blaze can be easily deployed on your own server using Docker. The frontend and the backend is completely decoupled from each other. Following Docker images are available:

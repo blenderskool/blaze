@@ -1,6 +1,6 @@
 {
   "name": "blaze-server",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "Quickly share files with multiple users",
   "private": true,
   "scripts": {
@@ -17,7 +17,7 @@
     "ws": "^7.3.0"
   },
   "engines": {
-    "node": "10.x"
+    "node": "14.x"
   },
   "devDependencies": {
     "nodemon": "^2.0.4"

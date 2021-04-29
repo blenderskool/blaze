@@ -12,8 +12,8 @@ const Footer = () => (
 
     <div>
       <span>
-        © 2018 - 2020&nbsp;
-        <a href="https://github.com/blenderskool" target="_blank" rel="noreferrer">
+        © 2018 - present&nbsp;
+        <a href="https://akashhamirwasia.com" target="_blank" rel="noreferrer">
           Akash Hamirwasia
         </a>
         .&nbsp;

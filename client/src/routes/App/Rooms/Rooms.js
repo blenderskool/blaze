@@ -7,31 +7,25 @@ import { QueuedFiles } from '../QueuedFiles';
 import Fab from '../../../components/Fab/Fab';
 import Modal from '../../../components/Modal/Modal';
 import pluralize from '../../../utils/pluralize';
-import urls from '../../../utils/urls';
+import useInstantRoom from '../../../hooks/useInstantRoom';
 
 import './Rooms.scss';
 
 function NewRoomModal({ onNewRoom, ...props }) {
-  const [isLoading, setLoading] = useState(false);
   const [room, setRoom] = useState();
+  const [getInstantRoom, { loading: isLoading }] = useInstantRoom((room) => {
+    onNewRoom(room);
+  });
 
   const handleSubmit = e => {
     e.preventDefault();
     onNewRoom(room);
   };
 
-  const joinAnonymous = async (e) => {
-    setLoading(true);
-
-    try {
-      const res = await fetch(`${urls.SERVER_HOST}/anonymous-room`);
-      const { room } = await res.json();
-
-      onNewRoom(room);
-    } finally {
-      setLoading(false);
-    }
-  }
+  const handleRoomInputChange = e => {
+    e.target.setCustomValidity('');
+    setRoom(e.target.value);
+  };
 
   return (
     <Modal {...props}>
@@ -45,7 +39,8 @@ function NewRoomModal({ onNewRoom, ...props }) {
             pattern="^([A-Za-z0-9]+ ?)+[A-Za-z0-9]$"
             style="margin-top: 0"
             value={room}
-            onChange={e => setRoom(e.target.value)}
+            onInvalid={e => { e.target.setCustomValidity('Room names can contain only letters and numbers'); }}
+            onChange={handleRoomInputChange}
             disabled={isLoading}
           />
           <button type="submit" class="wide" disabled={isLoading}>
@@ -53,7 +48,7 @@ function NewRoomModal({ onNewRoom, ...props }) {
           </button>
         </form>
         <hr />
-        <button class="outlined wide" onClick={joinAnonymous} disabled={isLoading}>
+        <button class="outlined wide" onClick={getInstantRoom} disabled={isLoading}>
           <Loader size={18} />
           &nbsp;&nbsp;
           { isLoading ? 'Joining' : 'Join an Instant Room' }
@@ -140,6 +135,10 @@ function Rooms({ isOnline }) {
                         ))
                       }
                     </ul>
+                    <div class="donate">
+                      Like using Blaze? Consider
+                      <a href="https://www.buymeacoffee.com/akashhamirwasia"> donating</a>
+                    </div>
                   </>
                 ) : (
                   <>

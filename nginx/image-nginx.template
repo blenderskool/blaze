@@ -23,5 +23,9 @@ http {
             proxy_set_header Connection "Upgrade";
             proxy_set_header Host $host;
         }
+
+        location /server/ {
+            proxy_pass http://127.0.0.1:3030/;
+        }
     }
 }

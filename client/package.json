@@ -1,6 +1,6 @@
 {
   "name": "blaze-frontend",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "Quickly share files with multiple users",
   "private": true,
   "scripts": {
@@ -30,7 +30,7 @@
     "scriptjs": "^2.5.9"
   },
   "engines": {
-    "node": "10.x"
+    "node": "14.x"
   },
   "devDependencies": {
     "eslint": "^6.0.1",
