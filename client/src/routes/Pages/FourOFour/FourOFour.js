@@ -1,4 +1,6 @@
 import { h } from 'preact';
+import { useEffect } from 'preact/hooks';
+import { route } from 'preact-router';
 import FourOFourVis from '../../../assets/images/illustrations/four-o-four.svg';
 
 import './FourOFour.scss';
@@ -12,4 +14,12 @@ const FourOFour = () => (
   </main>
 );
 
-export default FourOFour;
+const RedirectToFourOFour = () => {
+  useEffect(() => {
+    route('/404', true);
+  }, []);
+
+  return null;
+}
+
+export { FourOFour as default, RedirectToFourOFour };

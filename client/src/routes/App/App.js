@@ -9,6 +9,7 @@ import Rooms from './Rooms/Rooms';
 import NewUser from './NewUser/NewUser';
 import FileTransfer from './FileTransfer/FileTransfer';
 import JoinInstantRoom from './JoinInstantRoom/JoinInstantRoom';
+import { RedirectToFourOFour } from '../Pages/FourOFour/FourOFour';
 import Loading from '../../components/Loading/Loading';
 
 import './app.scss';
@@ -65,6 +66,7 @@ export default function App() {
               <Rooms path="/app/" isOnline={isOnline} />
               <FileTransfer path="/app/t/:room" />
               <JoinInstantRoom path="/app/instant/join" />
+              <RedirectToFourOFour default />
             </Router>
           </QueuedFiles.Provider>
         ) : <Loading fullScreen />
