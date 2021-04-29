@@ -56,7 +56,9 @@ Read more on [Deploying on your own server](#deploying-on-your-own-server)
   - [Backend](#backend)
   - [Frontend](#frontend)
     - [Sub-directories](#sub-directories)
-  - [Common](#common)
+  - [common](#common)
+  - [nginx](#nginx)
+  - [api](#api)
   - [Build process](#build-process)
 - [Deploying on your own server](#deploying-on-your-own-server)
   - [Using docker-compose](#using-docker-compose)
@@ -100,13 +102,16 @@ The frontend source code is in the `client` directory. The dependencies of the f
 - `scss` - theme level scss. (Note: component specific scss goes within the corresponding component directory)
 - `utils` - javascript utility functions
 
-### Common
+### common
 The `common` directory contains javascript modules that are **shared by both frontend and backend**. These include constants in `constants.js` file and utility functions in `utils` sub-directory.
 
-### Nginx
+### nginx
 The `nginx` directory contains configuration files for nginx to be used in Docker containers. These usually don't change much.
 - `compose-nginx.conf` - Used when the project is run using docker-compose.
 - `image-nginx.template` - Used when the project is run on a single container from higher level Docker image.
+
+### api
+The `api` directory contains a few serverless functions deployed on Vercel. Serverless functions are used in Blaze only for very basic server logic that can be kept separate from the main Blaze backend (which is the `server` directory).
 
 ### Build process
 The build process for the frontend internally setup with webpack via preact-cli. Overrides can be made in `preact.config.js` file. Following environment variables can be set in the build process:
