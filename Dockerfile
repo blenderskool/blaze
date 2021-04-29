@@ -1,4 +1,4 @@
-FROM node:10.16.3 AS base
+FROM node:14.16.1 AS base
 
 WORKDIR /app
 
@@ -26,7 +26,7 @@ FROM nginx:alpine
 
 # Installing node and npm
 RUN apk add --no-cache --repository http://nl.alpinelinux.org/alpine/edge/main libuv \
-    && apk add  --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.9/main/ nodejs=10.19.0-r0 npm=10.19.0-r0
+    && apk add  --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.9/main/ nodejs=14.16.1-r1 npm=14.16.1-r1
 
 COPY ./nginx/image-nginx.template /etc/nginx/nginx.template
 COPY --from=base /app/client/build /etc/nginx/html

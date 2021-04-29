@@ -17,7 +17,7 @@
     "ws": "^7.3.0"
   },
   "engines": {
-    "node": "10.x"
+    "node": "14.x"
   },
   "devDependencies": {
     "nodemon": "^2.0.4"
