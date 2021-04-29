@@ -12,7 +12,7 @@ export default async (req, res) => {
 
   try {
     const { tag_name } = await (await fetch('https://api.github.com/repos/blenderskool/blaze/releases/latest')).json();
-    res.send(render(<Badge type="success" width={130} height={24} title="release" value={tag_name} />));
+    res.send(render(<Badge type="success" width={140} height={24} title="release" value={tag_name} />));
   } catch(err) {
     res.send(render(<Badge type="error" width={120} height={24} title="release" value="error" />));
   }
