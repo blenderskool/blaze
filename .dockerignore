@@ -3,3 +3,4 @@ app.json
 .now
 .vercel
 client/build
+api
