@@ -22,6 +22,11 @@ function NewRoomModal({ onNewRoom, ...props }) {
     onNewRoom(room);
   };
 
+  const handleRoomInputChange = e => {
+    e.target.setCustomValidity('');
+    setRoom(e.target.value);
+  };
+
   return (
     <Modal {...props}>
       <div class="join-room">
@@ -34,7 +39,8 @@ function NewRoomModal({ onNewRoom, ...props }) {
             pattern="^([A-Za-z0-9]+ ?)+[A-Za-z0-9]$"
             style="margin-top: 0"
             value={room}
-            onChange={e => setRoom(e.target.value)}
+            onInvalid={e => { e.target.setCustomValidity('Room names can contain only letters and numbers'); }}
+            onChange={handleRoomInputChange}
             disabled={isLoading}
           />
           <button type="submit" class="wide" disabled={isLoading}>
