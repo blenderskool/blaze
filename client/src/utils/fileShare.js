@@ -21,11 +21,6 @@ class FileShare {
             {
               urls: 'stun:stun1.l.google.com:19305',
             },
-            {
-              urls: 'turn:blaze.beaconapp.in:3478',
-              username: 'blaze',
-              credential: 'iDPkk9PaewlkFWJYzTAg5',
-            }
           ]
         }
       }
