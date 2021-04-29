@@ -12,8 +12,8 @@ export default async (req, res) => {
 
   try {
     await fetch('https://blaze.beaconapp.in');
-    res.send(render(<Badge type="success" width={90} height={25} title="status" value="up" />));
+    res.send(render(<Badge type="success" width={90} height={24} title="status" value="up" />));
   } catch(err) {
-    res.send(render(<Badge type="error" width={110} height={25} title="status" value="down" />));
+    res.send(render(<Badge type="error" width={120} height={24} title="status" value="down" />));
   }
 };
