@@ -40,6 +40,9 @@ Read more about how Blaze works at a basic level in this [Medium article](https:
 
 ### Deploy your own instance of Blaze
 <p>
+  <a href="https://cloud.digitalocean.com/apps/new?repo=https://github.com/blenderskool/blaze/tree/master&refcode=ddb2a965377c">
+    <img src="https://www.deploytodo.com/do-btn-blue.svg" alt="Deploy to DO" width="200">
+  </a>
   <a href="https://heroku.com/deploy?template=https://github.com/blenderskool/blaze/tree/master">
     <img src="https://www.herokucdn.com/deploy/button.svg" alt="Deploy">
   </a>
