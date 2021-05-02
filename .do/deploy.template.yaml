@@ -1,0 +1,15 @@
+spec:
+  name: blaze
+  services:
+  - name: web
+    git:
+      branch: master
+      repo_clone_url: https://github.com/blenderskool/blaze.git
+    http_port: 80
+    dockerfile_path: ./Dockerfile
+    envs:
+    - key: PORT
+      scope: RUN_AND_BUILD_TIME
+      value: "80"
+    routes:
+    - path: /
