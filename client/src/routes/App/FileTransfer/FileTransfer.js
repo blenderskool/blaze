@@ -314,7 +314,7 @@ class FileTransfer extends PureComponent {
     if (!navigator.share) {
       this.copyLink();
       return
-    };
+    }
 
     navigator.share({
       title: 'Share files',
