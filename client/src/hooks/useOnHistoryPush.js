@@ -12,9 +12,9 @@ function useOnHistoryPush(cb) {
      */
     const pushState = history.pushState;
 
-    history.pushState = function() {
+    history.pushState = function(...args) {
       cb();
-      return pushState.apply(history, arguments);
+      return pushState.apply(history, args);
     };
 
     return () => {
