@@ -1,7 +1,7 @@
 import { h } from 'preact';
 import PropTypes from 'prop-types';
 
-import './Fab.scss';
+import './Fab.scoped.scss';
 
 function Fab({ children, text, variant, ...props }) {
 
