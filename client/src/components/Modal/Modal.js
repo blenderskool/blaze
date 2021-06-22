@@ -3,7 +3,7 @@ import { createPortal } from 'preact/compat';
 import { useEffect } from 'preact/hooks';
 import { XCircle } from 'preact-feather';
 
-import './Modal.scss';
+import './Modal.scoped.scss';
 
 function Modal({ isClosable, isOpen, onClose, children }) {
 

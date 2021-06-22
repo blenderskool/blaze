@@ -1,6 +1,6 @@
 import { h } from 'preact';
 
-import './Toast.scss';
+import './Toast.scoped.scss';
 
 const Toast = props => (
   <div class="toast" {...props} />

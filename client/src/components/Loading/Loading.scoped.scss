@@ -15,45 +15,45 @@
     flex-direction: column;
   }
 
-  .loading-wrapper {
+  .loading-animation-wrapper {
     position: relative;
     width: 119px;
     height: 169px;
   }
+}
 
-  svg {
-    position: absolute;
+svg {
+  position: absolute;
+}
+
+.lightning {
+  filter: drop-shadow(0 0 10px rgba($primary, 0.5));
+
+  path {
+    animation: grow 3.5s ease-in-out -6s infinite;
+  }
+}
+
+.node {
+  animation: node 3.5s ease-in-out infinite;
+
+  &:nth-child(1) {
+    animation-delay: -2.05s;
   }
 
-  .lightning {
-    filter: drop-shadow(0 0 10px rgba($primary, 0.5));
-
-    path {
-      animation: grow 3.5s ease-in-out -6s infinite;
-    }
+  &:nth-child(3) {
+    animation-delay: -3s;
+    animation-direction: reverse;
   }
 
-  .node {
-    animation: node 3.5s ease-in-out infinite;
-
-    &:nth-child(1) {
-      animation-delay: -2.05s;
-    }
-
-    &:nth-child(3) {
-      animation-delay: -3s;
-      animation-direction: reverse;
-    }
-
-    &:nth-child(4) {
-      animation-delay: -1.8s;
-    }
+  &:nth-child(4) {
+    animation-delay: -1.8s;
   }
+}
 
-  .message {
-    margin-top: 2.5rem;
-    font-size: 1.2rem;
-  }
+.message {
+  margin-top: 2.5rem;
+  font-size: 1.2rem;
 }
 
 @keyframes fadein {
