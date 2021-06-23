@@ -1,0 +1,21 @@
+@import '../../../../../scss/variables';
+
+.join-room {
+
+  hr {
+    border: none;
+    height: 1px;
+    background-color: rgba($secondary, 0.6);
+    margin: 40px 25%;
+  }
+
+  form input {
+    margin-bottom: 40px;
+  }
+
+  p.instant-room-help {
+    text-align: center;
+    margin: 12px 0 0;
+    color: $secondary;
+  }
+}

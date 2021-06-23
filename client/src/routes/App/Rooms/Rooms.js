@@ -1,69 +1,21 @@
 import { h } from 'preact';
 import { route } from 'preact-router';
 import { useState, useContext, useEffect } from 'preact/hooks';
-import { Loader, Plus, X } from 'preact-feather';
+import { Plus } from 'preact-feather';
 
-import { QueuedFiles } from '../QueuedFiles';
+import { QueuedFiles } from '../contexts/QueuedFiles';
 import Fab from '../../../components/Fab/Fab';
-import Modal from '../../../components/Modal/Modal';
 import pluralize from '../../../utils/pluralize';
-import useInstantRoom from '../../../hooks/useInstantRoom';
+import { useLocalStorageSelector } from '../../../hooks';
+import AppLanding from '../layouts/AppLanding/AppLanding';
+import NewRoomModal from './components/NewRoomModal/NewRoomModal';
 
-import './Rooms.scss';
-
-function NewRoomModal({ onNewRoom, ...props }) {
-  const [room, setRoom] = useState();
-  const [getInstantRoom, { loading: isLoading }] = useInstantRoom((room) => {
-    onNewRoom(room);
-  });
-
-  const handleSubmit = e => {
-    e.preventDefault();
-    onNewRoom(room);
-  };
-
-  const handleRoomInputChange = e => {
-    e.target.setCustomValidity('');
-    setRoom(e.target.value);
-  };
-
-  return (
-    <Modal {...props}>
-      <div class="join-room">
-        <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            maxlength="20"
-            required
-            placeholder="Room name"
-            pattern="^([A-Za-z0-9]+ ?)+[A-Za-z0-9]$"
-            style="margin-top: 0"
-            value={room}
-            onInvalid={e => { e.target.setCustomValidity('Room names can contain only letters and numbers'); }}
-            onChange={handleRoomInputChange}
-            disabled={isLoading}
-          />
-          <button type="submit" class="wide" disabled={isLoading}>
-            Join Room
-          </button>
-        </form>
-        <hr />
-        <button class="outlined wide" onClick={getInstantRoom} disabled={isLoading}>
-          <Loader size={18} />
-          &nbsp;&nbsp;
-          { isLoading ? 'Joining' : 'Join an Instant Room' }
-        </button>
-        <p class="instant-room-help">
-          Tip: Instant Rooms are created just for you!
-        </p>
-      </div>
-    </Modal>
-  );
-}
-
+import './Rooms.scoped.scss';
+import { RoomContainer, RoomDeleteButton, RoomDescription, RoomName } from './components/Room/Room';
 
 function Rooms({ isOnline }) {
   const [isModalOpen, setModal] = useState(false);
+  const username = useLocalStorageSelector('blaze', ({ user }) => user.name);
   let data = JSON.parse(localStorage.getItem('blaze'));
   const [rooms, setRooms] = useState(data.rooms);
   const { queuedFiles } = useContext(QueuedFiles);
@@ -94,77 +46,75 @@ function Rooms({ isOnline }) {
     }
   }, [setModal]);
 
-  return (
-    <div class="rooms">
-      <header class="app-header">
-        <h1 class="title">Recent Rooms</h1>
-      </header>
+  let RoomsList = null;
 
-      <main>
+  if (!isOnline) {
+    RoomsList = <div class="message">Connect to the internet to start sharing files</div>;
+  } else if (!rooms.length) {
+    RoomsList = (
+      <div class="message">
         {
-          isOnline ? (
-            <>
-              {
-                rooms.length ? (
-                  <>
-                    {
-                      !!queuedFiles.length && (
-                        <div class="message" style="margin-top: 0; margin-bottom: 2.5rem;">
-                          Join a room to share the selected
-                          {' '}
-                          {pluralize(queuedFiles.length, 'file', 'files')}
-                        </div>
-                      )
-                    }
-                    <ul class="recent-rooms">
-                      {
-                        rooms.map(room => (
-                          <li role="link" tabIndex="0" onClick={() => handleNewRoom(room)}>
-                            <div>{room}</div>
-                            <button
-                              class="thin icon remove-room"
-                              aria-label="Remove room"
-                              onClick={e => {
-                                e.stopPropagation();
-                                removeRoom(room);
-                              }}
-                            >
-                              <X />
-                            </button>
-                          </li>
-                        ))
-                      }
-                    </ul>
-                    <div class="donate">
-                      Like using Blaze? Consider
-                      <a href="https://www.buymeacoffee.com/akashhamirwasia"> donating</a>
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <div class="message">
-                      {
-                        queuedFiles.length ?
-                          `Create a room using + button to share the selected ${pluralize(queuedFiles.length, 'file', 'files')}` :
-                          'Start by joining a room using the + button'
-                      }
-                      <p class="devices-same-room">
-                        Devices must join same room to share files with each other
-                      </p>
-                    </div>
-                  </>
-                )
-              }
-              <Fab text="New Room" onClick={() => setModal(true)}>
-                <Plus />
-              </Fab>
-            </>
-          ) : <div class="message">Connect to the internet to start sharing files</div>
+          queuedFiles.length ?
+            `Create a room using + button to share the selected ${pluralize(queuedFiles.length, 'file', 'files')}` :
+            'Start by joining a room using the + button'
         }
-      </main>
+        <p class="devices-same-room">
+          Devices must join same room to share files with each other
+        </p>
+      </div>
+    );
+  } else {
+    RoomsList = (
+      <>
+        {
+          !!queuedFiles.length && (
+            <div class="message" style="margin-top: 0; margin-bottom: 2.5rem;">
+              Join a room to share the selected
+              {' '}
+              {pluralize(queuedFiles.length, 'file', 'files')}
+            </div>
+          )
+        }
+        <ul class="recent-rooms-list">
+          {
+            rooms.map((room) => (
+              <RoomContainer as="li" role="link" tabIndex="0" onClick={() => handleNewRoom(room)}>
+                <div>
+                  <RoomName>{room}</RoomName>
+                  <RoomDescription>Last joined sometime ago</RoomDescription>
+                </div>
+                <RoomDeleteButton
+                  onClick={e => {
+                    e.stopPropagation();
+                    removeRoom(room);
+                  }}
+                />
+              </RoomContainer>
+            ))
+          }
+        </ul>
+      </>
+    );
+  }
 
-      <NewRoomModal isOpen={isModalOpen} onNewRoom={handleNewRoom} onClose={() => setModal(false)} />
-    </div>
+  return (
+    <AppLanding title={`Hi, ${username}`} subtitle="Let’s share some files">
+      <main class="rooms">
+        <section class="recent-rooms">
+          <h2 class="section-title">Recent Rooms</h2>
+
+          {RoomsList}
+
+          {isOnline && (
+            <Fab className="fab-new-room" text="New Room" onClick={() => setModal(true)}>
+              <Plus />
+            </Fab>
+          )}
+        </section>
+
+        <NewRoomModal isOpen={isModalOpen} onNewRoom={handleNewRoom} onClose={() => setModal(false)} />
+      </main>
+    </AppLanding>
   );
 }
 

@@ -1,0 +1,83 @@
+@import '../../../../../scss/variables';
+
+.room {
+  border: 1px solid $secondary--60;
+  border-radius: 4px;
+  box-shadow: $shadow;
+  background-color: $bg;
+  margin: 1.125rem 0;
+  padding: 1rem 1.125rem;
+  display: flex;
+  outline: none;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.2s ease;
+
+  &:hover {
+    box-shadow: none;
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+  
+  &:focus {
+    border: 2px solid darken($primary, 25);
+  }
+
+  .room-name {
+    font-size: 1.125rem;
+    text-transform: capitalize;
+    color: $light;
+    font-weight: $font-bold;
+  }
+
+  .room-description {
+    margin: 0.25rem 0 0 0;
+    color: $secondary;
+    font-size: 0.875rem;
+  }
+
+  button.remove-room {
+    margin-left: auto;
+    margin-right: -16px;
+    height: auto;
+    font-size: 1.3rem;
+  }
+}
+
+// Highlighted variant of the room
+.room.highlighted {
+  border-color: $primary-700;
+
+  .room-name {
+    color: $primary;
+  }
+
+  .room-description {
+    color: $primary-700;
+  }
+
+  .remove-room {
+    color: $primary-700;
+  }
+}
+
+@media screen and (min-width: $tablet) {
+  .room {
+    margin: 1rem;
+    min-width: 180px;
+    flex-direction: column;
+    padding: 13px 15px;
+    align-items: flex-start;
+
+    .room-name {
+      margin-top: 2rem;
+    }
+
+    button.remove-room {
+      margin: 0 -15px 0 auto;
+      order: -1;
+    }
+  }
+}

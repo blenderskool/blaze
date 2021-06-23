@@ -1,0 +1,49 @@
+@import '../../../scss/variables';
+
+.section-title {
+  font-size: 1.25rem;
+}
+
+section.recent-rooms {
+  margin-top: 2.5rem;
+}
+
+.rooms {
+  ul.recent-rooms-list {
+    padding: 0;
+    list-style: none;
+    margin: 0;
+  }
+
+  div.message {
+    font-size: 1.3rem;
+    color: $secondary;
+    text-align: center;
+    margin-top: 5rem;
+  }
+
+  .devices-same-room {
+    font-size: 1.1rem;
+    color: $secondary;
+    opacity: 0.6;
+    margin-top: 1.35rem;
+  }
+
+  @media screen and (min-width: $tablet) {
+    .section-title {
+      margin-bottom: 1.5rem;
+    }
+
+    ul.recent-rooms-list {
+      display: flex;
+      flex-wrap: wrap;
+      margin: -1rem;
+    }
+  }
+
+  @media screen and (max-width: $tablet) {
+    .fab-new-room {
+      bottom: 100px;
+    }
+  }
+}
