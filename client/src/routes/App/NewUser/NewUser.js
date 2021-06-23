@@ -28,7 +28,7 @@ function NewUser({ onRegister }) {
           onChange={e => setUsername(e.target.value)}
           style={{ marginBottom: 40 }}
         />
-        <button type="submit" class="wide">
+        <button type="submit" class="btn wide">
           Continue
         </button>
       </form>

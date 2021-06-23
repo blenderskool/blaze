@@ -38,12 +38,18 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0;
 }
 
-button, .btn {
+button {
+  border: 0;
+  outline: none;
+  background-color: transparent;
+  cursor: pointer;
+  user-select: none;
+}
+
+.btn {
   color: $bg;
   background-color: $primary;
-  border: 0;
   padding: 0 25px;
-  outline: none;
   border-radius: 4px;
   font-size: 1.4rem;
   display: inline-flex;
@@ -57,8 +63,6 @@ button, .btn {
   transition: all 0.2s ease;
 
   -webkit-tap-highlight-color: rgba(darken($primary, 50), 0.2);
-  cursor: pointer;
-  user-select: none;
 
   &:hover {
     color: $bg;
