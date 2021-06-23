@@ -32,7 +32,7 @@ function Header() {
         <Pill>v{pkg.version}</Pill>
       </a>
       
-      <button class="thin icon mobile-menu" onClick={toggleMenu} aria-label="Toggle Menu">
+      <button class="btn thin icon mobile-menu" onClick={toggleMenu} aria-label="Toggle Menu">
          {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
       </button>
       <nav style={{ display: isMenuOpen ? 'flex' : 'none' }}>
