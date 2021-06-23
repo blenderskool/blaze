@@ -4,7 +4,8 @@ import { Router, route } from 'preact-router';
 
 import { useOnline, useSWMessage } from '../../hooks';
 import constants from '../../../../common/constants';
-import { QueuedFiles } from './QueuedFiles';
+import { QueuedFiles } from './contexts/QueuedFiles';
+import { PWAInstallProvider } from './contexts/PWAInstall';
 import Rooms from './Rooms/Rooms';
 import NewUser from './NewUser/NewUser';
 import FileTransfer from './FileTransfer/FileTransfer';
@@ -62,12 +63,14 @@ export default function App() {
       {
         isLoaded ? (
           <QueuedFiles.Provider value={{ queuedFiles, setQueuedFiles }}>
-            <Router>
-              <Rooms path="/app/" isOnline={isOnline} />
-              <FileTransfer path="/app/t/:room" />
-              <JoinInstantRoom path="/app/instant/join" />
-              <RedirectToFourOFour default />
-            </Router>
+            <PWAInstallProvider>
+              <Router>
+                <Rooms path="/app/" isOnline={isOnline} />
+                <FileTransfer path="/app/t/:room" />
+                <JoinInstantRoom path="/app/instant/join" />
+                <RedirectToFourOFour default />
+              </Router>
+            </PWAInstallProvider>
           </QueuedFiles.Provider>
         ) : <Loading fullScreen />
       }
