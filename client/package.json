@@ -18,6 +18,7 @@
     ]
   },
   "dependencies": {
+    "classnames": "^2.3.1",
     "copy-to-clipboard": "^3.3.1",
     "downloadjs": "^1.4.7",
     "nanoid": "^3.1.16",
