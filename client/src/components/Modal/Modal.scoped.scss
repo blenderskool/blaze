@@ -10,6 +10,7 @@
   align-items: center;
   justify-content: center;
   opacity: 0;
+  z-index: 50;
   visibility: hidden;
   transition: all 0.2s ease;
   backdrop-filter: blur(18px);
