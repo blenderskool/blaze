@@ -2,6 +2,7 @@ import { h } from 'preact';
 import { createPortal } from 'preact/compat';
 import { useEffect } from 'preact/hooks';
 import { XCircle } from 'preact-feather';
+import PropTypes from 'prop-types';
 
 import './Modal.scoped.scss';
 
@@ -31,7 +32,7 @@ function Modal({ isClosable, isOpen, onClose, children }) {
 
       { isClosable && (
           <button
-            class="thin icon close"
+            class="btn thin icon close"
             aria-label="Close Modal"
             onClick={onClose}
             onKeyDown={e => { e.which === 13 && onClose(e) }}
@@ -49,8 +50,15 @@ function Modal({ isClosable, isOpen, onClose, children }) {
   );
 }
 
+Modal.propTypes = {
+  isClosable: PropTypes.bool,
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func,
+};
+
 Modal.defaultProps = {
   isClosable: true,
+  onClose: () => {},
 };
 
 export default Modal;
