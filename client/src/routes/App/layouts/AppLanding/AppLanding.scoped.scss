@@ -7,6 +7,12 @@
     justify-content: space-between;
     align-items: center;
   }
+  
+  .title {
+    white-space: nowrap;;
+    text-overflow: ellipsis;
+    overflow-x: hidden
+  }
 
   .subtitle {
     color: $secondary;
@@ -21,6 +27,10 @@
 
     .nav-item {
       margin-left: 2rem;
+
+      &:first-child {
+        margin-left: 1rem;
+      }
       
       .label {
         display: none;
