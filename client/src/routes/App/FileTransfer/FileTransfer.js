@@ -4,6 +4,8 @@ import { route } from 'preact-router';
 import { PureComponent, forwardRef, memo } from 'preact/compat';
 import { ArrowLeft, CheckCircle, Plus, Image, Film, Box, Music, File, Zap, Share2, Send } from 'preact-feather';
 import copy from 'copy-to-clipboard';
+import { createLocalStorageDispatch } from 'react-localstorage-hooks';
+
 import { withQueuedFiles } from '../contexts/QueuedFiles';
 import Fab from '../../../components/Fab/Fab';
 import Modal from '../../../components/Modal/Modal';
@@ -15,6 +17,7 @@ import Visualizer from '../../../utils/visualizer';
 import formatSize from '../../../utils/formatSize';
 import pluralize from '../../../utils/pluralize';
 import constants from '../../../../../common/constants';
+import roomsReducer from '../../../reducers/rooms';
 
 import './FileTransfer.scss';
 
@@ -24,6 +27,7 @@ const CanvasUnwrapped = (props, ref) => {
 
 const Canvas = memo(forwardRef(CanvasUnwrapped));
 
+const dispatch = createLocalStorageDispatch('blaze', roomsReducer);
 class FileTransfer extends PureComponent {
 
   constructor(props) {
@@ -55,15 +59,7 @@ class FileTransfer extends PureComponent {
     /**
      * Add the current room in recent rooms list
      */
-    if (!savedData.rooms.includes(room)) {
-      localStorage.setItem('blaze', JSON.stringify({
-        ...savedData,
-        rooms: [
-          room,
-          ...savedData.rooms,
-        ],
-      }));
-    }
+    dispatch({ type: 'add-room', payload: room });
   }
 
   onUserJoin(users) {

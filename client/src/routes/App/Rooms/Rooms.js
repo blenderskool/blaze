@@ -1,57 +1,31 @@
 import { h } from 'preact';
+import { memo } from 'preact/compat';
 import { route } from 'preact-router';
-import { useState, useContext, useEffect } from 'preact/hooks';
+import { useState, useContext, useEffect, useCallback } from 'preact/hooks';
 import { Plus } from 'preact-feather';
+import { formatDistance } from 'date-fns';
+import { createLocalStorageDispatch, useLocalStorageSelector } from 'react-localstorage-hooks';
 
 import { QueuedFiles } from '../contexts/QueuedFiles';
 import Fab from '../../../components/Fab/Fab';
 import pluralize from '../../../utils/pluralize';
-import { useLocalStorageSelector } from '../../../hooks';
 import AppLanding from '../layouts/AppLanding/AppLanding';
 import NewRoomModal from './components/NewRoomModal/NewRoomModal';
+import { RoomContainer, RoomDeleteButton, RoomDescription, RoomName } from './components/Room/Room';
+import roomsReducer from '../../../reducers/rooms';
 
 import './Rooms.scoped.scss';
-import { RoomContainer, RoomDeleteButton, RoomDescription, RoomName } from './components/Room/Room';
 
-function Rooms({ isOnline }) {
-  const [isModalOpen, setModal] = useState(false);
-  const username = useLocalStorageSelector('blaze', ({ user }) => user.name);
-  let data = JSON.parse(localStorage.getItem('blaze'));
-  const [rooms, setRooms] = useState(data.rooms);
+const dispatch = createLocalStorageDispatch('blaze', roomsReducer);
+
+const RoomsList = memo(function RoomsList({ isOnline, onRoomJoin }) {
+  const rooms = useLocalStorageSelector('blaze', ({ rooms }) => rooms, { equalityFn: (prev, next) => prev.next === next.length });
   const { queuedFiles } = useContext(QueuedFiles);
 
-  const handleNewRoom = (room) => {
-    setModal(false);
-    const roomURL = room.replace(/ /g, '-').toLowerCase();
-    route(`/app/t/${roomURL}`);
-  };
-
-  const removeRoom = (room) => {
-    const newRooms = rooms.filter(roomName => roomName !== room);
-    setRooms(newRooms);
-
-    data = {
-      ...data,
-      rooms: newRooms,
-    };
-
-    localStorage.setItem('blaze', JSON.stringify(data));
-  };
-
-  useEffect(() => {
-    document.title = 'App | Blaze';
-    
-    if (rooms.length === 0) {
-      setModal(true);
-    }
-  }, [setModal]);
-
-  let RoomsList = null;
-
   if (!isOnline) {
-    RoomsList = <div class="message">Connect to the internet to start sharing files</div>;
+    return <div class="message">Connect to the internet to start sharing files</div>;
   } else if (!rooms.length) {
-    RoomsList = (
+    return (
       <div class="message">
         {
           queuedFiles.length ?
@@ -64,7 +38,7 @@ function Rooms({ isOnline }) {
       </div>
     );
   } else {
-    RoomsList = (
+    return (
       <>
         {
           !!queuedFiles.length && (
@@ -77,16 +51,20 @@ function Rooms({ isOnline }) {
         }
         <ul class="recent-rooms-list">
           {
-            rooms.map((room) => (
-              <RoomContainer as="li" role="link" tabIndex="0" onClick={() => handleNewRoom(room)}>
+            rooms.map((room, idx) => (
+              <RoomContainer key={idx} as="li" role="link" tabIndex="0" onClick={() => onRoomJoin(room.name)}>
                 <div>
-                  <RoomName>{room}</RoomName>
-                  <RoomDescription>Last joined sometime ago</RoomDescription>
+                  <RoomName>{room.name}</RoomName>
+                  <RoomDescription>
+                    Last joined
+                    {' '}
+                    {formatDistance(new Date(room.lastJoin), new Date(), { addSuffix: true })}
+                  </RoomDescription>
                 </div>
                 <RoomDeleteButton
                   onClick={e => {
                     e.stopPropagation();
-                    removeRoom(room);
+                    dispatch({ type: 'remove-room', payload: idx })
                   }}
                 />
               </RoomContainer>
@@ -96,6 +74,26 @@ function Rooms({ isOnline }) {
       </>
     );
   }
+});
+
+function Rooms({ isOnline }) {
+  const [isModalOpen, setModal] = useState(false);
+  const username = useLocalStorageSelector('blaze', ({ user }) => user.name);
+  const numOfRooms = useLocalStorageSelector('blaze', ({ rooms }) => rooms?.length ?? 0);
+
+  const handleNewRoom = useCallback((room) => {
+    setModal(false);
+    const roomURL = room.replace(/ /g, '-').toLowerCase();
+    route(`/app/t/${roomURL}`);
+  }, [setModal]);
+
+  useEffect(() => {
+    document.title = 'App | Blaze';
+    
+    if (numOfRooms === 0) {
+      setModal(true);
+    }
+  }, [setModal]);
 
   return (
     <AppLanding title={`Hi, ${username}`} subtitle="Let’s share some files">
@@ -103,7 +101,7 @@ function Rooms({ isOnline }) {
         <section class="recent-rooms">
           <h2 class="section-title">Recent Rooms</h2>
 
-          {RoomsList}
+          <RoomsList isOnline={isOnline} onRoomJoin={handleNewRoom} />
 
           {isOnline && (
             <Fab className="fab-new-room" text="New Room" onClick={() => setModal(true)}>
