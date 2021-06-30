@@ -15,6 +15,20 @@ import Loading from '../../components/Loading/Loading';
 
 import './app.scss';
 
+const updateLocalStorageSchema = () => {
+  if (typeof window === 'undefined') return;
+
+  const v2Converter = (data) => {
+    data.rooms = data.rooms.map(room => typeof room === 'string' ? ({ name: room, lastJoin: new Date().getTime() }) : room);
+  };
+
+  const data = JSON.parse(window.localStorage.getItem('blaze'));
+  v2Converter(data);
+
+  window.localStorage.setItem('blaze', JSON.stringify(data));
+};
+
+
 export default function App() {
   const [isLoaded, setLoaded] = useState(false);
   const [isRegistered, setRegistered] = useState(typeof window !== 'undefined' ? !!window.localStorage.getItem('blaze') : true);
@@ -38,6 +52,7 @@ export default function App() {
       'https://unpkg.com/canvas-elements/build/cdn/canvas-elements.min.js',
       'https://cdn.jsdelivr.net/npm/webtorrent@0.108.6/webtorrent.min.js',
     ], () => {
+      updateLocalStorageSchema();
       setLoaded(true);
     });
   }, [isRegistered]);
