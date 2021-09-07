@@ -1,7 +1,10 @@
 name: Blaze Docker builds
 on:
   push:
-    tags
+    tags:
+      - v*
+      - client-*
+      - server-*
 
 jobs:
   client-image:
