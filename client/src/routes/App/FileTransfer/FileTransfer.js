@@ -170,14 +170,27 @@ class FileTransfer extends PureComponent {
             isSelectorEnabled: false,
           });
         },
-        onTorrentProgress: ({ wires }) => {
+        onTorrentProgress: ({ wires, length: fileSize }) => {
+          let progress = 0;
+          const receivers = wires.filter(wire => wire.uploadSpeed());
+
+          /**
+           * Calculates upload progress,
+           * Upload progress is calculated based on amount of data sent to each of the receiving peer.
+           * Hence it's not the overall measure of file sent, as the receiving peers may change during the transfer process
+           * which would affect the upload progress shown
+           */
           this.visualizer.startSharing(
-            wires
-              .filter(wire => wire.uploadSpeed())
-              .map(wire => wire.peerId),
+            receivers.map(wire => {
+                progress += wire.uploaded / fileSize;
+                return wire.peerId;
+              }),
             []
           );
-          this.setState({ isSelectorEnabled: false });
+          this.setState({
+            percentage: receivers.length ? progress / receivers.length * 100 : 0,
+            isSelectorEnabled: false
+          });
         },
         onSocketProgress: ({ progress }) => {
           const percentage = progress * 100;
@@ -314,7 +327,7 @@ class FileTransfer extends PureComponent {
     if (!navigator.share) {
       this.copyLink();
       return
-    };
+    }
 
     navigator.share({
       title: 'Share files',

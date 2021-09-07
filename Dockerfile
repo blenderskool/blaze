@@ -24,9 +24,8 @@ RUN npm run build
 
 FROM nginx:alpine
 
-# Installing node and npm
-RUN apk add --no-cache --repository http://nl.alpinelinux.org/alpine/edge/main libuv \
-    && apk add  --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.9/main/ nodejs=14.16.1-r1 npm=14.16.1-r1
+# Installing node and npm available as alpine packages
+RUN apk add --update nodejs=14.17.6-r0 npm=7.17.0-r0
 
 COPY ./nginx/image-nginx.template /etc/nginx/nginx.template
 COPY --from=base /app/client/build /etc/nginx/html
