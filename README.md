@@ -100,8 +100,16 @@ Blaze can be easily deployed on your own server using Docker and `docker-compose
 ### Docker images
 Following Docker images are available:
 - **[Blaze Server](https://hub.docker.com/r/akashhamirwasia/blaze-server)**: This is the backend Node.js server that is used for WebSockets communication. The environment variables listed for the server in previous section can be passed to the container. It exposes port `3030`.
+
 - **[Blaze Client](https://hub.docker.com/r/akashhamirwasia/blaze-client)**: This is the frontend progressive web app of Blaze used by clients for sharing files. Nginx is used as a web server for this statically generated frontend. The environment variables listed above must be **passed as ARGS while building the image**. The frontend container exposes port `80`.
+
 - **[Blaze](https://hub.docker.com/r/akashhamirwasia/blaze)**: This is a higher level image that includes both Blaze Server and Blaze Client images above. It must be used when docker-compose is not available in the environment, or there is a limit to run only a single container. docker-compose must be used to run Blaze in other cases which is explained in next section.
+  <details><summary><b>Running high level Blaze image</b></summary>
+  <pre>docker run -p 8080:80 -p 3030:3030 -e PORT=80 akashhamirwasia/blaze:latest</pre>
+  <p>  
+    <b>NOTE:</b> The <code>PORT</code> environment variable and the container port should be the same.(In the above example, it is set as <code>80</code>).
+  </p>
+  </details>
 
 ### Using docker-compose
 A `docker-compose.yml` file is present at the root of this project which runs both the server and client containers and sets up a proxy for WebSocket connections on the frontend in Nginx configuration. To run using docker-compose:
