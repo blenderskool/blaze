@@ -43,5 +43,19 @@
         }
       ]
     }
-  }
+  },
+  "shortcuts": [
+    {
+      "name": "Join Instant Room",
+      "short_name": "Instant Room",
+      "description": "Quickly join a room created just for you!",
+      "url": "/app/instant/join",
+      "icons": [
+        {
+          "src": "/assets/images/instant-room.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ]
 }
