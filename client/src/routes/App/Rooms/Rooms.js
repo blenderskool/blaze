@@ -56,7 +56,7 @@ const RoomsList = memo(function RoomsList({ isOnline, onRoomJoin }) {
                 <div>
                   <RoomName>{room.name}</RoomName>
                   <RoomDescription>
-                    Last joined
+                    Joined
                     {' '}
                     {formatDistance(new Date(room.lastJoin), new Date(), { addSuffix: true })}
                   </RoomDescription>
