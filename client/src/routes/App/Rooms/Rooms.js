@@ -19,7 +19,7 @@ import './Rooms.scoped.scss';
 const dispatch = createLocalStorageDispatch('blaze', roomsReducer);
 
 const RoomsList = memo(function RoomsList({ isOnline, onRoomJoin }) {
-  const rooms = useLocalStorageSelector('blaze', ({ rooms }) => rooms, { equalityFn: (prev, next) => prev.next === next.length });
+  const rooms = useLocalStorageSelector('blaze', ({ rooms }) => rooms, { equalityFn: (prev, next) => prev.length === next.length});
   const { queuedFiles } = useContext(QueuedFiles);
 
   if (!isOnline) {
