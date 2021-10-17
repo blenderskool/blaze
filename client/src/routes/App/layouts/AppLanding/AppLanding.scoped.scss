@@ -1,4 +1,9 @@
 @import '../../../../scss/variables';
+@import '../../../../scss/mixins';
+
+.app-landing-container {
+  padding-bottom: 8rem;
+}
 
 .app-header {
 
@@ -31,10 +36,6 @@
       &:first-child {
         margin-left: 1rem;
       }
-      
-      .label {
-        display: none;
-      }
 
       &:not(.install) {
         display: none;
@@ -65,13 +66,15 @@
 }
 
 .tab-links {
+  @include noise-background;
+
   display: flex;
   justify-content: space-between;
   position: fixed;
   left: 0;
   right: 0;
   bottom: 0;
-  margin: 1.25rem 1.6rem;
+  padding: 1.25rem 1.6rem;
   z-index: 10;
 
   .nav-item {
@@ -91,6 +94,10 @@
 }
 
 @media screen and (min-width: $tablet) {
+  .app-landing-container {
+    padding-bottom: 0;
+  }
+
   .tab-links {
     display: none;
   }

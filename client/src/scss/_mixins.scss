@@ -1,0 +1,11 @@
+@import 'variables';
+
+@mixin noise-background {
+  background-image: $noise;
+  background-color: $bg;
+  background-size: 32%;
+
+  @media screen and (min-width: $tablet) {
+    background-size: 13%;
+  }
+}
