@@ -1,3 +1,5 @@
+import { createLocalStorageDispatch } from 'react-localstorage-hooks';
+
 function removeRoom(rooms, idx) {
   return rooms.filter((_, i) => i !== idx);
 }
@@ -29,4 +31,5 @@ function roomsReducer(data, { type, payload }) {
   }
 }
 
-export default roomsReducer;
+const dispatcher = createLocalStorageDispatch('blaze', roomsReducer);
+export {  dispatcher as default, roomsReducer };
