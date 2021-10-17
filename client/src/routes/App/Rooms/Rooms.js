@@ -4,7 +4,7 @@ import { route } from 'preact-router';
 import { useState, useContext, useEffect, useCallback } from 'preact/hooks';
 import { Plus } from 'preact-feather';
 import { formatDistance } from 'date-fns';
-import { createLocalStorageDispatch, useLocalStorageSelector } from 'react-localstorage-hooks';
+import { useLocalStorageSelector } from 'react-localstorage-hooks';
 
 import { QueuedFiles } from '../contexts/QueuedFiles';
 import Fab from '../../../components/Fab/Fab';
@@ -12,11 +12,9 @@ import pluralize from '../../../utils/pluralize';
 import AppLanding from '../layouts/AppLanding/AppLanding';
 import NewRoomModal from './components/NewRoomModal/NewRoomModal';
 import { RoomContainer, RoomDeleteButton, RoomDescription, RoomName } from './components/Room/Room';
-import roomsReducer from '../../../reducers/rooms';
+import roomsDispatch from '../../../reducers/rooms';
 
 import './Rooms.scoped.scss';
-
-const dispatch = createLocalStorageDispatch('blaze', roomsReducer);
 
 const RoomsList = memo(function RoomsList({ isOnline, onRoomJoin }) {
   const rooms = useLocalStorageSelector('blaze', ({ rooms }) => rooms, { equalityFn: (prev, next) => prev.length === next.length});
@@ -64,7 +62,7 @@ const RoomsList = memo(function RoomsList({ isOnline, onRoomJoin }) {
                 <RoomDeleteButton
                   onClick={e => {
                     e.stopPropagation();
-                    dispatch({ type: 'remove-room', payload: idx })
+                    roomsDispatch({ type: 'remove-room', payload: idx })
                   }}
                 />
               </RoomContainer>
