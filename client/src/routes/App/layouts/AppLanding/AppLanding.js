@@ -48,7 +48,7 @@ function AppLanding({ children, title, subtitle }) {
   };
 
   return (
-    <div>
+    <div class="app-landing-container">
       <header class="app-header">
         <div class="title-nav-wrapper">
           <h1 class="title">{title}</h1>

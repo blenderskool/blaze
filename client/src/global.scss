@@ -1,4 +1,5 @@
 @import './scss/variables';
+@import './scss/mixins';
 
 * {
   box-sizing: border-box;
@@ -10,13 +11,9 @@ body, input, button {
 }
 
 body {
+  @include noise-background;
   margin: 0;
   padding: 0;
-
-  background-image: $noise;
-  background-color: $bg;
-  background-size: 32%;
-
   color: $light;
 
   a {
@@ -159,11 +156,4 @@ img, svg {
 .fade-exit.fade-exit-active {
   opacity: 0;
   transition: all 200ms ease-out;
-}
-
-@media screen and (min-width: 800px) {
-
-  body {
-    background-size: 13%;
-  }
 }

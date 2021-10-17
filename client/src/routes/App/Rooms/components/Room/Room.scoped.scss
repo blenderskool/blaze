@@ -1,9 +1,8 @@
 @import '../../../../../scss/variables';
 
 .room {
-  border: 1px solid $secondary--60;
   border-radius: 4px;
-  box-shadow: $shadow;
+  box-shadow: 0 0 0 1px $secondary--60, $shadow;
   background-color: $bg;
   margin: 1.125rem 0;
   padding: 1rem 1.125rem;
@@ -14,7 +13,7 @@
   transition: all 0.2s ease;
 
   &:hover {
-    box-shadow: none;
+    box-shadow: 0 0 0 1px $secondary--60;
   }
 
   &:active {
@@ -22,7 +21,7 @@
   }
   
   &:focus {
-    border: 2px solid darken($primary, 25);
+    box-shadow: 0 0 0 2px $primary-600;
   }
 
   .room-name {
