@@ -6,6 +6,7 @@ http {
     index   index.html;
     server {
         listen ${PORT};
+        root /etc/nginx/html;
 
         include /etc/nginx/mime.types;
         location / {
