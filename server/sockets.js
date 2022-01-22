@@ -10,16 +10,23 @@ const WS_SIZE_LIMIT = process.env.WS_SIZE_LIMIT || 1e8;
 const wss = new WebSocket.Server({ noServer: true });
 const rooms = {};
 
-wss.on('connection', (ws) => {
+wss.on('connection', (ws, request) => {
   ws.isAlive = true;
-  const ip = request.connection.remoteAddress;
+
+  let ip = request.headers['x-forwarded-for']?.split(',').shift() ?? request.socket?.remoteAddress;
+  // localhost is referred to differently in IPv4 and IPv6
+  if (ip === '::1' || ip === '::ffff:127.0.0.1') {
+    ip = '127.0.0.1';
+  }
+
   const socket = new Socket(ws, ip);
   let room;
   
   socket.listen(constants.JOIN, (data) => {
-    const { roomName = socket.ip, name, peerId } = data;
+    let { roomName, name, peerId } = data;
     socket.name = name;
     socket.peerId = peerId;
+    roomName = roomName || socket.ip;
 
     room = rooms[roomName];
 
