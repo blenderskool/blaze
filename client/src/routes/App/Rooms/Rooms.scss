@@ -1,54 +1,99 @@
 @import '../../../scss/variables';
 
 .rooms {
+
+  .room {
+    border: 1px solid rgba($secondary, 0.6);
+    border-radius: 4px;
+    box-shadow: $shadow;
+    background-color: $bg;
+    margin: 15px 0;
+    padding: 18px 20px;
+    display: flex;
+    text-transform: capitalize;
+    font-size: 1.3rem;
+    outline: none;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.2s ease;
+
+    &:hover {
+      box-shadow: none;
+    }
+
+    &:active {
+      transform: scale(0.98);
+    }
+    
+    &:focus {
+      border: 2px solid darken($primary, 25);
+    }
+
+    &-local {
+      @extend .room;
+      flex-wrap: wrap;
+
+      &.active {
+        border-color: darken($primary, 30);
+        color: $primary;
+      }
+    }
+
+    .name {
+      text-overflow: ellipsis;
+      overflow-x: hidden;
+      width: 74%;
+      white-space: nowrap;
+    }
+
+    button.room-action {
+      margin-left: auto;
+      margin-right: -16px;
+      height: auto;
+      font-size: 1.3rem;
+    }
+
+    ul.peers {
+      list-style: none;
+      padding: 0;
+      width: 100%;
+      display: flex;
+      overflow-x: hidden;
+      margin: 1rem 0 0;
+
+      .peer {
+        flex-shrink: 0;
+        width: 36px;
+        height: 36px;
+        font-size: 1rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 100%;
+        color: $primary;
+        border: 1px solid darken($primary, 35);
+        text-transform: uppercase;
+        margin-right: 10px;
+      }
+
+      .extra {
+        @extend .peer;
+        font-size: 0.875rem;
+      }
+    }
+  }
+
   ul.recent-rooms {
     padding: 0;
     list-style: none;
     margin: 0;
-
-    li {
-      border: 1px solid rgba($secondary, 0.6);
-      border-radius: 4px;
-      box-shadow: $shadow;
-      background-color: $bg;
-      margin: 15px 0;
-      padding: 18px 20px;
-      display: flex;
-      text-transform: capitalize;
-      font-size: 1.3rem;
-      outline: none;
-      cursor: pointer;
-      user-select: none;
-      transition: all 0.2s ease;
-
-      &:hover {
-        box-shadow: none;
-      }
-
-      &:active {
-        transform: scale(0.98);
-      }
-      
-      &:focus {
-        border: 2px solid darken($primary, 25);
-      }
-
-      button.remove-room {
-        margin-left: auto;
-        margin-right: -16px;
-        height: auto;
-        font-size: 1.3rem;
-      }
-
-    }
-
   }
 
   div.message {
     font-size: 1.3rem;
     color: $secondary;
     text-align: center;
-    margin-top: 5rem;
+    margin-top: 3rem;
   }
 
   .devices-same-room {
@@ -69,28 +114,43 @@
 
   @media screen and (min-width: $tablet) {
 
+    .room {
+      margin: 1rem;
+      min-width: 180px;
+      padding: 13px 15px;
+      align-items: flex-start;
+      flex-wrap: wrap;
+
+      .name {
+        order: 2;
+        margin-top: auto;
+        width: 100%;
+      }
+
+      button.room-action {
+        margin: 0 -15px 2rem auto;
+        order: 1;
+      }
+
+      ul.peers {
+        width: auto;
+        margin: 0 0 1rem auto;
+      }
+
+      &-local {
+        max-width: 300px;
+
+        button.room-action {
+          order: 0;
+          margin: 0 0 2rem -16px;
+        }
+      }
+    }
+
     ul.recent-rooms {
       display: flex;
       flex-wrap: wrap;
       margin: -1rem;
-
-      li {
-        margin: 1rem;
-        min-width: 180px;
-        flex-direction: column;
-        padding: 13px 15px;
-        align-items: flex-start;
-
-        div {
-          order: 2;
-          margin-top: 2rem;
-        }
-
-        button.remove-room {
-          margin: 0 -15px 0 auto;
-          order: 1;
-        }
-      }
     }
 
     div.donate {
@@ -118,4 +178,9 @@
     margin: 12px 0 0;
     color: $secondary;
   }
+}
+
+.local-room-help p {
+  color: $secondary;
+  margin: 2rem 0 3rem;
 }

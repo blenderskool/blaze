@@ -64,7 +64,7 @@ export default function App() {
           <QueuedFiles.Provider value={{ queuedFiles, setQueuedFiles }}>
             <Router>
               <Rooms path="/app/" isOnline={isOnline} />
-              <FileTransfer path="/app/t/:room" />
+              <FileTransfer path="/app/t/:room?" />
               <JoinInstantRoom path="/app/instant/join" />
               <RedirectToFourOFour default />
             </Router>

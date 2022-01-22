@@ -1,7 +1,7 @@
 import { h } from 'preact';
 import { route } from 'preact-router';
 import { useState, useContext, useEffect } from 'preact/hooks';
-import { Loader, Plus, X } from 'preact-feather';
+import { HelpCircle, Loader, Plus, X } from 'preact-feather';
 
 import { QueuedFiles } from '../QueuedFiles';
 import Fab from '../../../components/Fab/Fab';
@@ -10,6 +10,7 @@ import pluralize from '../../../utils/pluralize';
 import useInstantRoom from '../../../hooks/useInstantRoom';
 
 import './Rooms.scss';
+import urls from '../../../utils/urls';
 
 function NewRoomModal({ onNewRoom, ...props }) {
   const [room, setRoom] = useState();
@@ -61,11 +62,34 @@ function NewRoomModal({ onNewRoom, ...props }) {
   );
 }
 
+function LocalRoomHelpModal({ onNewRoom, ...props}) {
+  return (
+    <Modal {...props}>
+      <div class="local-room-help">
+        <h2>Local Network room</h2>
+        <p>
+          Local network room creates a private and isolated room among devices in the same network connection.
+          Devices outside the local network cannot join this room.
+          <br />
+          <br />
+          If Blaze is unable to detect devices in your local network, you can still create standard file sharing room
+          that allows any device from any network to join the room.
+        </p>
+        <button class="wide" onClick={() => onNewRoom('')}>
+          Join local room
+        </button>
+      </div>
+    </Modal>
+  );
+}
+
 
 function Rooms({ isOnline }) {
   const [isModalOpen, setModal] = useState(false);
+  const [isLocalRoomHelpOpen, setLocalRoomHelpOpen] = useState(false);
   let data = JSON.parse(localStorage.getItem('blaze'));
   const [rooms, setRooms] = useState(data.rooms);
+  const [localPeers, setLocalPeers] = useState([]);
   const { queuedFiles } = useContext(QueuedFiles);
 
   const handleNewRoom = (room) => {
@@ -88,11 +112,22 @@ function Rooms({ isOnline }) {
 
   useEffect(() => {
     document.title = 'App | Blaze';
-    
-    if (rooms.length === 0) {
-      setModal(true);
-    }
-  }, [setModal]);
+  }, []);
+
+  useEffect(() => {
+    if (!isOnline) return;
+
+    const handlePeersStream = ({ data }) => {
+      setLocalPeers(JSON.parse(data));
+    };
+    const localPeersSource = new EventSource(`${urls.SERVER_HOST}/local-peers`);
+    localPeersSource.addEventListener('message', handlePeersStream);
+
+    return () => {
+      localPeersSource.removeEventListener('message', handlePeersStream);
+      localPeersSource.close();
+    };
+  }, [isOnline]);
 
   return (
     <div class="rooms">
@@ -105,42 +140,61 @@ function Rooms({ isOnline }) {
           isOnline ? (
             <>
               {
-                rooms.length ? (
-                  <>
-                    {
-                      !!queuedFiles.length && (
-                        <div class="message" style="margin-top: 0; margin-bottom: 2.5rem;">
-                          Join a room to share the selected
-                          {' '}
-                          {pluralize(queuedFiles.length, 'file', 'files')}
-                        </div>
-                      )
-                    }
-                    <ul class="recent-rooms">
-                      {
-                        rooms.map(room => (
-                          <li role="link" tabIndex="0" onClick={() => handleNewRoom(room)}>
-                            <div>{room}</div>
-                            <button
-                              class="thin icon remove-room"
-                              aria-label="Remove room"
-                              onClick={e => {
-                                e.stopPropagation();
-                                removeRoom(room);
-                              }}
-                            >
-                              <X />
-                            </button>
+                !!queuedFiles.length && (
+                  <div class="message" style="margin-top: 0; margin-bottom: 2.5rem;">
+                    Join a room to share the selected
+                    {' '}
+                    {pluralize(queuedFiles.length, 'file', 'files')}
+                  </div>
+                )
+              }
+              <ul class="recent-rooms">
+                <li class={`room-local ${localPeers.length ? 'active' : ''}`} role="link" tabIndex="0" onClick={() => handleNewRoom('')}>
+                  <div class="name">Local network room</div>
+                  <button
+                    class="thin icon room-action"
+                    aria-label="Know more"
+                    onClick={e => {
+                      e.stopPropagation();
+                      setLocalRoomHelpOpen(true);
+                    }}
+                  >
+                    <HelpCircle />
+                  </button>
+                  {
+                    localPeers.length > 0 && (
+                      <ul class="peers">
+                        {localPeers.slice(0, 3).map((peer) => <li class="peer" title={peer.name}>{peer.name[0]}</li>)}
+                        {localPeers.length > 3 && (
+                          <li class="extra">
+                            +
+                            {localPeers.length - 3}
                           </li>
-                        ))
-                      }
-                    </ul>
-                    <div class="donate">
-                      Like using Blaze? Consider
-                      <a href="https://www.buymeacoffee.com/akashhamirwasia"> donating</a>
-                    </div>
-                  </>
-                ) : (
+                        )}
+                      </ul>
+                    )
+                  }
+                </li>
+                {
+                  rooms.map(room => (
+                    <li class="room" role="link" tabIndex="0" onClick={() => handleNewRoom(room)}>
+                      <div class="name">{room}</div>
+                      <button
+                        class="thin icon room-action"
+                        aria-label="Remove room"
+                        onClick={e => {
+                          e.stopPropagation();
+                          removeRoom(room);
+                        }}
+                      >
+                        <X />
+                      </button>
+                    </li>
+                  ))
+                }
+              </ul>
+              {
+                rooms.length === 0 && (
                   <>
                     <div class="message">
                       {
@@ -155,15 +209,22 @@ function Rooms({ isOnline }) {
                   </>
                 )
               }
+
+              <div class="donate">
+                Like using Blaze? Consider
+                <a href="https://www.buymeacoffee.com/akashhamirwasia"> donating</a>
+              </div>
+
               <Fab text="New Room" onClick={() => setModal(true)}>
                 <Plus />
               </Fab>
             </>
-          ) : <div class="message">Connect to the internet to start sharing files</div>
+          ) : <div class="message" style="margin-top: 5rem">Connect to the internet to start sharing files</div>
         }
       </main>
 
       <NewRoomModal isOpen={isModalOpen} onNewRoom={handleNewRoom} onClose={() => setModal(false)} />
+      <LocalRoomHelpModal isOpen={isLocalRoomHelpOpen} onNewRoom={handleNewRoom} onClose={() => setLocalRoomHelpOpen(false)} />
     </div>
   );
 }
