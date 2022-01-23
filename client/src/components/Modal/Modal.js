@@ -1,12 +1,37 @@
 import { h } from 'preact';
 import { createPortal } from 'preact/compat';
-import { useEffect } from 'preact/hooks';
+import { useEffect, useState } from 'preact/hooks';
 import { XCircle } from 'preact-feather';
 import PropTypes from 'prop-types';
 
 import './Modal.scoped.scss';
 
+/**
+ * This hook can be used to toggle visibility of elements when the container has
+ * animated visibility. The issue occurrs during the "close" phase of the animation
+ * where the elements are meant to stay mounted just till the animation finishes.
+ * 
+ * @param {boolean} initial Initial state
+ * @param {number} time Time in milliseconds of the close animation
+ * @returns {boolean} State variable that stays toggled ON till the animation completes
+ */
+function useAnimatedVisibility(initial, time) {
+  const [showContents, setShowContents] = useState(initial);
+
+  useEffect(() => {
+    if (initial) {
+      setShowContents(true);
+    } else {
+      const id = setTimeout(() => setShowContents(false), time);
+      return () => clearTimeout(id);
+    }
+  }, [initial, setShowContents, time]);
+
+  return showContents;
+}
+
 function Modal({ isClosable, isOpen, onClose, children }) {
+  const showContents = useAnimatedVisibility(isOpen, 200);
 
   useEffect(() => {
     document.body.classList.toggle('no-bg-image', isOpen);
@@ -43,7 +68,7 @@ function Modal({ isClosable, isOpen, onClose, children }) {
       }
 
       <div class="modal">
-        { children }
+        { showContents && children }
       </div>
     </div>,
     document.body
