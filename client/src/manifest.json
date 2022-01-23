@@ -52,7 +52,19 @@
       "url": "/app/instant/join",
       "icons": [
         {
-          "src": "/assets/images/instant-room.png",
+          "src": "/assets/images/instant-room-shortcut.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Join Local Network Room",
+      "short_name": "Local Network Room",
+      "description": "Share files with devices in your local network",
+      "url": "/app/t/",
+      "icons": [
+        {
+          "src": "/assets/images/local-room-shortcut.png",
           "sizes": "192x192"
         }
       ]
