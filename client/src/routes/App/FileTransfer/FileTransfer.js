@@ -35,7 +35,8 @@ class FileTransfer extends PureComponent {
     const savedData = JSON.parse(localStorage.getItem('blaze'));
     this.client = {
       ...savedData.user,
-      room,
+      room: room || 'Local Network',
+      isLocal: !room,
     };
 
     this.state = {
@@ -57,7 +58,9 @@ class FileTransfer extends PureComponent {
     /**
      * Add the current room in recent rooms list
      */
-    roomsDispatch({ type: 'add-room', payload: room });
+    if (room) {
+      roomsDispatch({ type: 'add-room', payload: room });
+    }
   }
 
   onUserJoin(users) {
@@ -224,7 +227,7 @@ class FileTransfer extends PureComponent {
     document.title = `${this.client.room} room | Blaze`;
 
     this.visualizer = new Visualizer(this.canvas.current);
-    this.fileShare = new SocketConnect(this.client.room, this.client.name);
+    this.fileShare = new SocketConnect(this.client.isLocal ? '' : this.client.room, this.client.name);
     const { socket } = this.fileShare;
 
     this.visualizer.addNode({
@@ -470,7 +473,7 @@ class FileTransfer extends PureComponent {
 
             <div class={`transfer-help ${peers.length > 1 && isP2P && 'p2p'}`}>
               {
-                peers.length <= 1 ? 'Share room link to devices you want to share files with'
+                peers.length <= 1 ? `Share room link to devices ${this.client.isLocal ? 'in local network' : ''} you want to share files with`
                   : isP2P ? (
                     <>
                       <Zap size={20} /> Established a P2P connection!

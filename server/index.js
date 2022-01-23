@@ -1,15 +1,18 @@
 import express from 'express';
 import http from 'http';
 import cors from 'cors';
+import { nanoid } from 'nanoid';
 
 import log from './utils/log';
 import instantRoom from './instantRoom';
 import { wss, rooms } from './sockets';
+import Room from '../common/utils/room';
 
 const CORS_ORIGIN = process.env.ORIGIN ? JSON.parse(process.env.ORIGIN) : '*';
 const PORT = process.env.PORT || 3030;
 
 const app = express();
+app.set('trust proxy', true);
 app.use(express.json());
 app.use(cors({ origin: CORS_ORIGIN }));
 app.use('/instant-room', instantRoom);
@@ -21,6 +24,37 @@ app.get('/', (_, res) => {
     message: 'Blaze WebSockets running',
     rooms: Object.keys(rooms).length,
     peers: Object.values(rooms).reduce((sum, room) => sum + room.sockets.length, 0),
+  });
+});
+
+
+app.get('/local-peers', (req, res) => {
+  const { ip } = req;
+  const headers = {
+    'Content-Type': 'text/event-stream',
+    Connection: 'keep-alive',
+    'Cache-Control': 'no-cache',
+  };
+  res.writeHead(200, headers);
+
+  const watcher = { id: nanoid(), res };
+
+  if (!rooms[ip]) {
+    rooms[ip] = new Room(ip);
+  }
+  rooms[ip].addWatcher(watcher);
+
+  rooms[ip].informWatchers([ watcher ]);
+
+  req.on('close', () => {
+    const room = rooms[ip];
+    if (!room) return;
+
+    room.removeWatcher(watcher);
+
+    if (!room.watchers.length && !room.socketsData.length) {
+      delete rooms[ip];
+    }
   });
 });
 
@@ -49,6 +83,6 @@ server.on('upgrade', (request, socket, head) => {
   }
 });
 
-server.listen(PORT, '0.0.0.0', () => {
+server.listen(PORT, () => {
   log(`listening on *:${PORT}`);
 });

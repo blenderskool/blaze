@@ -21,7 +21,7 @@
   }
   
   &:focus {
-    box-shadow: 0 0 0 2px $primary-600;
+    box-shadow: 0 0 0 2px $primary-600 !important;
   }
 
   .room-name {
@@ -37,28 +37,62 @@
     font-size: 0.875rem;
   }
 
-  button.remove-room {
+  .secondary-action {
     margin-left: auto;
     margin-right: -16px;
     height: auto;
     font-size: 1.3rem;
   }
+
+  ul.peers {
+    list-style: none;
+    padding: 0;
+    padding-right: 15px;
+    display: flex;
+    overflow-x: hidden;
+    align-items: center;
+    flex-shrink: 0;
+
+    .peer {
+      flex-shrink: 0;
+      width: 24px;
+      height: 24px;
+      font-size: 0.75rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 100%;
+      color: $primary;
+      border: 1px solid $primary-700;
+      text-transform: uppercase;
+      margin-right: -5px;
+      background: $bg;
+    }
+
+    .extra {
+      flex-shrink: 0;
+      width: 24px;
+      height: 24px;
+      font-size: 0.625rem;
+      color: $primary;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 -5px 0 5px;
+    }
+  }
 }
 
 // Highlighted variant of the room
 .room.highlighted {
-  border-color: $primary-700;
+  box-shadow: 0 0 0 1px $primary-700, $shadow;
 
   .room-name {
     color: $primary;
   }
 
   .room-description {
-    color: $primary-700;
-  }
-
-  .remove-room {
-    color: $primary-700;
+    color: $primary-600;
   }
 }
 
@@ -74,7 +108,7 @@
       margin-top: 2rem;
     }
 
-    button.remove-room {
+    .secondary-action {
       margin: 0 -15px 0 auto;
       order: -1;
     }

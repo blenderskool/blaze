@@ -53,20 +53,54 @@ RoomDescription.defaultProps = {
   className: '',
 };
 
-function RoomDeleteButton({ className, ...props }) {
+function RoomSecondaryAction({ className, children, onClick, ...props }) {
   return (
-    <button className={cx('btn thin icon remove-room', className)} aria-label="Remove room" {...props}>
-      <X />
+    <button
+      className={cx('btn thin icon secondary-action', className)}
+      onClick={e => {
+        e.stopPropagation();
+        onClick(e);
+      }}
+      {...props}
+    >
+      {children}
     </button>
   );
 }
 
-RoomDeleteButton.propTypes = {
+RoomSecondaryAction.propTypes = {
   className: PropTypes.string,
+  children: PropTypes.node.isRequired,
+  onClick: PropTypes.func,
 };
 
-RoomDeleteButton.defaultProps = {
+RoomSecondaryAction.defaultProps = {
   className: '',
+  onClick: () => {},
 };
 
-export { RoomContainer, RoomName, RoomDescription, RoomDeleteButton };
+function RoomPeers({ className, localPeers, ...props }) {
+  return (
+    <ul className={cx('peers secondary-action', className)} {...props}>
+      {localPeers.slice(0, 3).map((peer) => <li class="peer" title={peer.name}>{peer.name[0]}</li>)}
+      {localPeers.length > 3 && (
+        <li class="extra">
+          +
+          {localPeers.length - 3}
+        </li>
+      )}
+    </ul>
+  )
+}
+
+RoomPeers.propTypes = {
+  className: PropTypes.string,
+  localPeers: PropTypes.array,
+};
+
+RoomPeers.defaultProps = {
+  className: '',
+  localPeers: [],
+};
+
+export { RoomContainer, RoomName, RoomDescription, RoomSecondaryAction, RoomPeers };

@@ -12,6 +12,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "nanoid": "^3.1.22",
     "project-name-generator": "^2.1.7",
     "sucrase": "^3.15.0",
     "ws": "^7.4.6"
