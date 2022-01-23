@@ -2,6 +2,8 @@ import express from 'express';
 import http from 'http';
 import cors from 'cors';
 import { nanoid } from 'nanoid';
+import QRCode from 'qrcode';
+import { URL } from 'url';
 
 import log from './utils/log';
 import instantRoom from './instantRoom';
@@ -60,6 +62,20 @@ app.get('/local-peers', (req, res) => {
       delete rooms[ip];
     }
   });
+});
+
+app.get('/rooms/:roomName/qrcode', async (req, res) => {
+  const clientUrl = req.headers.referer;
+  console.log(req.headers);
+
+  try {
+    const { origin } = new URL(clientUrl);
+    const qrcode = await QRCode.toString(`${origin}/app/t/${req.params.roomName}`, { type: 'svg' });
+    res.type('svg');
+    res.send(qrcode);
+  } catch(e) {
+    res.status(400).send('Bad Request');
+  }
 });
 
 server.on('upgrade', (request, socket, head) => {
