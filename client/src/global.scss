@@ -54,7 +54,6 @@ button {
   justify-content: center;
 
   height: 50px;
-  line-height: 50px;
   box-shadow: $shadow;
 
   transition: all 0.2s ease;
@@ -93,7 +92,7 @@ button {
   &.outlined {
     background-color: $bg;
     color: $primary;
-    border: 2px solid $primary;
+    box-shadow: 0 0 0 1px $primary, $shadow;
   }
 
   &:disabled {
