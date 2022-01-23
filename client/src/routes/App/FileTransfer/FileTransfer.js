@@ -299,6 +299,8 @@ class FileTransfer extends PureComponent {
         this.resetState();
       },
     });
+
+    window.addEventListener('paste', this.handleWindowPasteEvent);
   }
 
   componentWillUnmount() {
@@ -311,6 +313,8 @@ class FileTransfer extends PureComponent {
     socket.off(constants.USER_JOIN);
     socket.off(constants.USER_LEAVE);
     socket.close();
+
+    window.removeEventListener('paste', this.handleWindowPasteEvent);
   }
 
   handleNewRoom = () => {
@@ -340,6 +344,11 @@ class FileTransfer extends PureComponent {
     this.selectFiles(this.props.queuedFiles);
     this.props.setQueuedFiles([]);
   }
+
+  handleWindowPasteEvent = (e) => {
+    this.selectFiles(e.clipboardData.files);
+  }
+
   copyLink = () => {
     if (navigator.share)
       this.handleShare();
