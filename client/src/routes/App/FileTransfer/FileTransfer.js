@@ -10,11 +10,13 @@ import Fab from '../../../components/Fab/Fab';
 import Modal from '../../../components/Modal/Modal';
 import FileDrop from '../../../components/FileDrop/FileDrop';
 import { toast } from '../../../components/Toast';
+import QRCode from '../../../icons/QRCode';
 
 import SocketConnect from '../../../utils/socketConnect';
 import Visualizer from '../../../utils/visualizer';
 import formatSize from '../../../utils/formatSize';
 import pluralize from '../../../utils/pluralize';
+import urls from '../../../utils/urls';
 import constants from '../../../../../common/constants';
 import roomsDispatch from '../../../reducers/rooms';
 
@@ -50,6 +52,7 @@ class FileTransfer extends PureComponent {
         message: '',
       },
       isSelectorEnabled: false,
+      showQRCodeModal: false,
     };
 
     this.canvas = createRef();
@@ -346,6 +349,12 @@ class FileTransfer extends PureComponent {
     }
   }
 
+  toggleQRCodeModal(state) {
+    this.setState({
+      showQRCodeModal: state,
+    });
+  }
+
   getFileIcon(file) {
     const size = 20;
 
@@ -436,7 +445,7 @@ class FileTransfer extends PureComponent {
     }
   }
 
-  render({ queuedFiles }, { percentage, peers, isP2P, files, filesQueued, errorModal, isSelectorEnabled }) {
+  render({ queuedFiles }, { percentage, peers, isP2P, files, filesQueued, errorModal, isSelectorEnabled, showQRCodeModal }) {
 
     return (
       <div class="file-transfer">
@@ -487,8 +496,11 @@ class FileTransfer extends PureComponent {
               peers.length <= 1 && (
                 <div class="share-room-link">
                   <input value={window.location.href} disabled />
-                  <button class="btn outlined" onClick={navigator.share ? this.handleShare :this.copyLink}>
+                  <button class="btn outlined share-link" onClick={navigator.share ? this.handleShare :this.copyLink}>
                     {navigator.share ? 'Share room link' : 'Copy room link'}
+                  </button>
+                  <button class="btn outlined qrcode" onClick={() => this.toggleQRCodeModal(true)} ariaLabel="Show QR Code of this room">
+                    <QRCode />
                   </button>
                 </div>
               )
@@ -550,6 +562,19 @@ class FileTransfer extends PureComponent {
         <Modal isClosable={false} isOpen={errorModal.isOpen}>
           <div class="socket-error">
             {this.renderErrorContent()}
+          </div>
+        </Modal>
+
+        <Modal isOpen={showQRCodeModal} onClose={() => this.toggleQRCodeModal(false)}>
+          <div class="qrcode-modal">
+            <h2>Room QR code</h2>
+            <p>Scan this QR code to join "{this.client.room}" file sharing room.</p>
+
+            <img src={`${urls.SERVER_HOST}/rooms/${this.client.room}/qrcode`} loading="lazy" />
+
+            <button class="btn outlined wide" onClick={() => this.toggleQRCodeModal(false)}>
+              Close popup
+            </button>
           </div>
         </Modal>
 

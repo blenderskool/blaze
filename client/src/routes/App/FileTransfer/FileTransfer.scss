@@ -63,9 +63,14 @@
   }
 
   .share-room-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     input {
       font-size: 1rem;
       width: 50%;
+      max-width: 250px;
       border-top-right-radius: 0;
       border-bottom-right-radius: 0;
       color: darken($light, 20);
@@ -75,9 +80,16 @@
       font-size: 1rem;
       padding-left: 8px;
       padding-right: 8px;
-      border-top-left-radius: 0;
-      border-bottom-left-radius: 0;
-      height: 49px;
+      height: 47px;
+
+      &.share-link {
+        border-radius: 0;
+      }
+
+      &.qrcode {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+      }
     }
   }
 
@@ -209,6 +221,17 @@
     font-size: 1.1rem;
     color: $secondary;
     margin: 0 0 2rem;
+  }
+}
+
+.qrcode-modal {
+  p {
+    color: $secondary;
+  }
+
+  img {
+    margin: 20px 0;
+    border-radius: 4px;
   }
 }
 
