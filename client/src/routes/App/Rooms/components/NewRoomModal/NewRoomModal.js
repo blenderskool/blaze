@@ -26,6 +26,10 @@ function NewRoomModal({ onNewRoom, ...props }) {
   return (
     <Modal {...props}>
       <div class="join-room">
+        <h2>Create public room</h2>
+        <p class="description">
+          Public rooms allow file sharing across any device connected to the internet as long as they join the same room.
+        </p>
         <form onSubmit={handleSubmit}>
           <input
             type="text"
@@ -47,10 +51,10 @@ function NewRoomModal({ onNewRoom, ...props }) {
         <button class="btn outlined wide" onClick={getInstantRoom} disabled={isLoading}>
           <Loader size={18} />
           &nbsp;&nbsp;
-          { isLoading ? 'Joining' : 'Join an Instant Room' }
+          { isLoading ? 'Joining' : 'Join Instant Room' }
         </button>
         <p class="instant-room-help">
-          Tip: Instant Rooms are created just for you!
+          Instant Rooms are always unique and don't clash with other existing rooms.
         </p>
       </div>
     </Modal>
