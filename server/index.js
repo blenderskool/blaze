@@ -29,7 +29,11 @@ app.get('/', (_, res) => {
 
 
 app.get('/local-peers', (req, res) => {
-  const { ip } = req;
+  let ip = req.ip ?? req.connection.remoteAddress;
+  if (ip === '::1' || ip === '::ffff:127.0.0.1') {
+    ip = '127.0.0.1';
+  }
+
   const headers = {
     'Content-Type': 'text/event-stream',
     Connection: 'keep-alive',
