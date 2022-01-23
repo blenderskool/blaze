@@ -473,7 +473,7 @@ class FileTransfer extends PureComponent {
 
             <div class={`transfer-help ${peers.length > 1 && isP2P && 'p2p'}`}>
               {
-                peers.length <= 1 ? `Share room link to devices ${this.client.isLocal ? 'in local network' : ''} you want to share files with`
+                peers.length <= 1 ? `Share room link to devices ${this.client.isLocal ? 'in same local network' : ''} you want to share files with`
                   : isP2P ? (
                     <>
                       <Zap size={20} /> Established a P2P connection!
