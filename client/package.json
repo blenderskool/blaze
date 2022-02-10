@@ -36,7 +36,7 @@
     "eslint": "^6.0.1",
     "eslint-config-preact": "^1.1.0",
     "ip": "^1.1.5",
-    "node-sass": "^4.14.1",
+    "node-sass": "^7.0.0",
     "preact-cli": "^3.2.2",
     "sass-loader": "^10.2.0",
     "sirv-cli": "^0.4.5",
