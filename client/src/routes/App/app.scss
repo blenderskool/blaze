@@ -4,7 +4,7 @@
   display: flex;
   flex-direction: column;
   padding: 2rem 1.6rem;
-  min-height: 100vh;
+  min-height: 100%;
   max-width: 100vw;
   position: relative;
 }
@@ -14,5 +14,47 @@
 
   .title {
     font-size: 1.875rem;
+  }
+}
+
+.page-enter {
+  .page-transition-enter {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  .page-transition-enter-active {
+    opacity: 1;
+    transform: scale(1);
+  }
+  .page-transition-exit {
+    opacity: 1;
+  }
+  .page-transition-exit-active {
+    opacity: 0;
+  }
+  .page-transition-enter-active,
+  .page-transition-exit-active {
+    transition: opacity 0.1s ease, transform 0.1s ease;
+  }
+}
+
+.page-exit {
+  .page-transition-enter {
+    opacity: 0;
+  }
+  .page-transition-enter-active {
+    opacity: 1;
+  }
+  .page-transition-exit {
+    opacity: 1;
+    transform: scale(1);
+  }
+  .page-transition-exit-active {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  .page-transition-enter-active,
+  .page-transition-exit-active {
+    transition: opacity 0.1s ease, transform 0.1s ease;
   }
 }

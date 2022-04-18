@@ -457,7 +457,7 @@ class FileTransfer extends PureComponent {
   render({ queuedFiles }, { percentage, peers, isP2P, files, filesQueued, errorModal, isSelectorEnabled, showQRCodeModal }) {
 
     return (
-      <div class="file-transfer">
+      <div class="app-container file-transfer">
         <header class="app-header">
           <button class="btn thin icon left" aria-label="Go back" onClick={() => window.history.back()}>
             <ArrowLeft />

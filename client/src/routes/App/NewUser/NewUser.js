@@ -16,8 +16,8 @@ function NewUser({ onRegister }) {
   };
 
   return (
-    <main style={{ margin: 'auto' }}>
-      <form class="new-user" onSubmit={registerUser}>
+    <main className="app-container" style={{ justifyContent: 'center' }}>
+      <form onSubmit={registerUser} style={{ margin: 'auto' }}>
         <input
           required
           type="text"

@@ -1,6 +1,6 @@
 import { h } from 'preact';
 import { useState, useEffect } from 'preact/hooks';
-import { Router, route } from 'preact-router';
+import { route } from 'preact-router';
 
 import { useOnline, useSWMessage } from '../../hooks';
 import constants from '../../../../common/constants';
@@ -12,6 +12,7 @@ import FileTransfer from './FileTransfer/FileTransfer';
 import JoinInstantRoom from './JoinInstantRoom/JoinInstantRoom';
 import { RedirectToFourOFour } from '../Pages/FourOFour/FourOFour';
 import Loading from '../../components/Loading/Loading';
+import { TransitionRouter, TransitionRoute } from '../../components/TransitionRouter';
 
 import './app.scss';
 
@@ -66,29 +67,27 @@ export default function App() {
 
 
   if (!isRegistered) {
-    return (
-      <div class="app-container">
-        <NewUser onRegister={() => setRegistered(true)} />
-      </div>
-    );
+    return <NewUser onRegister={() => setRegistered(true)} />;
   }
 
-  return (
-    <main class="app-container">
-      {
-        isLoaded ? (
-          <QueuedFiles.Provider value={{ queuedFiles, setQueuedFiles }}>
-            <PWAInstallProvider>
-              <Router>
-                <Rooms path="/app/" isOnline={isOnline} />
-                <FileTransfer path="/app/t/:room?" />
-                <JoinInstantRoom path="/app/instant/join" />
-                <RedirectToFourOFour default />
-              </Router>
-            </PWAInstallProvider>
-          </QueuedFiles.Provider>
-        ) : <Loading fullScreen />
-      }
-    </main>
-  );
+  return isLoaded ? (
+    <QueuedFiles.Provider value={{ queuedFiles, setQueuedFiles }}>
+      <PWAInstallProvider>
+        <TransitionRouter>
+          <TransitionRoute key="rooms" path="/app/">
+            <Rooms isOnline={isOnline} />
+          </TransitionRoute>
+          <TransitionRoute key="file-transfer" path="/app/t/:room?">
+            <FileTransfer />
+          </TransitionRoute>
+          <TransitionRoute key="instant-room" path="/app/instant/join">
+            <JoinInstantRoom />
+          </TransitionRoute>
+          <TransitionRoute key="404" default>
+            <RedirectToFourOFour />
+          </TransitionRoute>
+        </TransitionRouter>
+      </PWAInstallProvider>
+    </QueuedFiles.Provider>
+  ) : <Loading fullScreen />;
 }
