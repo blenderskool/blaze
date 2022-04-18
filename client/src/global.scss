@@ -5,6 +5,14 @@
   box-sizing: border-box;
 }
 
+.h-full {
+  height: 100%;
+}
+
+html, body {
+  @extend .h-full;
+}
+
 body, input, button {
   font-family: $font;
   color: $white;
