@@ -1,3 +1,5 @@
+import anime from 'animejs';
+
 class Visualizer {
 
   constructor(canvas) {
@@ -14,6 +16,7 @@ class Visualizer {
       start: 0,
       end: 0,
     };
+    this.active = true;
 
     this.draw();
   }
@@ -62,9 +65,11 @@ class Visualizer {
      * then it must be placed at the centre of the canvas
      */
     if (nodes.length == 1) {
-      nodes[0].cx = 0;
-      nodes[0].cy = 0;
-
+      anime({
+        targets: nodes[0],
+        cx: 0,
+        cy: 0,
+      });
       return;
     }
 
@@ -73,8 +78,11 @@ class Visualizer {
       const angle = divisions*(i+1)*Math.PI/180;
       const r = 100;
 
-      node.cx = r * Math.cos(angle);
-      node.cy = r * Math.sin(angle);
+      anime({
+        targets: node,
+        cx: r * Math.cos(angle),
+        cy: r * Math.sin(angle),
+      });
     });
   }
 
@@ -89,11 +97,13 @@ class Visualizer {
     const nodeData = {
       name,
       peerId,
-      radius: 30,
-      cx: pos ? pos[0] : undefined,
-      cy: pos ? pos[1] : undefined,
+      radius: 15,
+      cx: pos ? pos[0] : 0,
+      cy: pos ? pos[1] : 0,
       textColor: isClient ? '#C5C7CC' : '#636979',
     };
+
+    anime({ targets: nodeData, radius: 30 });
 
     const nodeDuplID = this.nodes.findIndex(node => node.name === name);
 
@@ -103,7 +113,6 @@ class Visualizer {
       this.nodes.push(nodeData);
 
     if (!pos) this.updateAllPos();
-
   }
 
   /**
@@ -114,11 +123,17 @@ class Visualizer {
     const nodeDuplID = this.nodes.findIndex(node => node.name === name);
 
     if (nodeDuplID > -1) {
-      this.nodes.splice(nodeDuplID, 1);
-      
-      this.updateAllPos();
-    }
+      const anim = anime({
+        targets: this.nodes[nodeDuplID],
+        radius: 15,
+      });
 
+      // Remove the node after 1/10th of animation has completed
+      setTimeout(() => {
+        this.nodes.splice(nodeDuplID, 1);
+        this.updateAllPos();
+      }, anim.duration / 10);
+    }
   }
 
 
@@ -151,6 +166,9 @@ class Visualizer {
   }
 
   draw() {
+    // The visualizer is destroyed and the draw calls are now stopped
+    if (!this.active) return;
+
     /**
      * Empty the canvas, and add the updated nodes, connections and labels
      */
@@ -292,6 +310,10 @@ class Visualizer {
    */
   setTransferPercentage(percentage) {
     if (percentage > 100) percentage = 100;
+  }
+
+  destroy() {
+    this.active = false;
   }
 }
 

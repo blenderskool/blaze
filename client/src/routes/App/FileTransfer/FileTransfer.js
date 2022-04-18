@@ -310,6 +310,7 @@ class FileTransfer extends PureComponent {
       this.clearReceiver();
     }
 
+    this.visualizer.destroy();
     socket.off(constants.USER_JOIN);
     socket.off(constants.USER_LEAVE);
     socket.close();
