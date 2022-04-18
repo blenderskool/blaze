@@ -14,8 +14,8 @@ function LocalRoomHelpModal({ onRoomJoin, ...props}) {
           Devices outside the local network cannot join this room.
           <br />
           <br />
-          If Blaze is unable to detect devices in your local network, you can still create standard file sharing room
-          that allows any device from any network to join the room.
+          If Blaze is unable to detect devices in your local network, you can still create a publich file sharing room
+          that allows any device connected to the internet to join the room.
         </p>
         <button class="btn wide" onClick={() => onRoomJoin('')}>
           Join local room
