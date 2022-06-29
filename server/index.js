@@ -66,7 +66,6 @@ app.get('/local-peers', (req, res) => {
 
 app.get('/rooms/:roomName/qrcode', async (req, res) => {
   const clientUrl = req.headers.referer;
-  console.log(req.headers);
 
   try {
     const { origin } = new URL(clientUrl);
