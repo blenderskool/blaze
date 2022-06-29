@@ -6,6 +6,7 @@ class Socket {
     this.callbacks = {};
     this.ip = ip;
     this.peerId = '';
+    this.name = '';
 
     socket.addEventListener('message', msg => {
       let callback, data;
