@@ -12,7 +12,7 @@ import FileDrop from '../../../components/FileDrop/FileDrop';
 import { toast } from '../../../components/Toast';
 import QRCode from '../../../icons/QRCode';
 
-import SocketConnect from '../../../utils/socketConnect';
+import socketConnect from '../../../utils/socketConnect';
 import Visualizer from '../../../utils/visualizer';
 import formatSize from '../../../utils/formatSize';
 import pluralize from '../../../utils/pluralize';
@@ -68,9 +68,16 @@ class FileTransfer extends PureComponent {
 
   onUserJoin(users) {
     let isP2P = this.state.isP2P;
+    const peers = this.state.peers;
 
     users.forEach(user => {
       if (user.name === this.client.name) return;
+
+      /**
+       * If a peer already exists in the state,
+       * don't add it again in the visualizer
+       */
+      if (peers.some(peer => peer === user.name)) return;
 
       isP2P = isP2P && !!user.peerId;
       this.visualizer.addNode({
@@ -230,7 +237,7 @@ class FileTransfer extends PureComponent {
     document.title = `${this.client.room} room | Blaze`;
 
     this.visualizer = new Visualizer(this.canvas.current);
-    this.fileShare = new SocketConnect(this.client.isLocal ? '' : this.client.room, this.client.name);
+    this.fileShare = socketConnect(this.client.isLocal ? '' : this.client.room, this.client.name);
     const { socket } = this.fileShare;
 
     this.visualizer.addNode({

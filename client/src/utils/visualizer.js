@@ -105,12 +105,8 @@ class Visualizer {
 
     anime({ targets: nodeData, radius: 30 });
 
-    const nodeDuplID = this.nodes.findIndex(node => node.name === name);
-
-    if (nodeDuplID > -1)
-      this.nodes[nodeDuplID] = nodeData;
-    else
-      this.nodes.push(nodeData);
+    // Always push new node data as duplicates are handled by caller
+    this.nodes.push(nodeData);
 
     if (!pos) this.updateAllPos();
   }
@@ -120,17 +116,17 @@ class Visualizer {
    * @param {String} name Identifier of the node
    */
   removeNode(name) {
-    const nodeDuplID = this.nodes.findIndex(node => node.name === name);
+    const nodeIdx = this.nodes.findIndex(node => node.name === name);
 
-    if (nodeDuplID > -1) {
+    if (nodeIdx > -1) {
       const anim = anime({
-        targets: this.nodes[nodeDuplID],
+        targets: this.nodes[nodeIdx],
         radius: 15,
       });
 
       // Remove the node after 1/10th of animation has completed
       setTimeout(() => {
-        this.nodes.splice(nodeDuplID, 1);
+        this.nodes.splice(nodeIdx, 1);
         this.updateAllPos();
       }, anim.duration / 10);
     }
@@ -138,9 +134,9 @@ class Visualizer {
 
 
   /**
-   * Adds the sender client
-   * @param {String[]} name Name of the client who is sending the files
-   * @param {Number} percentage Completed file transfer percentage
+   * Starts visualizing file transfer
+   * @param {Array} sentTo ids of nodes to which files are being sent
+   * @param {Array} receivedBy ids of nodes from which files are being received
    */
   startSharing(sentTo, receivedBy) {
 
