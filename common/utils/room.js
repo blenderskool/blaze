@@ -1,3 +1,7 @@
+import { rooms } from '../../server/sockets';
+import log from '../../server/utils/log';
+import constants from '../constants';
+
 class Room {
   constructor(name) {
     this.sockets = [];
@@ -16,8 +20,21 @@ class Room {
   }
 
   removeSocket(socket) {
+    const totalSockets = this.sockets.length;
     this.sockets = this.sockets.filter(client => client.name !== socket.name);
+    const totalSocketsAfterRemove = this.sockets.length;
+
+    // Requested socket for deletion was not there, hence rest of the operation is terminated
+    if (totalSockets === totalSocketsAfterRemove) return;
+    
+    log(`${socket.name} has left ${this.name}`);
     this.informWatchers();
+
+    if (this.sockets.length) {
+      this.broadcast(constants.USER_LEAVE, socket.name, [ socket.name ]);
+    } else if (!this.watchers.length) {
+      delete rooms[this.name];
+    }
   }
 
   removeWatcher(watcher) {
