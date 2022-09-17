@@ -4,6 +4,10 @@
   box-sizing: border-box;
 }
 
+html,body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Helvetica,Arial,sans-serif
+}
+
 body, input, button {
   font-family: $font;
   color: $white;
