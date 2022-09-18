@@ -1,6 +1,6 @@
 import { h } from 'preact';
 import { useState } from 'preact/hooks';
-import Footer from '../Pages/components/Footer/Footer';
+import Footer from '../../Pages/components/Footer/Footer';
 
 function NewUser({ onRegister }) {
   const [username, setUsername] = useState('');
