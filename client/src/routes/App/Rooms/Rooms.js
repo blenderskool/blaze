@@ -13,6 +13,12 @@ import Footer from '../../Pages/components/Footer/Footer';
 
 import './Rooms.scss';
 
+const resetAll = () => {
+  localStorage.setItem('blaze', '{"user":{"name":""}}');
+  useState(0);
+  globalThis.location = '/app/?x=' + Math.random()
+}
+
 function NewRoomModal({ onNewRoom, ...props }) {
   const [room, setRoom] = useState();
   const [getInstantRoom, { loading: isLoading }] = useInstantRoom((room) => {
@@ -89,12 +95,6 @@ function Rooms({ isOnline }) {
 
     localStorage.setItem('blaze', JSON.stringify(data));
   };
-
-  const resetAll = () => {
-    localStorage.setItem('blaze', '{"user":{"name":""}}');
-    useState(0);
-    globalThis.location = '/app/?x=' + Math.random()
-  }
   
   useEffect(() => {
     document.title = 'App | Blaze';
