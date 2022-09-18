@@ -27,14 +27,14 @@ function Header() {
           <path d="M6.21117 22.3973C6.21117 24.1279 4.82076 25.5309 3.10559 25.5309C1.39042 25.5309 0 24.1279 0 22.3973C0 20.6666 1.39042 19.2636 3.10559 19.2636C4.82076 19.2636 6.21117 20.6666 6.21117 22.3973Z" fill="#3BE8B0" />
           <path d="M8.79916 41.7213C8.79916 43.4519 7.40875 44.8549 5.69358 44.8549C3.97841 44.8549 2.58799 43.4519 2.58799 41.7213C2.58799 39.9906 3.97841 38.5877 5.69358 38.5877C7.40875 38.5877 8.79916 39.9906 8.79916 41.7213Z" fill="#3BE8B0" />
           <path d="M30.7971 19.2636C30.7971 20.9943 29.4067 22.3973 27.6915 22.3973C25.9763 22.3973 24.5859 20.9943 24.5859 19.2636C24.5859 17.533 25.9763 16.13 27.6915 16.13C29.4067 16.13 30.7971 17.533 30.7971 19.2636Z" fill="#3BE8B0" />
-        </svg><span style="position:relative;left:-60px;font-size:32px;color:#2AAF84">Blazr</span>
+        </svg><span style="position:relative;left:-70px;font-size:32px">Blazr</span>
       </a>
       
       <button class="thin icon mobile-menu" onClick={toggleMenu} aria-label="Toggle Menu">
          {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
       </button>
       <nav style={{ display: isMenuOpen ? 'flex' : 'none' }}>
-        <Link activeClassName="active" href="/how-it-works" style="color:#2AAF84">How it works</Link>
+        <Link activeClassName="active" href="/how-it-works">How it works</Link>
       </nav>
     </header>
   );
