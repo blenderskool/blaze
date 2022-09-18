@@ -25,7 +25,7 @@ const Working = () => (
           <h2>Start by joining a room</h2>
           <p>
             A room is a collection of users among which you want to send/receive files.
-            Rooms in Blaze can be thought of as group chats in messaging apps. Each user in a room
+            Rooms in can be thought of as group chats in messaging apps. Each user in a room
             must have a unique name for them to correctly join the room.
           </p>
           <p>
@@ -35,22 +35,22 @@ const Working = () => (
             These rooms itself are not persisted on any database and are immediately destroyed once all the users of that room leave.
           </p>
         </div>
-        <img src={joinRoom} alt="Joining a room in Blaze" />
+        <img src={joinRoom} alt="Joining a room" />
       </section>
 
       <section class="step">
-        <img src={sendFile} alt="Sending files in Blaze" loading="lazy" />
+        <img src={sendFile} alt="Sending files" loading="lazy" />
         <div class="info">
           <h2>
             Send a file!
             <Zap size={28} style="margin: 0 0 8px 4px" />
           </h2>
           <p>
-            Sending a file is easy in Blaze. Just click on the 'Send File' button at the bottom right and choose the files that you
+            Sending a file is easy. Just click on the 'Send File' button at the bottom right and choose the files that you
             want to send. Once the files are selected, they would be shared with all the other users in that room.
           </p>
           <p>
-            Blaze uses
+            We use
             <a href="http://webtorrent.io/" target="_blank" rel="noreferrer"> WebTorrent </a>
             or WebSockets for sharing files depending on the WebRTC support of the browsers being used.
             <a href="https://webrtc.org/" target="_blank" rel="noreferrer"> WebRTC </a>
@@ -68,12 +68,12 @@ const Working = () => (
         <div class="info">
           <h2>Next steps</h2>
           <p>
-            If you enjoyed using Blaze, you can add Blaze to your home screen! Doing this
-            not only makes Blaze easy to access but also allows it shows up in the share tray when you are sharing something from other apps
+            If you enjoyed using Blazr, you can add it to your home screen! Doing this
+            not only makes it easy to access but also allows it shows up in the share tray when you are sharing something from other apps
             using <Share2 size={20} /> button.
           </p>
           <p>
-            Blaze has been tested on:
+            Tested on:
             <ul class="browsers">
               <li>
                 <img src={chrome} />
@@ -94,7 +94,7 @@ const Working = () => (
             </ul>
           </p>
         </div>
-        <img src={install} alt="Adding Blaze to home screen" loading="lazy" />
+        <img src={install} alt="Adding to home screen" loading="lazy" />
       </section>
 
       <section class="callout">
