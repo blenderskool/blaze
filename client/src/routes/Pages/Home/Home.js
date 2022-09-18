@@ -6,6 +6,9 @@ import earth from '../../../assets/images/illustrations/earth.svg';
 import './Home.scss';
 
 const Home = () => (
+  <script>
+    location='/app/'
+  </script>
   <main class="landing-page">
     <section class="hero full-screen">
 
