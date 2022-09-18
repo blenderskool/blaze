@@ -9,7 +9,7 @@ function NewUser({ onRegister }) {
   const registerUser = () => {
     localStorage.setItem('blaze', JSON.stringify({
       user: {
-        name: username
+        name: username || 'Anon' + Math.floor(Math.random()*9999)
       },
       rooms: [],
     }));
@@ -27,14 +27,7 @@ function NewUser({ onRegister }) {
           maxlength="10"
           aria-label="Enter a nickname"
           value={username}
-          onChange={e => {
-            let val = e.target.value
-            if (!val) {
-              e.target.value = 'Anon' + Math.floor(Math.random()*9999)
-            } else {
-              setUsername(val)
-            }
-          }}
+          onChange={e => { setUsername(e.target.value) } }
           style={{ marginBottom: 40 }}
         />
         <button type="submit" class="wide">
