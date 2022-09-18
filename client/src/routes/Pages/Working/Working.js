@@ -14,7 +14,7 @@ const Working = () => (
   <main class="how-it-works">
     <section class="hero">
       <div>
-        <h1 class="title">How Blaze works</h1>
+        <h1 class="title">How this works</h1>
         <h2 class="subtitle">Designed to work on any device, anywhere!</h2>
       </div>
     </section>
