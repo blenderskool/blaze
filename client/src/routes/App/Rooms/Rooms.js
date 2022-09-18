@@ -140,7 +140,7 @@ function Rooms({ isOnline }) {
                       }
                     </ul>
                     <div class="donate">
-                      <a href="#" onclick="localStorage.clear(); location='/app/">Clear everything (user and rooms)</a>
+                      <a href="/" onclick="localStorage.clear(); alert('cleared')">Clear everything (user &amp; rooms)</a>
                     </div>
                   </>
                 ) : (
