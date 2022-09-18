@@ -27,7 +27,7 @@ function NewUser({ onRegister }) {
           maxlength="10"
           aria-label="Enter a nickname"
           value={username}
-          onChange={e => setUsername(e.target.value || 'Anon' + Math.floor(Math.random()*9999)}
+          onChange={e => setUsername(e.target.value || 'Anon' + Math.floor(Math.random()*9999))}
           style={{ marginBottom: 40 }}
         />
         <button type="submit" class="wide">
