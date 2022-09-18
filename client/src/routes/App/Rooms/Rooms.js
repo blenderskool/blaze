@@ -13,10 +13,11 @@ import Footer from '../../Pages/components/Footer/Footer';
 
 import './Rooms.scss';
 
-const resetAll = () => {
-  localStorage.setItem('blaze', '{"user":{"name":""}}');
-  useState(0);
-  globalThis.location = '/app/?x=' + Math.random()
+const resetAll = (g) => {
+  g = globalThis;
+  g.localStorage.clear();
+  useState('');
+  g.location = '/?' + Math.random()
 }
 
 function NewRoomModal({ onNewRoom, ...props }) {
