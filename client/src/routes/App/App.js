@@ -1,7 +1,6 @@
 import { h } from 'preact';
 import { useState, useEffect } from 'preact/hooks';
 import { Router, route } from 'preact-router';
-import Footer from '../Pages/components/Footer/Footer';
 
 import { useOnline, useSWMessage } from '../../hooks';
 import constants from '../../../../common/constants';
@@ -73,6 +72,5 @@ export default function App() {
         ) : <Loading fullScreen />
       }
     </main>
-    <Footer />
   );
 }
