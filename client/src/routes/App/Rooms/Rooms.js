@@ -8,6 +8,8 @@ import Fab from '../../../components/Fab/Fab';
 import Modal from '../../../components/Modal/Modal';
 import pluralize from '../../../utils/pluralize';
 import useInstantRoom from '../../../hooks/useInstantRoom';
+import Header from '../../Pages/components/Header/Header';
+import Footer from '../../Pages/components/Footer/Footer';
 
 import './Rooms.scss';
 
@@ -30,6 +32,7 @@ function NewRoomModal({ onNewRoom, ...props }) {
   return (
     <Modal {...props}>
       <div class="join-room">
+        <Header />
         <form onSubmit={handleSubmit}>
           <input
             type="text"
@@ -56,6 +59,7 @@ function NewRoomModal({ onNewRoom, ...props }) {
         <p class="instant-room-help">
           Tip: Instant Rooms are created just for you!
         </p>
+        <Footer />
       </div>
     </Modal>
   );
