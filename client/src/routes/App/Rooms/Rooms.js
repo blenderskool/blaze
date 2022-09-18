@@ -92,6 +92,8 @@ function Rooms({ isOnline }) {
 
   const resetAll = () => {
     localStorage.setItem('blaze', '{"user":{"name":""}}');
+    useState(0);
+    globalThis.location = '/app/?x=' + Math.random()
   }
   
   useEffect(() => {
@@ -147,7 +149,6 @@ function Rooms({ isOnline }) {
                       <a href="#" onClick={e => {
                         e.stopPropagation();
                         resetAll();
-                        location='/app/?x='+Math.random();
                       }}>Clear everything (user &amp; rooms)</a>
                     </div>
                   </>
