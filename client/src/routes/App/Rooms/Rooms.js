@@ -140,13 +140,13 @@ function Rooms({ isOnline }) {
                       }
                     </ul>
                     <div class="donate">
-                      <a onClick={e => {
+                      <button onClick={e => {
                         e.stopPropagation();
                         e = globalThis;
                         e.localStorage.clear();
                         useState('');
                         route('/done');
-                      }}>Clear everything (user &amp; rooms)</a>
+                      }}>Clear everything (user &amp; rooms)</button>
                     </div>
                   </>
                 ) : (
