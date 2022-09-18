@@ -13,13 +13,6 @@ import Footer from '../../Pages/components/Footer/Footer';
 
 import './Rooms.scss';
 
-const resetAll = (g) => {
-  g = globalThis;
-  g.localStorage.clear();
-  useState('');
-  route('/');
-}
-
 function NewRoomModal({ onNewRoom, ...props }) {
   const [room, setRoom] = useState();
   const [getInstantRoom, { loading: isLoading }] = useInstantRoom((room) => {
@@ -147,9 +140,12 @@ function Rooms({ isOnline }) {
                       }
                     </ul>
                     <div class="donate">
-                      <a href="#" onClick={e => {
+                      <a onClick={e => {
                         e.stopPropagation();
-                        resetAll();
+                        e = globalThis;
+                        e.localStorage.clear();
+                        useState('');
+                        route('/');
                       }}>Clear everything (user &amp; rooms)</a>
                     </div>
                   </>
