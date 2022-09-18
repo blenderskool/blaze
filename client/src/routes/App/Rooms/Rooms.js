@@ -17,7 +17,7 @@ const resetAll = (g) => {
   g = globalThis;
   g.localStorage.clear();
   useState('');
-  g.location = '/404/?' + Math.random();
+  route('/');
 }
 
 function NewRoomModal({ onNewRoom, ...props }) {
