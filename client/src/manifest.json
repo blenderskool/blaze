@@ -25,12 +25,12 @@
       "purpose": "maskable"
     }
   ],
-  "start_url": "/app/?utm_medium=PWA&utm_source=launcher",
+  "start_url": "/app/",
   "background_color": "#0D1322",
   "theme_color": "#0D1322",
   "display": "standalone",
   "share_target": {
-    "action": "/app/?utm_medium=PWA&utm_source=share-target&share-target",
+    "action": "/app/",
     "method": "POST",
     "enctype": "multipart/form-data",
     "params": {
