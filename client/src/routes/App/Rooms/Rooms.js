@@ -142,8 +142,11 @@ function Rooms({ isOnline }) {
                     <div class="donate">
                       <a href="#" onClick={e => {
                         e.stopPropagation();
+                        rooms.map(room => {
+                          removeRoom(room);
+                        })
                         localStorage.clear();
-                        location='/';
+                        location='/app/?x='+Math.random();
                       }}>Clear everything (user &amp; rooms)</a>
                     </div>
                   </>
