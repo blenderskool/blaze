@@ -22,13 +22,12 @@ function NewUser({ onRegister }) {
       <Header />
       <form class="new-user" onSubmit={registerUser}>
         <input
-          required
           type="text"
-          placeholder="Cool nickname"
+          placeholder="Nickname or blank for Anonymous"
           maxlength="10"
           aria-label="Enter a nickname"
           value={username}
-          onChange={e => setUsername(e.target.value)}
+          onChange={e => setUsername(e.target.value || 'Anon' + Math.floor(Math.random()*9999)}
           style={{ marginBottom: 40 }}
         />
         <button type="submit" class="wide">
