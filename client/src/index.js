@@ -17,6 +17,7 @@ export default function Blaze() {
   return (
     <div id="app">
       <Router onChange={handleRouteChange}>
+        <Route path="/" component={App} />
         <Route path="/:*?" component={Pages} />
         <Route path="/app/:*?" component={App} />
       </Router>
