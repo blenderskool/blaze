@@ -73,6 +73,6 @@ export default function App() {
         ) : <Loading fullScreen />
       }
     </main>
-    <footer />
+    <Footer />
   );
 }
