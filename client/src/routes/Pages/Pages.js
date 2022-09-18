@@ -13,14 +13,14 @@ export default function Pages() {
 
   return (
     <div class="page-container">
-      <Header />
+      <div style="position:absolute;top:0px"><Header /></div>
       <Router>
         <Home path="/" />
         <Working path="/how-it-works" />
         <FourOFour path="/404" />
         <RedirectToFourOFour default />
       </Router>
-      <Footer />
+      <div style="position:absolute;bottom:0px"><Footer /></div>
     </div>
   );
 }
