@@ -1,5 +1,6 @@
 import { h } from 'preact';
 import { useState } from 'preact/hooks';
+import Header from '../../Pages/components/Header/Header';
 import Footer from '../../Pages/components/Footer/Footer';
 
 function NewUser({ onRegister }) {
@@ -18,6 +19,7 @@ function NewUser({ onRegister }) {
 
   return (
     <main style={{ margin: 'auto' }}>
+      <Header />
       <form class="new-user" onSubmit={registerUser}>
         <input
           required
