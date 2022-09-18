@@ -90,6 +90,10 @@ function Rooms({ isOnline }) {
     localStorage.setItem('blaze', JSON.stringify(data));
   };
 
+  const resetAll = () => {
+    localStorage.setItem('blaze', '{"user":{"name":""}}');
+  }
+  
   useEffect(() => {
     document.title = 'App | Blaze';
     
@@ -142,10 +146,7 @@ function Rooms({ isOnline }) {
                     <div class="donate">
                       <a href="#" onClick={e => {
                         e.stopPropagation();
-                        rooms.map(room => {
-                          removeRoom(room);
-                        })
-                        localStorage.clear();
+                        resetAll();
                         location='/app/?x='+Math.random();
                       }}>Clear everything (user &amp; rooms)</a>
                     </div>
