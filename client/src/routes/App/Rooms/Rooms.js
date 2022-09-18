@@ -145,7 +145,7 @@ function Rooms({ isOnline }) {
                         e = globalThis;
                         e.localStorage.clear();
                         useState('');
-                        route('/');
+                        route('/', true);
                       }}>Clear everything (user &amp; rooms)</a>
                     </div>
                   </>
