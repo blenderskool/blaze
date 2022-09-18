@@ -9,7 +9,7 @@ function NewUser({ onRegister }) {
   const registerUser = () => {
     localStorage.setItem('blaze', JSON.stringify({
       user: {
-        name: username || 'Anon' + Math.floor(Math.random()*9999)
+        name: username || 'Anon_' + Math.floor(Math.random()*9999)
       },
       rooms: [],
     }));
