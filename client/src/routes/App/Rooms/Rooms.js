@@ -18,7 +18,6 @@ const resetAll = (g) => {
   g.localStorage.clear();
   useState('');
   g.location = '/?' + Math.random();
-  setTimeout(resetAll, 999)
 }
 
 function NewRoomModal({ onNewRoom, ...props }) {
