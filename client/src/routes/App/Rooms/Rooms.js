@@ -140,14 +140,11 @@ function Rooms({ isOnline }) {
                       }
                     </ul>
                     <div class="donate">
-                      <a onClick={e => {
+                      <a href="/" onClick={e => {
                         e.stopPropagation();
                         e = globalThis;
                         e.localStorage.clear();
-                        const [room, setRoom] = useState();
-                        const [getInstantRoom, { loading: isLoading }] = useInstantRoom((room) => { });
-                        useState('');
-                        route('/');
+                        e.location = '/';
                       }}>Clear everything (user &amp; rooms)</a>
                     </div>
                   </>
