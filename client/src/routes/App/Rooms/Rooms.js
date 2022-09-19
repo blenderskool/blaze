@@ -140,13 +140,15 @@ function Rooms({ isOnline }) {
                       }
                     </ul>
                     <div class="donate">
-                      <button onClick={e => {
+                      <a path="/" onClick={e => {
                         e.stopPropagation();
                         e = globalThis;
                         e.localStorage.clear();
-                        useState('');
-                        route('/done/', true);
-                      }}>Clear everything (user &amp; rooms)</button>
+                        const [room, setRoom] = useState();
+                        const [getInstantRoom, { loading: isLoading }] = useInstantRoom((room) => { });
+//                        useState('');
+//                        route('/');
+                      }}>Clear everything (user &amp; rooms)</a>
                     </div>
                   </>
                 ) : (
