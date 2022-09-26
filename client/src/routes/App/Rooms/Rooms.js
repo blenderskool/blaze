@@ -51,7 +51,7 @@ function NewRoomModal({ onNewRoom, ...props }) {
         <button class="outlined wide" onClick={getInstantRoom} disabled={isLoading}>
           <Loader size={18} />
           &nbsp;&nbsp;
-          { isLoading ? 'Joining' : 'Join an Instant Room' }
+          { isLoading ? 'Joining' : 'Join Instant Room' }
         </button>
         <p class="instant-room-help">
           Tip: Instant Rooms are created just for you!
