@@ -47,7 +47,7 @@ function NewRoomModal({ onNewRoom, ...props }) {
             Join Room
           </button>
         </form>
-        <hr />
+        <hr class="divider" />
         <p class="instant-room-help">
           Instant Rooms are easy to remember room names that don't clash with existing room names.
         </p>

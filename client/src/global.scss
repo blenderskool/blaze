@@ -4,6 +4,10 @@
 * {
   box-sizing: border-box;
 }
+::selection {
+  background-color: rgba($primary, 0.7);
+  color: $bg;
+}
 
 .h-full {
   height: 100%;
@@ -85,6 +89,12 @@ button {
     width: 100%;
   }
 
+  &.small {
+    padding: 0 18px;
+    height: 36px;
+    font-size: 1.125rem;
+  }
+
   &.thin {
     background-color: transparent;
     box-shadow: none;
@@ -163,4 +173,11 @@ img, svg {
 .fade-exit.fade-exit-active {
   opacity: 0;
   transition: all 200ms ease-out;
+}
+
+.divider {
+  border: none;
+  height: 1px;
+  background-color: rgba($secondary, 0.6);
+  margin: 30px 25%;
 }
