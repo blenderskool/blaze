@@ -1,33 +1,24 @@
 import { h } from 'preact';
-import { useState } from 'preact/hooks';
+import { createLocalStorageDispatch } from 'react-localstorage-hooks';
+import NicknameInput from '../../../components/NicknameInput/NicknameInput';
 
-function NewUser({ onRegister }) {
-  const [username, setUsername] = useState('');
+const registerUser = createLocalStorageDispatch('blaze', (state, e) => {
+  e.preventDefault();
+  const formData = new FormData(e.target);
 
-  const registerUser = () => {
-    localStorage.setItem('blaze', JSON.stringify({
-      user: {
-        name: username
-      },
-      rooms: [],
-    }));
-
-    onRegister();
+  return {
+    user: {
+      name: formData.get('nickname'),
+    },
+    rooms: [],
   };
+});
 
+function NewUser() {
   return (
     <main className="app-container" style={{ justifyContent: 'center' }}>
       <form onSubmit={registerUser} style={{ margin: 'auto' }}>
-        <input
-          required
-          type="text"
-          placeholder="Cool nickname"
-          maxlength="10"
-          aria-label="Enter a nickname"
-          value={username}
-          onChange={e => setUsername(e.target.value)}
-          style={{ marginBottom: 40 }}
-        />
+        <NicknameInput input={{ style: { marginBottom: 40 } }} />
         <button type="submit" class="btn wide">
           Continue
         </button>
