@@ -1,18 +1,19 @@
-import { h } from 'preact';
-import { useState, useEffect } from 'preact/hooks';
 import { route } from 'preact-router';
+import { useEffect, useState } from 'preact/hooks';
+import { createLocalStorageDispatch, useLocalStorageSelector } from 'react-localstorage-hooks';
 
-import { useOnline, useSWMessage } from '../../hooks';
 import constants from '../../../../common/constants';
-import { QueuedFiles } from './contexts/QueuedFiles';
+import Loading from '../../components/Loading/Loading';
+import { TransitionRoute, TransitionRouter } from '../../components/TransitionRouter';
+import { useOnline, useSWMessage } from '../../hooks';
+import { RedirectToFourOFour } from '../Pages/FourOFour/FourOFour';
 import { PWAInstallProvider } from './contexts/PWAInstall';
-import Rooms from './Rooms/Rooms';
-import NewUser from './NewUser/NewUser';
+import { QueuedFiles } from './contexts/QueuedFiles';
 import FileTransfer from './FileTransfer/FileTransfer';
 import JoinInstantRoom from './JoinInstantRoom/JoinInstantRoom';
-import { RedirectToFourOFour } from '../Pages/FourOFour/FourOFour';
-import Loading from '../../components/Loading/Loading';
-import { TransitionRouter, TransitionRoute } from '../../components/TransitionRouter';
+import NewUser from './NewUser/NewUser';
+import Rooms from './Rooms/Rooms';
+import Settings from './Settings/Settings';
 
 import './app.scss';
 
@@ -23,16 +24,16 @@ const updateLocalStorageSchema = () => {
     data.rooms = data.rooms.map(room => typeof room === 'string' ? ({ name: room, lastJoin: new Date().getTime() }) : room);
   };
 
-  const data = JSON.parse(window.localStorage.getItem('blaze'));
-  v2Converter(data);
-
-  window.localStorage.setItem('blaze', JSON.stringify(data));
+  createLocalStorageDispatch('blaze', (data) => {
+    v2Converter(data);
+    return data;
+  })();
 };
 
 
 export default function App() {
   const [isLoaded, setLoaded] = useState(false);
-  const [isRegistered, setRegistered] = useState(typeof window !== 'undefined' ? !!window.localStorage.getItem('blaze') : true);
+  const isRegistered = useLocalStorageSelector('blaze', (state) => !!state);
   const isOnline = useOnline();
   const [queuedFiles, setQueuedFiles] = useSWMessage([], constants.SW_LOAD_FILES);
 
@@ -66,9 +67,7 @@ export default function App() {
   }, [isRegistered, isOnline]);
 
 
-  if (!isRegistered) {
-    return <NewUser onRegister={() => setRegistered(true)} />;
-  }
+  if (!isRegistered) return <NewUser />;
 
   return isLoaded ? (
     <QueuedFiles.Provider value={{ queuedFiles, setQueuedFiles }}>
@@ -79,6 +78,9 @@ export default function App() {
           </TransitionRoute>
           <TransitionRoute key="file-transfer" path="/app/t/:room?">
             <FileTransfer />
+          </TransitionRoute>
+          <TransitionRoute key="settings" path="/app/settings">
+            <Settings />
           </TransitionRoute>
           <TransitionRoute key="instant-room" path="/app/instant/join">
             <JoinInstantRoom />
