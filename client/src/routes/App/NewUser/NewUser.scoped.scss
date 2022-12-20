@@ -1,0 +1,41 @@
+@import '../../../scss/variables';
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  max-width: 31rem;
+  margin: 0 auto;
+  overflow-x: hidden;
+}
+
+.brand {
+  margin-top: 2rem;
+  filter: drop-shadow(0 0 20px rgba($primary, 0.5));
+}
+
+.network-img {
+  mask-image: linear-gradient(to bottom, black 15%, transparent 70%);
+  max-width: 110%;
+  margin: 1rem 0 0 3rem;
+}
+
+.register-info {
+  margin-top: -6rem;
+
+  p {
+    color: $secondary;
+  }
+}
+
+.register-form {
+  margin-top: 2rem;
+}
+
+@media screen and (max-width: $tablet) {
+  .network-img {
+    max-width: 130%;
+    margin-top: 1rem;
+  }
+}
