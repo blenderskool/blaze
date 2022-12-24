@@ -1,10 +1,16 @@
 import { route } from 'preact-router';
 import { useEffect, useState } from 'preact/hooks';
-import { createLocalStorageDispatch, useLocalStorageSelector } from 'react-localstorage-hooks';
+import {
+  createLocalStorageDispatch,
+  useLocalStorageSelector,
+} from 'react-localstorage-hooks';
 
 import constants from '../../../../common/constants';
 import Loading from '../../components/Loading/Loading';
-import { TransitionRoute, TransitionRouter } from '../../components/TransitionRouter';
+import {
+  TransitionRoute,
+  TransitionRouter,
+} from '../../components/TransitionRouter';
 import { useOnline, useSWMessage } from '../../hooks';
 import { RedirectToFourOFour } from '../Pages/FourOFour/FourOFour';
 import { PWAInstallProvider } from './contexts/PWAInstall';
@@ -14,6 +20,7 @@ import JoinInstantRoom from './JoinInstantRoom/JoinInstantRoom';
 import NewUser from './NewUser/NewUser';
 import Rooms from './Rooms/Rooms';
 import Settings from './Settings/Settings';
+import Support from './Support/Support';
 
 import './app.scss';
 
@@ -21,7 +28,11 @@ const updateLocalStorageSchema = () => {
   if (typeof window === 'undefined') return;
 
   const v2Converter = (data) => {
-    data.rooms = data.rooms.map(room => typeof room === 'string' ? ({ name: room, lastJoin: new Date().getTime() }) : room);
+    data.rooms = data.rooms.map((room) =>
+      typeof room === 'string'
+        ? { name: room, lastJoin: new Date().getTime() }
+        : room
+    );
   };
 
   createLocalStorageDispatch('blaze', (data) => {
@@ -30,12 +41,14 @@ const updateLocalStorageSchema = () => {
   })();
 };
 
-
 export default function App() {
   const [isLoaded, setLoaded] = useState(false);
   const isRegistered = useLocalStorageSelector('blaze', (state) => !!state);
   const isOnline = useOnline();
-  const [queuedFiles, setQueuedFiles] = useSWMessage([], constants.SW_LOAD_FILES);
+  const [queuedFiles, setQueuedFiles] = useSWMessage(
+    [],
+    constants.SW_LOAD_FILES
+  );
 
   /* Mount specific effects */
   useEffect(() => {
@@ -50,13 +63,16 @@ export default function App() {
 
     const scriptjs = require('scriptjs');
 
-    scriptjs([
-      'https://unpkg.com/canvas-elements/build/cdn/canvas-elements.min.js',
-      'https://cdn.jsdelivr.net/npm/webtorrent@0.108.6/webtorrent.min.js',
-    ], () => {
-      updateLocalStorageSchema();
-      setLoaded(true);
-    });
+    scriptjs(
+      [
+        'https://unpkg.com/canvas-elements/build/cdn/canvas-elements.min.js',
+        'https://cdn.jsdelivr.net/npm/webtorrent@0.108.6/webtorrent.min.js',
+      ],
+      () => {
+        updateLocalStorageSchema();
+        setLoaded(true);
+      }
+    );
   }, [isRegistered]);
 
   /* Changing route when offline */
@@ -65,7 +81,6 @@ export default function App() {
       route('/app', true);
     }
   }, [isRegistered, isOnline]);
-
 
   if (!isRegistered) return <NewUser />;
 
@@ -82,6 +97,9 @@ export default function App() {
           <TransitionRoute key="settings" path="/app/settings">
             <Settings />
           </TransitionRoute>
+          <TransitionRoute key="support" path="/app/support">
+            <Support />
+          </TransitionRoute>
           <TransitionRoute key="instant-room" path="/app/instant/join">
             <JoinInstantRoom />
           </TransitionRoute>
@@ -91,5 +109,7 @@ export default function App() {
         </TransitionRouter>
       </PWAInstallProvider>
     </QueuedFiles.Provider>
-  ) : <Loading fullScreen />;
+  ) : (
+    <Loading fullScreen />
+  );
 }
