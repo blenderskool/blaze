@@ -16,13 +16,13 @@
 }
 
 .network-img {
-  mask-image: linear-gradient(to bottom, black 15%, transparent 70%);
+  mask-image: linear-gradient(to bottom, black 15%, transparent 65%);
   max-width: 110%;
-  margin: 1rem 0 0 3rem;
+  margin: 0.5rem 0 0 3rem;
 }
 
 .register-info {
-  margin-top: -6rem;
+  margin-top: -6.5rem;
 
   p {
     color: $secondary;
