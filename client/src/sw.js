@@ -39,7 +39,7 @@ registerRoute(
 registerRoute(
   ({ url }) => (
     url.pathname.endsWith('canvas-elements.min.js') ||
-    url.pathname.endsWith('webtorrent@0.108.6/webtorrent.min.js')
+    url.pathname.endsWith('webtorrent@1.9.6/webtorrent.min.js')
   ),
   new CacheFirst({
     cacheName: 'blaze-resources',
