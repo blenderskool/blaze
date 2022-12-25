@@ -2,21 +2,20 @@
 @import '../../../../scss/mixins';
 
 .app-landing-container {
-  padding-bottom: 8rem;
+  padding-bottom: 7rem;
 }
 
 .app-header {
-
   .title-nav-wrapper {
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
-  
+
   .title {
-    white-space: nowrap;;
+    white-space: nowrap;
     text-overflow: ellipsis;
-    overflow-x: hidden
+    overflow-x: hidden;
   }
 
   .subtitle {
@@ -43,7 +42,6 @@
     }
   }
 }
-
 
 .nav-item {
   display: flex;
@@ -81,11 +79,11 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-  
+
     &.active {
       color: $primary;
     }
-  
+
     .label {
       margin-top: 0.25rem;
       margin-left: 0;
@@ -102,11 +100,11 @@
     display: none;
   }
 
-  .app-header .nav .nav-item{
+  .app-header .nav .nav-item {
     svg {
       width: 20px;
     }
-    
+
     .label {
       display: initial;
     }

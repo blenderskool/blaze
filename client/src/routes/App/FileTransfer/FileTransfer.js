@@ -514,7 +514,7 @@ class FileTransfer extends PureComponent {
                 <div class="share-room-link">
                   <input value={window.location.href} disabled />
                   <button class="btn outlined share-link" onClick={navigator.share ? this.handleShare :this.copyLink}>
-                    {navigator.share ? 'Share room link' : 'Copy room link'}
+                    {navigator.share ? 'Share link' : 'Copy link'}
                   </button>
                   <button class="btn outlined qrcode" onClick={() => this.toggleQRCodeModal(true)} ariaLabel="Show QR Code of this room">
                     <QRCode />
