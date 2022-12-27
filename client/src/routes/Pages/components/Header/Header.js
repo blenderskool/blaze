@@ -41,7 +41,9 @@ function Header() {
           GitHub&nbsp;
           <Github size={16} style="margin-bottom: 4px" />
         </a>
-        <a href="https://www.buymeacoffee.com/akashhamirwasia">Donate</a>
+        <a href="https://github.com/sponsors/blenderskool" target="_blank">
+          Sponsor me!
+        </a>
         <a
           class="ph-desktop"
           href="https://www.producthunt.com/posts/blaze-2?utm_source=badge-top-post-badge&utm_medium=badge&utm_souce=badge-blaze-2"
