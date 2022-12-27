@@ -13,6 +13,7 @@ import getIp from './utils/get-ip';
 
 const CORS_ORIGIN = process.env.ORIGIN ? JSON.parse(process.env.ORIGIN) : '*';
 const PORT = process.env.PORT || 3030;
+const DISABLE_SSE_EVENTS = Boolean(process.env.DISABLE_SSE_EVENTS) || false;
 
 const app = express();
 app.set('trust proxy', true);
@@ -34,6 +35,13 @@ app.get('/', (_, res) => {
 });
 
 app.get('/sse/local-peers', (req, res) => {
+  /**
+   * When SSE is disabled, this endpoint exits immediately with no results.
+   * One can also return the current state of peers in the local room but
+   * it won't auto update as the connection is not long-lived.
+   */
+  if (DISABLE_SSE_EVENTS) return res.json([]);
+
   const ip = getIp(req);
 
   const headers = {

@@ -87,6 +87,7 @@ Following environment variables can be set in the build process:
 | `ORIGIN`             | Array of string URLs to allow CORS.                                   | *                               |
 | `PORT`               | Port for the server to run.                                           | 3030                            |
 | `WS_SIZE_LIMIT`      | Max file size limit when transferring files over WebSockets in bytes. | 100000000 (100 MBs)             |
+| `DISABLE_SSE_EVENTS` | Disable server side events to reduce long-lived connections.          | false                           |
 ----------------------------------------------------------------------------------------------------------------------------------
 
 **NOTE:** Any URL in the environment variables should not end with `/`.
