@@ -9,6 +9,7 @@ import log from './utils/log';
 import instantRoom from './instantRoom';
 import { wss, rooms } from './sockets';
 import Room from '../common/utils/room';
+import getIp from './utils/get-ip';
 
 const CORS_ORIGIN = process.env.ORIGIN ? JSON.parse(process.env.ORIGIN) : '*';
 const PORT = process.env.PORT || 3030;
@@ -25,16 +26,15 @@ app.get('/', (_, res) => {
   res.send({
     message: 'Blaze WebSockets running',
     rooms: Object.keys(rooms).length,
-    peers: Object.values(rooms).reduce((sum, room) => sum + room.sockets.length, 0),
+    peers: Object.values(rooms).reduce(
+      (sum, room) => sum + room.sockets.length,
+      0
+    ),
   });
 });
 
-
-app.get('/local-peers', (req, res) => {
-  let ip = req.ip ?? req.connection.remoteAddress;
-  if (ip === '::1' || ip === '::ffff:127.0.0.1') {
-    ip = '127.0.0.1';
-  }
+app.get('/sse/local-peers', (req, res) => {
+  const ip = getIp(req);
 
   const headers = {
     'Content-Type': 'text/event-stream',
@@ -50,7 +50,7 @@ app.get('/local-peers', (req, res) => {
   }
   rooms[ip].addWatcher(watcher);
 
-  rooms[ip].informWatchers([ watcher ]);
+  rooms[ip].informWatchers([watcher]);
 
   req.on('close', () => {
     const room = rooms[ip];
@@ -69,10 +69,13 @@ app.get('/rooms/:roomName/qrcode', async (req, res) => {
 
   try {
     const { origin } = new URL(clientUrl);
-    const qrcode = await QRCode.toString(`${origin}/app/t/${req.params.roomName}`, { type: 'svg' });
+    const qrcode = await QRCode.toString(
+      `${origin}/app/t/${req.params.roomName}`,
+      { type: 'svg' }
+    );
     res.type('svg');
     res.send(qrcode);
-  } catch(e) {
+  } catch (e) {
     res.status(400).send('Bad Request');
   }
 });
@@ -84,14 +87,14 @@ server.on('upgrade', (request, socket, head) => {
   if (CORS_ORIGIN === '*') {
     allowed = true;
   } else if (Array.isArray(CORS_ORIGIN)) {
-    for(const o of CORS_ORIGIN) {
+    for (const o of CORS_ORIGIN) {
       if (o === origin) {
         allowed = true;
         break;
       }
     }
   }
-  
+
   if (!allowed) {
     socket.write('HTTP/1.1 401 Unauthorized\r\n\r\n');
     socket.destroy();

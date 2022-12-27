@@ -4,10 +4,11 @@ import log from './utils/log';
 import Socket from '../common/utils/socket';
 import Room from '../common/utils/room';
 import constants from '../common/constants';
+import getIp from './utils/get-ip';
 
 const WS_SIZE_LIMIT = process.env.WS_SIZE_LIMIT || 1e8;
-const SOCKET_ALIVE_PONG_TIMEOUT = 5 * 1000;             // 5 seconds
-const RECHECK_ALIVE_SOCKETS_INTERVAL = 30 * 1000;       // 30 seconds
+const SOCKET_ALIVE_PONG_TIMEOUT = 5 * 1000; // 5 seconds
+const RECHECK_ALIVE_SOCKETS_INTERVAL = 30 * 1000; // 30 seconds
 
 const wss = new WebSocket.Server({ noServer: true });
 const rooms = {};
@@ -16,41 +17,40 @@ const rooms = {};
  * Checks if a user's socket is active by sending a PING and
  * anticipating a PONG response within SOCKET_ALIVE_PONG_TIMEOUT
  * seconds from the user.
- * 
+ *
  * @param {string} room Room name
  * @param {Socket} user User socket to check if it is active
  * @returns {Promise} Promise that resolves if user is active otherwise rejects
  */
-const isUserAlive = (room, user) => new Promise((resolve, reject) => {
-  let timeoutId = setTimeout(() => {
-    timeoutId = null;
-    room.removeSocket(user);
-    reject();
-  }, SOCKET_ALIVE_PONG_TIMEOUT);
-  
-  user.socket.on('pong', () => {
-    if (timeoutId === null) return;
+const isUserAlive = (room, user) =>
+  new Promise((resolve, reject) => {
+    let timeoutId = setTimeout(() => {
+      timeoutId = null;
+      room.removeSocket(user);
+      reject();
+    }, SOCKET_ALIVE_PONG_TIMEOUT);
 
-    clearTimeout(timeoutId);
-    resolve();
+    user.socket.on('pong', () => {
+      if (timeoutId === null) return;
+
+      clearTimeout(timeoutId);
+      resolve();
+    });
+
+    log(
+      `Checking if ${user.name} is alive. Someone with same name is trying to join`
+    );
+    user.socket.ping();
   });
-  
-  log(`Checking if ${user.name} is alive. Someone with same name is trying to join`);
-  user.socket.ping();
-});
 
 wss.on('connection', (ws, request) => {
   ws.isAlive = true;
 
-  let ip = request.headers['x-forwarded-for']?.split(',').shift() ?? request.socket?.remoteAddress;
-  // localhost is referred to differently in IPv4 and IPv6
-  if (ip === '::1' || ip === '::ffff:127.0.0.1') {
-    ip = '127.0.0.1';
-  }
+  const ip = getIp(request);
 
   const socket = new Socket(ws, ip);
   let room;
-  
+
   socket.listen(constants.JOIN, async (data) => {
     let { roomName, name, peerId } = data;
     socket.name = name;
@@ -94,7 +94,7 @@ wss.on('connection', (ws, request) => {
     room.broadcast(constants.USER_JOIN, room.socketsData);
   });
 
-  socket.on('close', data => {
+  socket.on('close', (data) => {
     if (data.reason === constants.ERR_SAME_NAME) return;
     if (!room) return;
 
@@ -117,7 +117,7 @@ wss.on('connection', (ws, request) => {
     }
 
     room.sender = socket.name;
-    room.broadcast(constants.FILE_INIT, data, [ socket.name ]);
+    room.broadcast(constants.FILE_INIT, data, [socket.name]);
   });
 
   socket.listen(constants.FILE_STATUS, (data) => {
@@ -129,17 +129,17 @@ wss.on('connection', (ws, request) => {
   });
 
   socket.listen(constants.CHUNK, (data) => {
-    room.broadcast(constants.CHUNK, data, [ room.sender ]);
+    room.broadcast(constants.CHUNK, data, [room.sender]);
   });
 
   socket.listen(constants.FILE_TORRENT, (data) => {
-    room.broadcast(constants.FILE_TORRENT, data, [ socket.name ]);
+    room.broadcast(constants.FILE_TORRENT, data, [socket.name]);
   });
 });
 
 const interval = setInterval(() => {
-  log("Checking alive sockets");
-  wss.clients.forEach(ws => {
+  log('Checking alive sockets');
+  wss.clients.forEach((ws) => {
     if (ws.isAlive === false) return ws.terminate();
 
     ws.isAlive = false;
