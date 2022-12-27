@@ -5,7 +5,7 @@
   background-color: $bg;
   background-size: 32%;
 
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $md) {
     background-size: 13%;
   }
 }

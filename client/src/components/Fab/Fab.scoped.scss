@@ -61,14 +61,14 @@ button.fab {
   }
 }
 
-@media screen and (max-width: $mobile-sm) {
+@media screen and (max-width: $xs) {
   button.fab.lg {
     right: 50%;
     transform: translateX(50%);
   }
 }
 
-@media screen and (min-width: $mobile-sm) {
+@media screen and (min-width: $xs) {
   button.fab {
     &:not(.sm) {
       @include fab-lg();

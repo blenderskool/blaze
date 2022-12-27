@@ -9,7 +9,7 @@
   user-select: none;
 }
 
-@media screen and (min-width: $mobile-sm) {
+@media screen and (min-width: $xs) {
   .toast-container {
     bottom: 80px;
   }

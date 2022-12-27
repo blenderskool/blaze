@@ -19,7 +19,7 @@
   &:active {
     transform: scale(0.98);
   }
-  
+
   &:focus {
     box-shadow: 0 0 0 2px $primary-600 !important;
   }
@@ -96,7 +96,7 @@
   }
 }
 
-@media screen and (min-width: $tablet) {
+@media screen and (min-width: $md) {
   .room {
     margin: 1rem;
     min-width: 180px;

@@ -15,17 +15,17 @@
   &.full-screen {
     height: 95vh;
   }
-  
+
   .info {
     width: 100%;
     text-align: center;
   }
-  
+
   .title {
     font-size: 2.2rem;
     margin: 10px 0;
   }
-  
+
   .subtitle {
     margin: 10px 0;
     font-size: 1.3rem;
@@ -33,13 +33,13 @@
     font-weight: $font-normal;
   }
 
-  button, .btn {
+  button,
+  .btn {
     margin-top: 40px;
   }
 }
 
-@media screen and (min-width: $tablet) {
-
+@media screen and (min-width: $md) {
   .page-container {
     padding: 0 60px;
   }
@@ -52,5 +52,4 @@
       height: 100vh;
     }
   }
-
 }

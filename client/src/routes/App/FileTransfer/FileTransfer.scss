@@ -2,7 +2,7 @@
 
 .file-transfer {
   text-align: center;
-  
+
   .app-header {
     display: flex;
     margin: 0 0 25px;
@@ -40,7 +40,6 @@
         margin-left: auto;
         margin-right: -15px;
       }
-
     }
   }
 
@@ -97,13 +96,13 @@
     width: 95%;
     border-radius: 5px;
     border: $border;
-    background-color: #0B101C;
+    background-color: #0b101c;
     box-shadow: $shadow;
 
     .header {
       border-bottom: $border;
       padding: 0.6rem 1.25rem;
-      
+
       display: flex;
       align-items: baseline;
 
@@ -113,9 +112,7 @@
         color: $secondary;
       }
     }
-
   }
-
 
   .files-container {
     margin: 2rem auto 0;
@@ -173,7 +170,7 @@
               stroke: $primary;
               stroke-width: 2px;
               stroke-dasharray: 69;
-              fill: #0B101C;
+              fill: #0b101c;
             }
           }
         }
@@ -182,12 +179,11 @@
           margin-right: 3px;
           color: $primary;
         }
-
       }
     }
   }
 
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $md) {
     main {
       display: flex;
       justify-content: center;
@@ -207,7 +203,6 @@
       }
     }
   }
-
 }
 
 .socket-error {

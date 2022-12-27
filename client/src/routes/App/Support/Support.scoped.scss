@@ -30,7 +30,7 @@ p {
   color: $secondary;
 }
 
-@media screen and (min-width: $tablet) {
+@media screen and (min-width: $md) {
   .section-title {
     margin-bottom: 1.5rem;
   }

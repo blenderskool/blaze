@@ -47,7 +47,7 @@
   .browsers {
     list-style: none;
     display: grid;
-    grid-template-columns: repeat( auto-fit, minmax(195px, 1fr) );
+    grid-template-columns: repeat(auto-fit, minmax(195px, 1fr));
     padding: 0;
     margin-top: 12px;
 
@@ -66,8 +66,7 @@
     }
   }
 
-
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $md) {
     .body-wrapper {
       max-width: 1124px;
       margin: 0 auto;
@@ -101,5 +100,4 @@
       }
     }
   }
-
 }
