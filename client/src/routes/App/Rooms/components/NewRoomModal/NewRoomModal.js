@@ -1,5 +1,3 @@
-import { h } from 'preact';
-import { useState } from 'preact/hooks';
 import { Loader } from 'preact-feather';
 
 import Modal from '../../../../../components/Modal/Modal';
@@ -8,19 +6,14 @@ import { useInstantRoom } from '../../../../../hooks';
 import './NewRoomModal.scoped.scss';
 
 function NewRoomModal({ onNewRoom, ...props }) {
-  const [room, setRoom] = useState();
   const [getInstantRoom, { loading: isLoading }] = useInstantRoom((room) => {
     onNewRoom(room);
   });
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    onNewRoom(room);
-  };
-
-  const handleRoomInputChange = e => {
-    e.target.setCustomValidity('');
-    setRoom(e.target.value);
+    const formData = new FormData(e.target);
+    onNewRoom(formData.get('room'));
   };
 
   return (
@@ -28,19 +21,26 @@ function NewRoomModal({ onNewRoom, ...props }) {
       <div class="join-room">
         <h2>Create public room</h2>
         <p class="description">
-          Public rooms allow file sharing across any device connected to the internet in the same room.
+          Public rooms allow file sharing to any device connected to the
+          internet in the same room.
         </p>
         <form onSubmit={handleSubmit}>
           <input
+            name="room"
             type="text"
             maxlength="20"
             required
             placeholder="Room name"
             pattern="^([A-Za-z0-9]+ ?)+[A-Za-z0-9]$"
-            style="margin-top: 0"
-            value={room}
-            onInvalid={e => { e.target.setCustomValidity('Room names can contain only letters and numbers'); }}
-            onChange={handleRoomInputChange}
+            style={{ marginTop: 0 }}
+            onInvalid={(e) => {
+              e.target.setCustomValidity(
+                'Room names can contain only letters and numbers'
+              );
+            }}
+            onChange={(e) => {
+              e.target.setCustomValidity('');
+            }}
             disabled={isLoading}
           />
           <button type="submit" class="btn wide" disabled={isLoading}>
@@ -49,12 +49,17 @@ function NewRoomModal({ onNewRoom, ...props }) {
         </form>
         <hr class="divider" />
         <p class="instant-room-help">
-          Instant Rooms are easy to remember room names that don't clash with existing room names.
+          Instant Rooms are easy to remember room names that don't clash with
+          existing rooms.
         </p>
-        <button class="btn outlined wide" onClick={getInstantRoom} disabled={isLoading}>
+        <button
+          class="btn outlined wide"
+          onClick={getInstantRoom}
+          disabled={isLoading}
+        >
           <Loader size={18} />
           &nbsp;&nbsp;
-          { isLoading ? 'Joining' : 'Join Instant Room' }
+          {isLoading ? 'Joining' : 'Join Instant Room'}
         </button>
       </div>
     </Modal>
