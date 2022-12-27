@@ -14,10 +14,6 @@ const Navigation = memo(function Navigation() {
         <Grid />
         <span class="label">Rooms</span>
       </Link>
-      <Link href="/app/activity" class="nav-item" activeClassName="active">
-        <PieChart />
-        <span class="label">Activity</span>
-      </Link>
       <Link href="/app/settings" class="nav-item" activeClassName="active">
         <Settings />
         <span class="label">Settings</span>
