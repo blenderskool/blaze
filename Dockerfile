@@ -38,6 +38,7 @@ COPY ./server/package*.json ./server/
 WORKDIR /app/server
 
 ENV NODE_ENV "production"
+ENV TRUST_PROXY true
 ENV DISABLE_SSE_EVENTS=
 RUN npm install
 

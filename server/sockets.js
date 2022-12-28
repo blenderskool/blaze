@@ -56,6 +56,14 @@ wss.on('connection', (ws, request) => {
     socket.name = name;
     socket.peerId = peerId;
     roomName = roomName || socket.ip;
+    if (!roomName) {
+      /**
+       * If the room name is falsy, then the socket possibly disconnected while joining a local room.
+       * Close the socket from server end and terminate the flow.
+       */
+      socket.close(1000);
+      return;
+    }
 
     room = rooms[roomName];
 

@@ -13,10 +13,11 @@ import getIp from './utils/get-ip';
 
 const CORS_ORIGIN = process.env.ORIGIN ? JSON.parse(process.env.ORIGIN) : '*';
 const PORT = process.env.PORT || 3030;
-const DISABLE_SSE_EVENTS = Boolean(process.env.DISABLE_SSE_EVENTS) || false;
+const DISABLE_SSE_EVENTS = Boolean(process.env.DISABLE_SSE_EVENTS);
+const TRUST_PROXY = Boolean(process.env.TRUST_PROXY);
 
 const app = express();
-app.set('trust proxy', true);
+app.set('trust proxy', TRUST_PROXY);
 app.use(express.json());
 app.use(cors({ origin: CORS_ORIGIN }));
 app.use('/instant-room', instantRoom);
@@ -43,6 +44,8 @@ app.get('/sse/local-peers', (req, res) => {
   if (DISABLE_SSE_EVENTS) return res.json([]);
 
   const ip = getIp(req);
+  // If ip address is not available for any reason, terminate the flow
+  if (!ip) return res.json([]);
 
   const headers = {
     'Content-Type': 'text/event-stream',

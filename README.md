@@ -76,19 +76,20 @@ Blaze is sponsored by:
 Following environment variables can be set in the build process:
 
 
-| variable             | description                                                           | default                         |
-|----------------------|-----------------------------------------------------------------------|---------------------------------|
-| **client**           | Variables for **client** should be set as build args if using Docker. |                                 |
-| `WS_HOST`            | URL to the server that is running the Blaze WebSockets server.        | 'ws://\<your-local-ip\>:3030'   |
-| `SERVER_HOST`        | URL to the server that running the Blaze HTTP server.                 | 'http://\<your-local-ip\>:3030' |
-| `WS_SIZE_LIMIT`      | Max file size limit when transferring files over WebSockets in bytes. | 100000000 (100 MBs)             |
-| `TORRENT_SIZE_LIMIT` | Max file size limit when transferring files over WebTorrent in bytes. | 700000000 (700 MBs)             |
-| **server**           |                                                                       |                                 |
-| `ORIGIN`             | Array of string URLs to allow CORS.                                   | *                               |
-| `PORT`               | Port for the server to run.                                           | 3030                            |
-| `WS_SIZE_LIMIT`      | Max file size limit when transferring files over WebSockets in bytes. | 100000000 (100 MBs)             |
-| `DISABLE_SSE_EVENTS` | Disable server side events to reduce long-lived connections.          | false                           |
-----------------------------------------------------------------------------------------------------------------------------------
+| variable             | description                                                           | default                                           |
+|----------------------|-----------------------------------------------------------------------|---------------------------------------------------|
+| **client**           | Variables for **client** should be set as build args if using Docker. |                                                   |
+| `WS_HOST`            | URL to the server that is running the Blaze WebSockets server.        | 'ws://\<your-local-ip\>:3030'                     |
+| `SERVER_HOST`        | URL to the server that running the Blaze HTTP server.                 | 'http://\<your-local-ip\>:3030'                   |
+| `WS_SIZE_LIMIT`      | Max file size limit when transferring files over WebSockets in bytes. | 100000000 (100 MBs)                               |
+| `TORRENT_SIZE_LIMIT` | Max file size limit when transferring files over WebTorrent in bytes. | 700000000 (700 MBs)                               |
+| **server**           |                                                                       |                                                   |
+| `ORIGIN`             | Array of string URLs to allow CORS.                                   | *                                                 |
+| `PORT`               | Port for the server to run.                                           | 3030                                              |
+| `WS_SIZE_LIMIT`      | Max file size limit when transferring files over WebSockets in bytes. | 100000000 (100 MBs)                               |
+| `DISABLE_SSE_EVENTS` | Disable server side events to reduce long-lived connections.          | false                                             |
+| `TRUST_PROXY`        | Whether server is behind a trusted proxy and can read forwarded IPs.  | _false_ when standalone, _true_ in docker-compose |
+----------------------------------------------------------------------------------------------------------------------------------------------------
 
 **NOTE:** Any URL in the environment variables should not end with `/`.
 
