@@ -18,7 +18,9 @@
 .network-img {
   mask-image: linear-gradient(to bottom, black 15%, transparent 65%);
   max-width: 110%;
+  min-width: 385px;
   margin: 0.5rem 0 0 3rem;
+  aspect-ratio: 1.536;
 }
 
 .register-info {
