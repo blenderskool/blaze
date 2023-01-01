@@ -75,15 +75,15 @@ app.get('/sse/local-peers', (req, res) => {
   });
 });
 
-app.get('/rooms/:roomName/qrcode', async (req, res) => {
+app.get('/rooms/qrcode', async (req, res) => {
   const clientUrl = req.headers.referer;
+  const room = req.query.room;
 
   try {
     const { origin } = new URL(clientUrl);
-    const qrcode = await QRCode.toString(
-      `${origin}/app/t/${req.params.roomName}`,
-      { type: 'svg' }
-    );
+    const qrcode = await QRCode.toString(`${origin}/app/t/${room}`, {
+      type: 'svg',
+    });
     res.type('svg');
     res.send(qrcode);
   } catch (e) {
