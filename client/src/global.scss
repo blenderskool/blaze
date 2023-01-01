@@ -13,11 +13,14 @@
   height: 100%;
 }
 
-html, body {
+html,
+body {
   @extend .h-full;
 }
 
-body, input, button {
+body,
+input,
+button {
   font-family: $font;
   color: $white;
 }
@@ -42,7 +45,12 @@ body {
   }
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-weight: $font-bold;
   margin: 0;
 }
@@ -102,8 +110,8 @@ button {
     color: $secondary;
     padding: 0;
 
-
-    &:hover, &:focus {
+    &:hover,
+    &:focus {
       color: $light;
     }
   }
@@ -119,14 +127,17 @@ button {
     cursor: not-allowed;
     pointer-events: none;
     box-shadow: none;
+
+    &.outlined {
+      box-shadow: 0 0 0 1px $primary;
+    }
   }
-  
+
   &.icon {
     width: 50px;
     font-size: 2rem;
     transform: none;
   }
-
 }
 
 input {
@@ -150,10 +161,10 @@ input {
   &::-webkit-input-placeholder {
     color: $secondary;
   }
-
 }
 
-img, svg {
+img,
+svg {
   user-select: none;
   vertical-align: middle;
 }
