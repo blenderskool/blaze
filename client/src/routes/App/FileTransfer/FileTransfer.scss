@@ -8,18 +8,21 @@
     margin: 0 0 25px;
 
     .room-name {
-      display: inline-flex;
-      align-items: center;
-      font-weight: $font-normal;
-      flex: 1;
-      font-size: 1.3rem;
-      position: relative;
-      text-transform: capitalize;
+      h1 {
+        display: inline-flex;
+        align-items: center;
+        font-weight: $font-normal;
+        flex: 1;
+        font-size: 1.3rem;
+        text-transform: capitalize;
+
+        svg {
+          margin-right: 4px;
+        }
+      }
 
       &:after {
         content: 'room name';
-        position: absolute;
-        bottom: -24px;
         text-transform: uppercase;
         color: $secondary;
         display: block;
@@ -28,10 +31,7 @@
         opacity: 0.65;
         width: 100%;
         font-weight: $font-bold;
-      }
-
-      svg {
-        margin-right: 4px;
+        white-space: nowrap;
       }
     }
 
