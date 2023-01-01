@@ -2,7 +2,7 @@ import { h, createRef } from 'preact';
 import download from 'downloadjs';
 import { route } from 'preact-router';
 import { PureComponent, forwardRef, memo } from 'preact/compat';
-import { ArrowLeft, CheckCircle, Plus, Image, Film, Box, Music, File, Zap, Share2, Send } from 'preact-feather';
+import { ArrowLeft, CheckCircle, Home, Plus, Image, Film, Box, Music, File, Zap, Share2, Send } from 'preact-feather';
 import copy from 'copy-to-clipboard';
 
 import { withQueuedFiles } from '../contexts/QueuedFiles';
@@ -471,9 +471,12 @@ class FileTransfer extends PureComponent {
             <ArrowLeft />
           </button>
 
-          <h1 class="room-name">
-            {this.client.room}
-          </h1>
+          <div>
+            <h1 class="room-name">
+              {this.props.room === "" && <Home with="20px" height="20px" />}
+              {this.client.room}
+            </h1>
+          </div>
 
           <button
             class="btn thin icon right"
@@ -587,7 +590,11 @@ class FileTransfer extends PureComponent {
             <h2>Room QR code</h2>
             <p>Scan this QR code to join "{this.client.room}" file sharing room.</p>
 
-            <img src={`${urls.SERVER_HOST}/rooms/${this.client.room}/qrcode`} loading="lazy" />
+            <img
+              src={`${urls.SERVER_HOST}/rooms/qrcode?room=${this.props.room}`}
+              loading="lazy"
+              alt={`QR code to join "${this.client.room}" room`}
+            />
 
             <button class="btn outlined wide" onClick={() => this.toggleQRCodeModal(false)}>
               Close popup

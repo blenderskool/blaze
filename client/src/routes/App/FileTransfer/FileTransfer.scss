@@ -8,6 +8,8 @@
     margin: 0 0 25px;
 
     .room-name {
+      display: inline-flex;
+      align-items: center;
       font-weight: $font-normal;
       flex: 1;
       font-size: 1.3rem;
@@ -17,6 +19,7 @@
       &:after {
         content: 'room name';
         position: absolute;
+        bottom: -24px;
         text-transform: uppercase;
         color: $secondary;
         display: block;
@@ -25,6 +28,10 @@
         opacity: 0.65;
         width: 100%;
         font-weight: $font-bold;
+      }
+
+      svg {
+        margin-right: 4px;
       }
     }
 
@@ -227,6 +234,8 @@
   img {
     margin: 20px 0;
     border-radius: 4px;
+    aspect-ratio: 1;
+    width: 100%;
   }
 }
 
