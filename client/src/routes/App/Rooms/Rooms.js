@@ -107,7 +107,7 @@ function Rooms({ isOnline }) {
 
   const handleNewRoom = useCallback((room) => {
     setModal(false);
-    const roomURL = room.replace(/ /g, '-').toLowerCase();
+    const roomURL = room.trim().replace(/ /g, '-').toLowerCase();
     route(`/app/t/${roomURL}`);
   }, [setModal]);
 

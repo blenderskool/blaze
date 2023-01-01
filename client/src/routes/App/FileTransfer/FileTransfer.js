@@ -33,7 +33,7 @@ class FileTransfer extends PureComponent {
   constructor(props) {
     super(props);
     let { room } = props;
-    room = room.replace(/-/g, ' ');
+    room = room.replace(/-/g, ' ').trim().toLowerCase();
     const savedData = JSON.parse(localStorage.getItem('blaze'));
     this.client = {
       ...savedData.user,
@@ -471,8 +471,8 @@ class FileTransfer extends PureComponent {
             <ArrowLeft />
           </button>
 
-          <div>
-            <h1 class="room-name">
+          <div class="room-name">
+            <h1>
               {this.props.room === "" && <Home with="20px" height="20px" />}
               {this.client.room}
             </h1>

@@ -31,7 +31,7 @@ function NewRoomModal({ onNewRoom, ...props }) {
             maxlength="20"
             required
             placeholder="Room name"
-            pattern="^([A-Za-z0-9]+ ?)+[A-Za-z0-9]$"
+            pattern="^([A-Za-z0-9]+ ?)+[A-Za-z0-9\s]$"
             style={{ marginTop: 0 }}
             onInvalid={(e) => {
               e.target.setCustomValidity(
