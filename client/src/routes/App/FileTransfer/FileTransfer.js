@@ -33,7 +33,7 @@ class FileTransfer extends PureComponent {
   constructor(props) {
     super(props);
     let { room } = props;
-    room = room.replace(/-/g, ' ').trim().toLowerCase();
+    room = room.replace(/[^a-zA-z0-9 ]/g, ' ').trim().toLowerCase();
     const savedData = JSON.parse(localStorage.getItem('blaze'));
     this.client = {
       ...savedData.user,
