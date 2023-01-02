@@ -1,4 +1,4 @@
-FROM node:14.16.1-alpine as base
+FROM node:16.19.0-alpine as base
 
 WORKDIR /app
 
@@ -21,7 +21,7 @@ COPY ./client .
 COPY ./common ../common
 RUN npm run build
 
-FROM node:14.16.1-alpine
+FROM node:16.19.0-alpine
 
 # Installing nginx and gettext alpine packages
 # gettext is for envsubst command
