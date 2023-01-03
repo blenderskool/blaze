@@ -2,19 +2,23 @@ import { h, createRef } from 'preact';
 import download from 'downloadjs';
 import { route } from 'preact-router';
 import { PureComponent, forwardRef, memo } from 'preact/compat';
-import { ArrowLeft, CheckCircle, Plus, Image, Film, Box, Music, File, Zap, Share2, Send } from 'preact-feather';
+import { ArrowLeft, CheckCircle, Home, Plus, Image, Film, Box, Music, File, Zap, Share2, Send } from 'preact-feather';
 import copy from 'copy-to-clipboard';
-import { withQueuedFiles } from '../QueuedFiles';
+
+import { withQueuedFiles } from '../contexts/QueuedFiles';
 import Fab from '../../../components/Fab/Fab';
 import Modal from '../../../components/Modal/Modal';
 import FileDrop from '../../../components/FileDrop/FileDrop';
 import { toast } from '../../../components/Toast';
+import QRCode from '../../../icons/QRCode';
 
-import SocketConnect from '../../../utils/socketConnect';
+import socketConnect from '../../../utils/socketConnect';
 import Visualizer from '../../../utils/visualizer';
 import formatSize from '../../../utils/formatSize';
 import pluralize from '../../../utils/pluralize';
+import urls from '../../../utils/urls';
 import constants from '../../../../../common/constants';
+import roomsDispatch from '../../../reducers/rooms';
 
 import './FileTransfer.scss';
 
@@ -29,11 +33,12 @@ class FileTransfer extends PureComponent {
   constructor(props) {
     super(props);
     let { room } = props;
-    room = room.replace(/-/g, ' ');
+    room = room.replace(/[^a-zA-z0-9 ]/g, ' ').trim().toLowerCase();
     const savedData = JSON.parse(localStorage.getItem('blaze'));
     this.client = {
       ...savedData.user,
-      room,
+      room: room || 'Local Network',
+      isLocal: !room,
     };
 
     this.state = {
@@ -47,6 +52,7 @@ class FileTransfer extends PureComponent {
         message: '',
       },
       isSelectorEnabled: false,
+      showQRCodeModal: false,
     };
 
     this.canvas = createRef();
@@ -55,22 +61,23 @@ class FileTransfer extends PureComponent {
     /**
      * Add the current room in recent rooms list
      */
-    if (!savedData.rooms.includes(room)) {
-      localStorage.setItem('blaze', JSON.stringify({
-        ...savedData,
-        rooms: [
-          room,
-          ...savedData.rooms,
-        ],
-      }));
+    if (room) {
+      roomsDispatch({ type: 'add-room', payload: room });
     }
   }
 
   onUserJoin(users) {
     let isP2P = this.state.isP2P;
+    const peers = this.state.peers;
 
     users.forEach(user => {
       if (user.name === this.client.name) return;
+
+      /**
+       * If a peer already exists in the state,
+       * don't add it again in the visualizer
+       */
+      if (peers.some(peer => peer === user.name)) return;
 
       isP2P = isP2P && !!user.peerId;
       this.visualizer.addNode({
@@ -230,7 +237,7 @@ class FileTransfer extends PureComponent {
     document.title = `${this.client.room} room | Blaze`;
 
     this.visualizer = new Visualizer(this.canvas.current);
-    this.fileShare = new SocketConnect(this.client.room, this.client.name);
+    this.fileShare = socketConnect(this.client.isLocal ? '' : this.client.room, this.client.name);
     const { socket } = this.fileShare;
 
     this.visualizer.addNode({
@@ -299,6 +306,8 @@ class FileTransfer extends PureComponent {
         this.resetState();
       },
     });
+
+    window.addEventListener('paste', this.handleWindowPasteEvent);
   }
 
   componentWillUnmount() {
@@ -308,9 +317,12 @@ class FileTransfer extends PureComponent {
       this.clearReceiver();
     }
 
+    this.visualizer.destroy();
     socket.off(constants.USER_JOIN);
     socket.off(constants.USER_LEAVE);
     socket.close();
+
+    window.removeEventListener('paste', this.handleWindowPasteEvent);
   }
 
   handleNewRoom = () => {
@@ -340,6 +352,11 @@ class FileTransfer extends PureComponent {
     this.selectFiles(this.props.queuedFiles);
     this.props.setQueuedFiles([]);
   }
+
+  handleWindowPasteEvent = (e) => {
+    this.selectFiles(e.clipboardData.files);
+  }
+
   copyLink = () => {
     if (navigator.share)
       this.handleShare();
@@ -347,6 +364,12 @@ class FileTransfer extends PureComponent {
       copy(window.location.href);
       toast('Room link copied to clipboard');
     }
+  }
+
+  toggleQRCodeModal(state) {
+    this.setState({
+      showQRCodeModal: state,
+    });
   }
 
   getFileIcon(file) {
@@ -419,7 +442,7 @@ class FileTransfer extends PureComponent {
           <>
             <h2>Connection Error!</h2>
             <p class="message">User with same name exists in this room</p>
-            <button class="wide" onClick={this.handleNewRoom}>
+            <button class="btn wide" onClick={this.handleNewRoom}>
               Select new room
             </button>
           </>
@@ -431,7 +454,7 @@ class FileTransfer extends PureComponent {
             <h2>Connection closed</h2>
             <p class="message">Tip: Try refreshing this page</p>
 
-            <button class="wide" onClick={() => window.location.reload()}>
+            <button class="btn wide" onClick={() => window.location.reload()}>
               Refresh page
             </button>
           </>
@@ -439,21 +462,24 @@ class FileTransfer extends PureComponent {
     }
   }
 
-  render({ queuedFiles }, { percentage, peers, isP2P, files, filesQueued, errorModal, isSelectorEnabled }) {
+  render({ queuedFiles }, { percentage, peers, isP2P, files, filesQueued, errorModal, isSelectorEnabled, showQRCodeModal }) {
 
     return (
-      <div class="file-transfer">
+      <div class="app-container file-transfer">
         <header class="app-header">
-          <button class="thin icon left" aria-label="Go back" onClick={() => window.history.back()}>
+          <button class="btn thin icon left" aria-label="Go back" onClick={() => window.history.back()}>
             <ArrowLeft />
           </button>
 
-          <h1 class="room-name">
-            {this.client.room}
-          </h1>
+          <div class="room-name">
+            <h1>
+              {this.props.room === "" && <Home with="20px" height="20px" />}
+              {this.client.room}
+            </h1>
+          </div>
 
           <button
-            class="thin icon right"
+            class="btn thin icon right"
             aria-label={navigator.share ? 'Share room link' : 'Copy room link'}
             onClick={navigator.share ? this.handleShare : this.copyLink}
           >
@@ -476,7 +502,7 @@ class FileTransfer extends PureComponent {
 
             <div class={`transfer-help ${peers.length > 1 && isP2P && 'p2p'}`}>
               {
-                peers.length <= 1 ? 'Share room link to devices you want to share files with'
+                peers.length <= 1 ? `Share room link to devices ${this.client.isLocal ? 'in same local network' : ''} you want to share files with`
                   : isP2P ? (
                     <>
                       <Zap size={20} /> Established a P2P connection!
@@ -490,8 +516,11 @@ class FileTransfer extends PureComponent {
               peers.length <= 1 && (
                 <div class="share-room-link">
                   <input value={window.location.href} disabled />
-                  <button class="outlined" onClick={navigator.share ? this.handleShare :this.copyLink}>
-                    {navigator.share ? 'Share room link' : 'Copy room link'}
+                  <button class="btn outlined share-link" onClick={navigator.share ? this.handleShare :this.copyLink}>
+                    {navigator.share ? 'Share link' : 'Copy link'}
+                  </button>
+                  <button class="btn outlined qrcode" onClick={() => this.toggleQRCodeModal(true)} ariaLabel="Show QR Code of this room">
+                    <QRCode />
                   </button>
                 </div>
               )
@@ -553,6 +582,23 @@ class FileTransfer extends PureComponent {
         <Modal isClosable={false} isOpen={errorModal.isOpen}>
           <div class="socket-error">
             {this.renderErrorContent()}
+          </div>
+        </Modal>
+
+        <Modal isOpen={showQRCodeModal} onClose={() => this.toggleQRCodeModal(false)}>
+          <div class="qrcode-modal">
+            <h2>Room QR code</h2>
+            <p>Scan this QR code to join "{this.client.room}" file sharing room.</p>
+
+            <img
+              src={`${urls.SERVER_HOST}/rooms/qrcode?room=${this.props.room}`}
+              loading="lazy"
+              alt={`QR code to join "${this.client.room}" room`}
+            />
+
+            <button class="btn outlined wide" onClick={() => this.toggleQRCodeModal(false)}>
+              Close popup
+            </button>
           </div>
         </Modal>
 

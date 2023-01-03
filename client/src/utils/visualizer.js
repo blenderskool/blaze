@@ -1,3 +1,5 @@
+import anime from 'animejs';
+
 class Visualizer {
 
   constructor(canvas) {
@@ -14,6 +16,7 @@ class Visualizer {
       start: 0,
       end: 0,
     };
+    this.active = true;
 
     this.draw();
   }
@@ -62,9 +65,11 @@ class Visualizer {
      * then it must be placed at the centre of the canvas
      */
     if (nodes.length == 1) {
-      nodes[0].cx = 0;
-      nodes[0].cy = 0;
-
+      anime({
+        targets: nodes[0],
+        cx: 0,
+        cy: 0,
+      });
       return;
     }
 
@@ -73,8 +78,11 @@ class Visualizer {
       const angle = divisions*(i+1)*Math.PI/180;
       const r = 100;
 
-      node.cx = r * Math.cos(angle);
-      node.cy = r * Math.sin(angle);
+      anime({
+        targets: node,
+        cx: r * Math.cos(angle),
+        cy: r * Math.sin(angle),
+      });
     });
   }
 
@@ -89,21 +97,18 @@ class Visualizer {
     const nodeData = {
       name,
       peerId,
-      radius: 30,
-      cx: pos ? pos[0] : undefined,
-      cy: pos ? pos[1] : undefined,
+      radius: 15,
+      cx: pos ? pos[0] : 0,
+      cy: pos ? pos[1] : 0,
       textColor: isClient ? '#C5C7CC' : '#636979',
     };
 
-    const nodeDuplID = this.nodes.findIndex(node => node.name === name);
+    anime({ targets: nodeData, radius: 30 });
 
-    if (nodeDuplID > -1)
-      this.nodes[nodeDuplID] = nodeData;
-    else
-      this.nodes.push(nodeData);
+    // Always push new node data as duplicates are handled by caller
+    this.nodes.push(nodeData);
 
     if (!pos) this.updateAllPos();
-
   }
 
   /**
@@ -111,21 +116,27 @@ class Visualizer {
    * @param {String} name Identifier of the node
    */
   removeNode(name) {
-    const nodeDuplID = this.nodes.findIndex(node => node.name === name);
+    const nodeIdx = this.nodes.findIndex(node => node.name === name);
 
-    if (nodeDuplID > -1) {
-      this.nodes.splice(nodeDuplID, 1);
-      
-      this.updateAllPos();
+    if (nodeIdx > -1) {
+      const anim = anime({
+        targets: this.nodes[nodeIdx],
+        radius: 15,
+      });
+
+      // Remove the node after 1/10th of animation has completed
+      setTimeout(() => {
+        this.nodes.splice(nodeIdx, 1);
+        this.updateAllPos();
+      }, anim.duration / 10);
     }
-
   }
 
 
   /**
-   * Adds the sender client
-   * @param {String[]} name Name of the client who is sending the files
-   * @param {Number} percentage Completed file transfer percentage
+   * Starts visualizing file transfer
+   * @param {Array} sentTo ids of nodes to which files are being sent
+   * @param {Array} receivedBy ids of nodes from which files are being received
    */
   startSharing(sentTo, receivedBy) {
 
@@ -151,6 +162,9 @@ class Visualizer {
   }
 
   draw() {
+    // The visualizer is destroyed and the draw calls are now stopped
+    if (!this.active) return;
+
     /**
      * Empty the canvas, and add the updated nodes, connections and labels
      */
@@ -292,6 +306,10 @@ class Visualizer {
    */
   setTransferPercentage(percentage) {
     if (percentage > 100) percentage = 100;
+  }
+
+  destroy() {
+    this.active = false;
   }
 }
 

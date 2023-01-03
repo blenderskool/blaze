@@ -1,0 +1,116 @@
+@import '../../../../../scss/variables';
+
+.room {
+  border-radius: 4px;
+  box-shadow: 0 0 0 1px $secondary--60, $shadow;
+  background-color: $bg;
+  margin: 1.125rem 0;
+  padding: 1rem 1.125rem;
+  display: flex;
+  outline: none;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.2s ease;
+
+  &:hover {
+    box-shadow: 0 0 0 1px $secondary--60;
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  &:focus {
+    box-shadow: 0 0 0 2px $primary-600 !important;
+  }
+
+  .room-name {
+    font-size: 1.125rem;
+    text-transform: capitalize;
+    color: $light;
+    font-weight: $font-bold;
+  }
+
+  .room-description {
+    margin: 0.25rem 0 0 0;
+    color: $secondary;
+    font-size: 0.875rem;
+  }
+
+  .secondary-action {
+    margin-left: auto;
+    margin-right: -16px;
+    height: auto;
+    font-size: 1.3rem;
+  }
+
+  ul.peers {
+    list-style: none;
+    padding: 0;
+    padding-right: 15px;
+    display: flex;
+    overflow-x: hidden;
+    align-items: center;
+    flex-shrink: 0;
+
+    .peer {
+      flex-shrink: 0;
+      width: 24px;
+      height: 24px;
+      font-size: 0.75rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 100%;
+      color: $primary;
+      border: 1px solid $primary-700;
+      text-transform: uppercase;
+      margin-right: -5px;
+      background: $bg;
+    }
+
+    .extra {
+      flex-shrink: 0;
+      width: 24px;
+      height: 24px;
+      font-size: 0.625rem;
+      color: $primary;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 -5px 0 5px;
+    }
+  }
+}
+
+// Highlighted variant of the room
+.room.highlighted {
+  box-shadow: 0 0 0 1px $primary-700, $shadow;
+
+  .room-name {
+    color: $primary;
+  }
+
+  .room-description {
+    color: $primary-600;
+  }
+}
+
+@media screen and (min-width: $md) {
+  .room {
+    margin: 1rem;
+    min-width: 180px;
+    flex-direction: column;
+    padding: 13px 15px;
+    align-items: flex-start;
+
+    .room-name {
+      margin-top: 2rem;
+    }
+
+    .secondary-action {
+      margin: 0 -15px 0 auto;
+      order: -1;
+    }
+  }
+}

@@ -1,13 +1,14 @@
 {
   "name": "blaze-frontend",
-  "version": "2.1.3",
+  "version": "3.0.0",
   "description": "Quickly share files with multiple users",
   "private": true,
   "scripts": {
     "dev": "preact watch",
     "build": "preact build",
     "start": "sirv build --cors --single --port 8080",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "analyze": "preact build --analyze"
   },
   "author": "Akash Hamirwasia",
   "license": "MIT",
@@ -18,27 +19,33 @@
     ]
   },
   "dependencies": {
-    "copy-to-clipboard": "^3.3.1",
+    "animejs": "^3.2.1",
+    "classnames": "^2.3.2",
+    "copy-to-clipboard": "^3.3.3",
+    "date-fns": "^2.29.3",
     "downloadjs": "^1.4.7",
-    "nanoid": "^3.1.16",
+    "nanoid": "^3.3.4",
     "preact": "^10.3.2",
-    "preact-feather": "^4.1.0",
+    "preact-feather": "^4.2.1",
     "preact-render-to-string": "^5.1.4",
     "preact-router": "^3.2.1",
-    "prop-types": "^15.7.2",
+    "prop-types": "^15.8.1",
+    "react-localstorage-hooks": "^1.0.2",
     "react-transition-group": "^4.4.1",
     "scriptjs": "^2.5.9"
   },
   "engines": {
-    "node": "14.x"
+    "node": "16.x"
   },
   "devDependencies": {
-    "eslint": "^6.0.1",
-    "eslint-config-preact": "^1.1.0",
-    "ip": "^1.1.5",
-    "node-sass": "^4.14.1",
-    "preact-cli": "^3.2.2",
+    "babel-plugin-react-scoped-css": "^1.1.1",
+    "eslint": "^6.8.0",
+    "eslint-config-preact": "^1.3.0",
+    "ip": "^1.1.8",
+    "preact-cli": "^3.4.3",
+    "sass": "^1.57.1",
     "sass-loader": "^10.2.0",
+    "scoped-css-loader": "^1.0.0",
     "sirv-cli": "^0.4.5",
     "webpack": "^4.43.0"
   }

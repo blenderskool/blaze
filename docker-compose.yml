@@ -4,6 +4,8 @@ services:
     build:
       context: .
       dockerfile: ./server/Dockerfile
+    environment:
+      TRUST_PROXY: true
     ports:
       - 3030:3030
 

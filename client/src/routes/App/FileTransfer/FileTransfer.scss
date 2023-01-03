@@ -2,21 +2,27 @@
 
 .file-transfer {
   text-align: center;
-  
+
   .app-header {
     display: flex;
     margin: 0 0 25px;
 
     .room-name {
-      font-weight: $font-normal;
-      flex: 1;
-      font-size: 1.3rem;
-      position: relative;
-      text-transform: capitalize;
+      h1 {
+        display: inline-flex;
+        align-items: center;
+        font-weight: $font-normal;
+        flex: 1;
+        font-size: 1.3rem;
+        text-transform: capitalize;
+
+        svg {
+          margin-right: 4px;
+        }
+      }
 
       &:after {
         content: 'room name';
-        position: absolute;
         text-transform: uppercase;
         color: $secondary;
         display: block;
@@ -25,6 +31,7 @@
         opacity: 0.65;
         width: 100%;
         font-weight: $font-bold;
+        white-space: nowrap;
       }
     }
 
@@ -40,7 +47,6 @@
         margin-left: auto;
         margin-right: -15px;
       }
-
     }
   }
 
@@ -63,9 +69,14 @@
   }
 
   .share-room-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     input {
       font-size: 1rem;
       width: 50%;
+      max-width: 250px;
       border-top-right-radius: 0;
       border-bottom-right-radius: 0;
       color: darken($light, 20);
@@ -75,9 +86,16 @@
       font-size: 1rem;
       padding-left: 8px;
       padding-right: 8px;
-      border-top-left-radius: 0;
-      border-bottom-left-radius: 0;
-      height: 49px;
+      height: 47px;
+
+      &.share-link {
+        border-radius: 0;
+      }
+
+      &.qrcode {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+      }
     }
   }
 
@@ -85,13 +103,13 @@
     width: 95%;
     border-radius: 5px;
     border: $border;
-    background-color: #0B101C;
+    background-color: #0b101c;
     box-shadow: $shadow;
 
     .header {
       border-bottom: $border;
       padding: 0.6rem 1.25rem;
-      
+
       display: flex;
       align-items: baseline;
 
@@ -101,9 +119,7 @@
         color: $secondary;
       }
     }
-
   }
-
 
   .files-container {
     margin: 2rem auto 0;
@@ -161,7 +177,7 @@
               stroke: $primary;
               stroke-width: 2px;
               stroke-dasharray: 69;
-              fill: #0B101C;
+              fill: #0b101c;
             }
           }
         }
@@ -170,12 +186,11 @@
           margin-right: 3px;
           color: $primary;
         }
-
       }
     }
   }
 
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: $md) {
     main {
       display: flex;
       justify-content: center;
@@ -195,7 +210,6 @@
       }
     }
   }
-
 }
 
 .socket-error {
@@ -209,6 +223,19 @@
     font-size: 1.1rem;
     color: $secondary;
     margin: 0 0 2rem;
+  }
+}
+
+.qrcode-modal {
+  p {
+    color: $secondary;
+  }
+
+  img {
+    margin: 20px 0;
+    border-radius: 4px;
+    aspect-ratio: 1;
+    width: 100%;
   }
 }
 

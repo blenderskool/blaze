@@ -1,34 +1,45 @@
 import { h } from 'preact';
-import { useState } from 'preact/hooks';
+import { createLocalStorageDispatch } from 'react-localstorage-hooks';
+import NicknameInput from '../../../components/NicknameInput/NicknameInput';
+import network from '../../../assets/images/illustrations/network.svg';
+import logo from '../../../assets/images/logo.svg';
 
-function NewUser({ onRegister }) {
-  const [username, setUsername] = useState('');
+import './NewUser.scoped.scss';
 
-  const registerUser = () => {
-    localStorage.setItem('blaze', JSON.stringify({
-      user: {
-        name: username
-      },
-      rooms: [],
-    }));
+const registerUser = createLocalStorageDispatch('blaze', (state, e) => {
+  e.preventDefault();
+  const formData = new FormData(e.target);
 
-    onRegister();
+  return {
+    user: {
+      name: formData.get('nickname'),
+    },
+    rooms: [],
   };
+});
 
+function NewUser() {
   return (
-    <main style={{ margin: 'auto' }}>
-      <form class="new-user" onSubmit={registerUser}>
-        <input
-          required
-          type="text"
-          placeholder="Cool nickname"
-          maxlength="10"
-          aria-label="Enter a nickname"
-          value={username}
-          onChange={e => setUsername(e.target.value)}
-          style={{ marginBottom: 40 }}
-        />
-        <button type="submit" class="wide">
+    <main className="app-container">
+      <img src={logo} alt="Blaze" class="brand" />
+
+      <img
+        class="network-img"
+        src={network}
+        alt="Devices connected using Blaze"
+      />
+
+      <div class="register-info">
+        <h1>Choose a nickname</h1>
+        <p>
+          Nicknames are used to identify different devices in a common file
+          sharing room. A room must always have devices with unique nicknames.
+        </p>
+      </div>
+
+      <form onSubmit={registerUser} class="register-form">
+        <NicknameInput input={{ style: { marginBottom: 40 } }} />
+        <button type="submit" class="btn wide">
           Continue
         </button>
       </form>

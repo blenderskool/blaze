@@ -1,12 +1,12 @@
 import { h } from 'preact';
 
-import './Loading.scss';
+import './Loading.scoped.scss';
 
 function Loading({ fullScreen, children }) {
 
   return (
     <div class={`loading ${fullScreen ? 'full-screen' : ''}`}>
-      <div class="loading-wrapper">
+      <div class="loading-animation-wrapper">
         <svg class="lightning" width="119" height="169" viewBox="0 0 119 169" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
             d="M10 85.8299L86 12L65 69.4989L109 71.5402L19.5 160L51.5 86.8506L10 85.8299Z"
