@@ -1,5 +1,5 @@
 import { h } from 'preact';
-import './Pill.scss';
+import './Pill.scoped.scss';
 
 function Pill(props) {
   return (

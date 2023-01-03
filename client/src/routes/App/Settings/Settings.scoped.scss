@@ -1,0 +1,45 @@
+@import '../../../scss/variables';
+
+.settings {
+  max-width: 28rem;
+  margin: 8rem auto 0;
+
+  label span {
+    font-size: 1.15rem;
+  }
+
+  form input {
+    margin-bottom: 20px;
+  }
+
+  .btn.save {
+    margin-top: 3.75rem;
+  }
+
+  hr {
+    margin-top: 56px;
+    margin-bottom: 56px;
+  }
+
+  .clear-all-data {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    span {
+      font-size: 1.15rem;
+    }
+  }
+
+  p.clear-all-data-help {
+    margin-top: 1.75rem;
+    margin-bottom: 0;
+    color: $secondary;
+  }
+}
+
+@media screen and (max-width: $md) {
+  .settings {
+    margin: 2rem auto 0;
+  }
+}

@@ -1,10 +1,12 @@
 class Socket {
 
-  constructor(socket) {
+  constructor(socket, ip = '') {
     this.socket = socket;
     this.socket.binaryType = 'arraybuffer';
     this.callbacks = {};
+    this.ip = ip;
     this.peerId = '';
+    this.name = '';
 
     socket.addEventListener('message', msg => {
       let callback, data;

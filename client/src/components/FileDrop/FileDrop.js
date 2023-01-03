@@ -1,7 +1,7 @@
 import { h } from 'preact';
 import { useState, useEffect } from 'preact/hooks';
 
-import './FileDrop.scss';
+import './FileDrop.scoped.scss';
 
 function FileDrop({ onFile, ...props }) {
   const [border, setBorder] = useState('none');

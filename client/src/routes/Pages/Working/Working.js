@@ -24,15 +24,17 @@ const Working = () => (
         <div class="info">
           <h2>Start by joining a room</h2>
           <p>
-            A room is a collection of users among which you want to send/receive files.
-            Rooms in Blaze can be thought of as group chats in messaging apps. Each user in a room
-            must have a unique name for them to correctly join the room.
+            A room is a collection of users among which you want to send/receive
+            files. Rooms in Blaze can be thought of as group chats in messaging
+            apps. Each user in a room must have a unique name for them to
+            correctly join the room.
           </p>
           <p>
             All your previously joined rooms show up in
             <a href="/app/"> Recent Rooms </a>
-            page for quick access in the future.
-            These rooms itself are not persisted on any database and are immediately destroyed once all the users of that room leave.
+            page for quick access in the future. These rooms itself are not
+            persisted on any database and are immediately destroyed once all the
+            users of that room leave.
           </p>
         </div>
         <img src={joinRoom} alt="Joining a room in Blaze" />
@@ -46,20 +48,32 @@ const Working = () => (
             <Zap size={28} style="margin: 0 0 8px 4px" />
           </h2>
           <p>
-            Sending a file is easy in Blaze. Just click on the 'Send File' button at the bottom right and choose the files that you
-            want to send. Once the files are selected, they would be shared with all the other users in that room.
+            Sending a file is easy in Blaze. Just click on the 'Send File'
+            button at the bottom right and choose the files that you want to
+            send. Once the files are selected, they would be shared with all the
+            other users in that room.
           </p>
           <p>
             Blaze uses
-            <a href="http://webtorrent.io/" target="_blank" rel="noreferrer"> WebTorrent </a>
-            or WebSockets for sharing files depending on the WebRTC support of the browsers being used.
-            <a href="https://webrtc.org/" target="_blank" rel="noreferrer"> WebRTC </a>
-            is the protocol that makes it possible for the peer-to-peer connection for file transfer.
+            <a href="http://webtorrent.io/" target="_blank" rel="noreferrer">
+              {' '}
+              WebTorrent{' '}
+            </a>
+            or WebSockets for sharing files depending on the WebRTC support of
+            the browsers being used.
+            <a href="https://webrtc.org/" target="_blank" rel="noreferrer">
+              {' '}
+              WebRTC{' '}
+            </a>
+            is the protocol that makes it possible for the peer-to-peer
+            connection for file transfer.
           </p>
           <p>
-            Do note that if the sender of a file leaves the room and the file isn't transferred to any user yet, the file transfer
-            would get cancelled resulting in no-one receiving the file. This is because your files are not stored on any server and are
-            transferred in real-time when you are online.
+            Do note that if the sender of a file leaves the room and the file
+            isn't transferred to any user yet, the file transfer would get
+            cancelled resulting in no-one receiving the file. This is because
+            your files are not stored on any server and are transferred in
+            real-time when you are online.
           </p>
         </div>
       </section>
@@ -68,14 +82,32 @@ const Working = () => (
         <div class="info">
           <h2>Next steps</h2>
           <p>
-            If you enjoyed using Blaze, you can add Blaze to your home screen! Doing this
-            not only makes Blaze easy to access but also allows it shows up in the share tray when you are sharing something from other apps
-            using <Share2 size={20} /> button.
+            If you enjoyed using Blaze, you can add Blaze to your home screen!
+            Doing this not only makes Blaze easy to access but it also shows up
+            in the share tray when you are sharing a file from other apps using{' '}
+            <Share2 size={20} /> button.
           </p>
           <p>
-            Since Blaze is an open-source project, I would love to hear your thoughts and how Blaze can be improved. If you find this project
-            useful, consider giving
-            <a href="https://github.com/blenderskool/blaze" target="_blank" rel="noreferrer"> Blaze a star on GitHub!</a>
+            Since Blaze is an open-source project, do consier checking out it's
+            source code, contributing bug fixes or suggesting new features that
+            can improe Blaze. If you find this project useful, consider giving
+            <a
+              href="https://github.com/blenderskool/blaze"
+              target="_blank"
+              rel="noreferrer"
+            >
+              {' '}
+              Blaze a star
+            </a>{' '}
+            or{' '}
+            <a
+              href="https://github.com/sponsors/blenderskool/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              sponsoring me
+            </a>{' '}
+            on GitHub 💚
           </p>
           <p>
             Blaze has been tested on:
@@ -103,8 +135,10 @@ const Working = () => (
       </section>
 
       <section class="callout">
-        <h2>Ready to share some files?</h2>
-        <a class="btn" href="/app">Start Sharing</a>
+        <h2>Ready to share files?</h2>
+        <a class="btn" href="/app">
+          Start Sharing
+        </a>
       </section>
     </div>
   </main>

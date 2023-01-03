@@ -15,7 +15,7 @@ export default function Blaze() {
   }
 
   return (
-    <div id="app">
+    <div id="app" className="h-full">
       <Router onChange={handleRouteChange}>
         <Route path="/:*?" component={Pages} />
         <Route path="/app/:*?" component={App} />

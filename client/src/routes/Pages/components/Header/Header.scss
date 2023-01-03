@@ -1,4 +1,4 @@
-@import "../../../../scss/variables";
+@import '../../../../scss/variables';
 
 $header-height: 85px;
 
@@ -86,7 +86,7 @@ $header-height: 85px;
     position: relative;
 
     &::after {
-      content: "";
+      content: '';
       height: 5px;
       width: 5px;
       border-radius: 50%;
@@ -132,7 +132,7 @@ $header-height: 85px;
   }
 }
 
-@media screen and (max-width: $mobile-sm) {
+@media screen and (max-width: $xs) {
   .page-header .pill {
     display: none;
   }

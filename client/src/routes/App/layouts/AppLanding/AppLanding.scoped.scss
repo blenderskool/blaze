@@ -1,0 +1,116 @@
+@import '../../../../scss/variables';
+@import '../../../../scss/mixins';
+
+.app-landing-container {
+  padding-bottom: 7rem;
+}
+
+.app-header {
+  .title-nav-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .title {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow-x: hidden;
+  }
+
+  .subtitle {
+    color: $secondary;
+    font-weight: $font-normal;
+    font-size: 1.25rem;
+    margin: 0.25rem 0 0 0;
+  }
+
+  .nav {
+    display: flex;
+    justify-content: space-between;
+
+    .nav-item {
+      margin-left: 2rem;
+
+      &:first-child {
+        margin-left: 1rem;
+      }
+
+      &:not(.install) {
+        display: none;
+      }
+    }
+  }
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  color: $secondary;
+  transition: color 0.2s ease;
+
+  &.active {
+    color: $primary;
+  }
+
+  &:hover:not(.active) {
+    color: $light;
+  }
+
+  .label {
+    margin-left: 0.35rem;
+    font-size: 0.875rem;
+  }
+}
+
+.tab-links {
+  @include noise-background;
+
+  display: flex;
+  justify-content: space-between;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 1.25rem 1.6rem;
+  z-index: 10;
+
+  .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    &.active {
+      color: $primary;
+    }
+
+    .label {
+      margin-top: 0.25rem;
+      margin-left: 0;
+    }
+  }
+}
+
+@media screen and (min-width: $sm) {
+  .app-landing-container {
+    padding-bottom: 0;
+  }
+
+  .tab-links {
+    display: none;
+  }
+
+  .app-header .nav .nav-item {
+    svg {
+      width: 20px;
+    }
+
+    .label {
+      display: initial;
+    }
+
+    &:not(.install) {
+      display: flex;
+    }
+  }
+}

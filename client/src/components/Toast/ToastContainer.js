@@ -2,7 +2,7 @@ import { h } from 'preact';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 import Toast from './Toast';
-import './ToastContainer.scss';
+import './ToastContainer.scoped.scss';
 
 function ToastContainer({ queue }) {
   return (

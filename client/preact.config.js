@@ -1,11 +1,17 @@
 const { DefinePlugin } = require('webpack');
 const ip = require('ip');
 
-module.exports = function (config, env, helpers) {
+module.exports = function(config, env, helpers) {
   // disable css modules
   // uncomment the code below when https://github.com/preactjs/preact-cli/issues/897 gets a solution
-  let css = helpers.getLoadersByName(config, 'css-loader')[0];
+  const css = helpers.getLoadersByName(config, 'css-loader')[0];
   css.loader.options.modules = false;
+
+  const babel = helpers.getLoadersByName(config, 'babel-loader')[0].loader
+    .options;
+  babel.plugins.push([require.resolve('babel-plugin-react-scoped-css')]);
+
+  config.module.rules[4].use.splice(2, 0, { loader: 'scoped-css-loader' });
 
   config.plugins.push(
     new DefinePlugin({
@@ -25,4 +31,4 @@ module.exports = function (config, env, helpers) {
   );
 
   return config;
-}
+};

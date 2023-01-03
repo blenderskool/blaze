@@ -1,0 +1,37 @@
+@import '../../../scss/variables';
+
+.support {
+  max-width: 28rem;
+  width: 100%;
+  margin: -1.5rem auto 0;
+}
+
+.section-title {
+  font-size: 1.25rem;
+  margin-top: 3.5rem;
+}
+
+.sponsor-title {
+  display: flex;
+  align-items: center;
+
+  img {
+    border-radius: 100%;
+    width: 28px;
+    margin-right: 12px;
+  }
+}
+
+.btn {
+  margin: 1rem 0 0;
+}
+
+p {
+  color: $secondary;
+}
+
+@media screen and (min-width: $md) {
+  .section-title {
+    margin-bottom: 1.5rem;
+  }
+}
