@@ -5,7 +5,7 @@ services:
       context: .
       dockerfile: ./server/Dockerfile
     environment:
-      TRUST_PROXY: true
+      TRUST_PROXY: 1
     ports:
       - 3030:3030
 
