@@ -270,7 +270,7 @@ class Visualizer {
       new CanvasElements.Text({
         x: node.cx,
         y: node.cy + 2,
-        text: node.name[0].toUpperCase(),
+        text: String.fromCodePoint(node.name.codePointAt(0)).toUpperCase(),
         font: '"Jost", sans-serif',
         align: 'center',
         baseline: 'middle',
