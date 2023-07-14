@@ -3,7 +3,7 @@ import { toast } from '../components/Toast';
 import pluralize from '../utils/pluralize';
 
 const trackers = {
-  announce: ['wss://tracker.btorrent.xyz', 'wss://tracker.openwebtorrent.com'],
+  announce: ['wss://tracker.btorrent.xyz', 'wss://tracker.openwebtorrent.com', 'wss://tracker.webtorrent.dev'],
 };
 
 class FileShare {
