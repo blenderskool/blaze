@@ -140,8 +140,8 @@ Blaze app can now be accessed at port `8080` :tada:
 ## Privacy and Analytics
 - Blaze server does not track or record the files that are being shared both by WebSockets and WebTorrent.
 - Any user related data like nickname, room names are always stored on device, and are only shared with the server when the user joins a room for file sharing.
-- Blaze client uses Google Analytics to record the following:
-  - [Basic visit data](https://developers.google.com/analytics/devguides/collection/analyticsjs#what_data_does_the_google_analytics_tag_capture) as recorded by [Google Analytics](https://support.google.com/analytics/answer/6004245?ref_topic=2919631)
+- Blaze client uses Google Analytics 4 to record the following:
+  - Part of [Basic visit data](https://support.google.com/analytics/answer/9234069?hl=en) - page views, scrolls and outbound clicks, rest are disabled.
   - If Blaze PWA is installed on the device, and whether files are shared using share targets.
 
 ## Contributing

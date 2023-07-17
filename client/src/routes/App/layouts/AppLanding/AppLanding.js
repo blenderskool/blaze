@@ -1,6 +1,6 @@
 import { h } from 'preact';
 import { memo } from 'preact/compat';
-import { ArrowDownCircle, Gift, Grid, PieChart, Settings } from 'preact-feather';
+import { ArrowDownCircle, Gift, Grid, Settings } from 'preact-feather';
 import { Link } from 'preact-router/match';
 import { useContext } from 'preact/hooks';
 import { PWAInstall } from '../../contexts/PWAInstall';
@@ -36,9 +36,7 @@ function AppLanding({ children, title, subtitle }) {
     deferredPrompt.prompt();
     const { outcome } = await deferredPrompt.userChoice;
 
-    window.ga('send', 'event', {
-      eventCategory: 'pwa-install',
-      eventAction: 'promo-shown',
+    window.gtag('event', 'pwa-install-prompt', {
       outcome,
     });
   };
