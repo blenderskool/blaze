@@ -6,8 +6,9 @@ const delay = milliseconds => new Promise(resolve => {
 
 const download = async (file) => {
   const a = document.createElement('a');
+  const url = URL.createObjectURL(file);
   a.download = file.name;
-  a.href = URL.createObjectURL(file);
+  a.href = url;
   a.style.display = 'none';
   document.body.append(a);
   a.click();
@@ -15,6 +16,8 @@ const download = async (file) => {
   // Chrome requires the timeout
   await delay(100);
   a.remove();
+
+  URL.revokeObjectURL(url);
 };
 
 const multiDownload = async (files) => {
