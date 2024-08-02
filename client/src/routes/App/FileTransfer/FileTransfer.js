@@ -296,7 +296,7 @@ class FileTransfer extends PureComponent {
         if (file !== undefined) {
           if (Array.isArray(file)) {
             multiDownload(
-              // make regular File from webtorrent File https://github.com/webtorrent/webtorrent/blob/v2.4.14/lib/file.js#L7
+              // make regular File from webtorrent File https://github.com/webtorrent/webtorrent/blob/v1.9.7/lib/file.js#L13
               files.map(file => new File([file.getBlob()], file.name, {type: file.type}))
             );
           }
