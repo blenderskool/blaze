@@ -50,7 +50,7 @@ class FileShare {
     this.socket.listen(constants.FILE_INIT, (data) => {
       if (data.end) {
         if (fileParts.length) {
-          onDone(new Blob(fileParts), metaData.meta[0]);
+          onDone(new File(fileParts, metaData.meta[0].name, {type: metaData.meta[0].type}));
           fileParts = [];
           size = 0;
           statProg = 0.25;

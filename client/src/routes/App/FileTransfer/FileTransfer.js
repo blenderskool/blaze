@@ -1,5 +1,4 @@
 import { h, createRef } from 'preact';
-import download from 'downloadjs';
 import { route } from 'preact-router';
 import { PureComponent, forwardRef, memo } from 'preact/compat';
 import { ArrowLeft, CheckCircle, Home, Plus, Image, Film, Box, Music, File, Zap, Share2, Send } from 'preact-feather';
@@ -21,6 +20,35 @@ import constants from '../../../../../common/constants';
 import roomsDispatch from '../../../reducers/rooms';
 
 import './FileTransfer.scss';
+
+
+// adapted from https://github.com/sindresorhus/multi-download/blob/v4.0.0/index.js
+// to take File https://developer.mozilla.org/en-US/docs/Web/API/File
+const delay = milliseconds => new Promise(resolve => {
+  setTimeout(resolve, milliseconds);
+});
+const download = async (file) => {
+  const a = document.createElement('a');
+  a.download = file.name;
+  a.href = URL.createObjectURL(file);
+  a.style.display = 'none';
+  document.body.append(a);
+  a.click();
+
+  // Chrome requires the timeout
+  await delay(100);
+  a.remove();
+};
+const multiDownload = async (files) => {
+  if (!files) {
+    throw new Error('`files` required');
+  }
+
+  for (const [index, file] of files.entries()) {
+    await delay(index * 1000); // eslint-disable-line no-await-in-loop
+    download(file);
+  }
+}
 
 const CanvasUnwrapped = (props, ref) => {
   return <canvas ref={ref} {...props} />;
@@ -292,17 +320,17 @@ class FileTransfer extends PureComponent {
           isSelectorEnabled: false,
         });
       },
-      onDone: (file, meta) => {
+      onDone: (files) => {
         if (file !== undefined) {
           if (Array.isArray(file)) {
-            file.forEach(file => {
-              file.getBlob((err, blob) => download(blob, file.name));
-            });
+            multiDownload(
+              // make regular File from webtorrent File https://github.com/webtorrent/webtorrent/blob/v2.4.14/lib/file.js#L7
+              files.map(file => new File([file.getBlob()], file.name, {type: file.type}))
+            );
           }
           else {
-            download(file, meta.name, meta.type);
+            download(file);
           }
-        }
         this.resetState();
       },
     });
