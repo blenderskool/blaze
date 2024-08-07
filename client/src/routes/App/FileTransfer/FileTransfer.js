@@ -293,15 +293,15 @@ class FileTransfer extends PureComponent {
         });
       },
       onDone: (files) => {
-        if (file !== undefined) {
-          if (Array.isArray(file)) {
+        if (files !== undefined) {
+          if (Array.isArray(files)) {
             multiDownload(
               // make regular File from webtorrent File https://github.com/webtorrent/webtorrent/blob/v1.9.7/lib/file.js#L13
               files.map(file => new File([file.getBlob()], file.name, {type: file.type}))
             );
           }
           else {
-            download(file);
+            download(files);
           }
         this.resetState();
       },
