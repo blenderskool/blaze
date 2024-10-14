@@ -447,6 +447,16 @@ class FileTransfer extends PureComponent {
             </button>
           </>
         );
+      case constants.QR_CODE_LOAD_FAILED:
+        return (
+          <>
+            <h2>Connection Error!</h2>
+            <p class="message">Unable to load QR code, try refreshing this page</p>
+            <button class="btn wide" onClick={this.handleNewRoom}>
+              Refresh page
+            </button>
+          </>
+        );
       case constants.ERR_CONN_CLOSED:
       default:
         return (
@@ -595,14 +605,14 @@ class FileTransfer extends PureComponent {
               loading="lazy"
               alt={`QR code to join "${this.client.room}" room`}
               onError={() => {
-                this.toggleQRCodeModal(false);
-
                 this.setState({
                   errorModal: {
                     isOpen: true,
-                    type: constants.ERR_SAME_NAME
+                    type: constants.QR_CODE_LOAD_FAILED
                   },
                 });
+
+                this.toggleQRCodeModal(false);
               }}
             />
 
