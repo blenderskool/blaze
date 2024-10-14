@@ -594,6 +594,16 @@ class FileTransfer extends PureComponent {
               src={`${urls.SERVER_HOST}/rooms/qrcode?room=${this.props.room}`}
               loading="lazy"
               alt={`QR code to join "${this.client.room}" room`}
+              onError={() => {
+                this.toggleQRCodeModal(false);
+
+                this.setState({
+                  errorModal: {
+                    isOpen: true,
+                    type: constants.ERR_SAME_NAME
+                  },
+                });
+              }}
             />
 
             <button class="btn outlined wide" onClick={() => this.toggleQRCodeModal(false)}>
