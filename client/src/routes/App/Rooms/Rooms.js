@@ -15,6 +15,7 @@ import NewRoomModal from './components/NewRoomModal/NewRoomModal';
 import LocalRoomHelpModal from './components/LocalRoomHelpModal/LocalRoomHelpModal';
 import { RoomContainer, RoomSecondaryAction, RoomDescription, RoomName, RoomPeers } from './components/Room/Room';
 import roomsDispatch from '../../../reducers/rooms';
+import Modal from '../../../components/Modal/Modal';
 
 import './Rooms.scoped.scss';
 
@@ -23,6 +24,7 @@ const RoomsList = memo(function RoomsList({ isOnline, onRoomJoin }) {
   const { queuedFiles } = useContext(QueuedFiles);
   const [localPeers, setLocalPeers] = useState([]);
   const [showLocalRoomModal, setShowLocalRoomModal] = useState(false);
+  const [errorModal, setErrorModal] = useState({ isOpen: false, message: '' });
 
   useEffect(() => {
     if (!isOnline) return;
@@ -31,6 +33,14 @@ const RoomsList = memo(function RoomsList({ isOnline, onRoomJoin }) {
       setLocalPeers(JSON.parse(data));
     };
     const localPeersSource = new EventSource(`${urls.SERVER_HOST}/sse/local-peers`);
+
+    localPeersSource.onerror = () => {
+      setErrorModal({
+        isOpen: true,
+        message: 'Failed to load local peers. Please check your connection and try again.'
+      });
+    };
+
     localPeersSource.addEventListener('message', handlePeersStream);
 
     return () => {
@@ -38,6 +48,11 @@ const RoomsList = memo(function RoomsList({ isOnline, onRoomJoin }) {
       localPeersSource.close();
     };
   }, [isOnline]);
+
+  const handleCloseErrorModal = () => {
+    setErrorModal({ isOpen: false, message: '' });
+    window.location.reload();
+  };
 
   if (!isOnline) {
     return <div class="message">Connect to the internet to start sharing files</div>;
@@ -96,6 +111,16 @@ const RoomsList = memo(function RoomsList({ isOnline, onRoomJoin }) {
           onClose={() => setShowLocalRoomModal(false)}
           onRoomJoin={onRoomJoin}
         />
+
+        <Modal isOpen={errorModal.isOpen} onClose={handleCloseErrorModal}>
+          <div class="socket-error">
+            <h2>Connection closed</h2>
+            <p class="message">{errorModal.message}</p>
+            <button class="btn wide" onClick={handleCloseErrorModal}>
+              Refresh Page
+            </button>
+          </div>
+        </Modal>
       </>
     );
   }

@@ -452,7 +452,7 @@ class FileTransfer extends PureComponent {
           <>
             <h2>Connection Error!</h2>
             <p class="message">Unable to load QR code, try refreshing this page</p>
-            <button class="btn wide" onClick={this.handleNewRoom}>
+            <button class="btn wide" onClick={() => window.location.reload()}>
               Refresh page
             </button>
           </>
