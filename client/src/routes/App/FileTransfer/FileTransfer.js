@@ -303,6 +303,7 @@ class FileTransfer extends PureComponent {
           else {
             download(files);
           }
+        }
         this.resetState();
       },
     });
