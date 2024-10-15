@@ -1,5 +1,4 @@
 import { h, createRef } from 'preact';
-import download from 'downloadjs';
 import { route } from 'preact-router';
 import { PureComponent, forwardRef, memo } from 'preact/compat';
 import { ArrowLeft, CheckCircle, Home, Plus, Image, Film, Box, Music, File, Zap, Share2, Send } from 'preact-feather';
@@ -17,6 +16,7 @@ import Visualizer from '../../../utils/visualizer';
 import formatSize from '../../../utils/formatSize';
 import pluralize from '../../../utils/pluralize';
 import urls from '../../../utils/urls';
+import { multiDownload } from '../../../utils/download';
 import constants from '../../../../../common/constants';
 import roomsDispatch from '../../../reducers/rooms';
 
@@ -292,17 +292,10 @@ class FileTransfer extends PureComponent {
           isSelectorEnabled: false,
         });
       },
-      onDone: (file, meta) => {
-        if (file !== undefined) {
-          if (Array.isArray(file)) {
-            file.forEach(file => {
-              file.getBlob((err, blob) => download(blob, file.name));
-            });
-          }
-          else {
-            download(file, meta.name, meta.type);
-          }
-        }
+      onDone: (files) => {
+        if (files === undefined) return;
+
+        multiDownload(files);
         this.resetState();
       },
     });

@@ -50,7 +50,9 @@ class FileShare {
     this.socket.listen(constants.FILE_INIT, (data) => {
       if (data.end) {
         if (fileParts.length) {
-          onDone(new Blob(fileParts), metaData.meta[0]);
+          onDone([
+            new File(fileParts, metaData.meta[0].name, {type: metaData.meta[0].type})
+          ]);
           fileParts = [];
           size = 0;
           statProg = 0.25;
@@ -106,8 +108,20 @@ class FileShare {
 
     torrent.on('upload', update);
     torrent.on('download', update);
-    torrent.on('done', () => {
-      onDone(torrent.files);
+    torrent.on('done', async () => {
+      const files = await Promise.all(
+        torrent.files.map(
+          (file) =>
+            new Promise((resolve, reject) => {
+              // make regular File from webtorrent File https://github.com/webtorrent/webtorrent/blob/v1.9.7/lib/file.js#L13
+              file.getBlob((err, blob) => {
+                if (err) reject(err);
+                resolve(new File([blob], file.name, { type: file.type }));
+              });
+            })
+        )
+      );
+      onDone(files);
     });
   }
 
