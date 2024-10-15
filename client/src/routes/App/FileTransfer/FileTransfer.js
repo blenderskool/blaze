@@ -256,6 +256,14 @@ class FileTransfer extends PureComponent {
       });
     });
 
+    socket.on('error', err => {
+      this.setState({
+        errorModal: {
+          isOpen: true,
+          type: err.reason || constants.ERR_CONN_CLOSED,
+        },
+      });
+    });
 
     this.clearReceiver = this.fileShare.receiveFiles({
       onMeta: (data) => {
