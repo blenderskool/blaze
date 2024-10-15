@@ -29,7 +29,7 @@ const download = async (file) => {
  * Initiates multiple file downloads with a constant delay between each one
  * @param files - An array of instances of the File type representing the files to download
  */
-const multiDownload = async (files) => {
+export const multiDownload = async (files) => {
   if (!files) {
     throw new Error('`files` required');
   };

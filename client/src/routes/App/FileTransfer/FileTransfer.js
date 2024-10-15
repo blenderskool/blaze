@@ -16,7 +16,7 @@ import Visualizer from '../../../utils/visualizer';
 import formatSize from '../../../utils/formatSize';
 import pluralize from '../../../utils/pluralize';
 import urls from '../../../utils/urls';
-import { download, multiDownload } from '../../../utils/download';
+import { multiDownload } from '../../../utils/download';
 import constants from '../../../../../common/constants';
 import roomsDispatch from '../../../reducers/rooms';
 
@@ -293,17 +293,9 @@ class FileTransfer extends PureComponent {
         });
       },
       onDone: (files) => {
-        if (files !== undefined) {
-          if (Array.isArray(files)) {
-            multiDownload(
-              // make regular File from webtorrent File https://github.com/webtorrent/webtorrent/blob/v1.9.7/lib/file.js#L13
-              files.map(file => new File([file.getBlob()], file.name, {type: file.type}))
-            );
-          }
-          else {
-            download(files);
-          }
-        }
+        if (files === undefined) return;
+
+        multiDownload(files);
         this.resetState();
       },
     });
