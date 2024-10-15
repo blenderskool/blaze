@@ -447,16 +447,6 @@ class FileTransfer extends PureComponent {
             </button>
           </>
         );
-      case constants.QR_CODE_LOAD_FAILED:
-        return (
-          <>
-            <h2>Connection Error!</h2>
-            <p class="message">Unable to load QR code, try refreshing this page</p>
-            <button class="btn wide" onClick={() => window.location.reload()}>
-              Refresh page
-            </button>
-          </>
-        );
       case constants.ERR_CONN_CLOSED:
       default:
         return (
@@ -598,24 +588,28 @@ class FileTransfer extends PureComponent {
         <Modal isOpen={showQRCodeModal} onClose={() => this.toggleQRCodeModal(false)}>
           <div class="qrcode-modal">
             <h2>Room QR code</h2>
-            <p>Scan this QR code to join "{this.client.room}" file sharing room.</p>
-
-            <img
-              src={`${urls.SERVER_HOST}/rooms/qrcode?room=${this.props.room}`}
-              loading="lazy"
-              alt={`QR code to join "${this.client.room}" room`}
-              onError={() => {
-                this.setState({
-                  errorModal: {
-                    isOpen: true,
-                    type: constants.QR_CODE_LOAD_FAILED
-                  },
-                });
-
-                this.toggleQRCodeModal(false);
-              }}
-            />
-
+            {
+              this.state.errorModal.type === constants.QR_CODE_LOAD_FAILED ? (
+                <p>Could not load QR code</p>
+              ) : (
+                <>
+                  <p>Scan this QR code to join "{this.client.room}" file sharing room.</p>
+                  <img
+                    src={`${urls.SERVER_HOST}/rooms/qrcode?room=${this.props.room}`}
+                    loading="lazy"
+                    alt={`QR code to join "${this.client.room}" room`}
+                    onError={() => {
+                      this.setState({
+                        errorModal: {
+                          isOpen: true,
+                          type: constants.QR_CODE_LOAD_FAILED
+                        },
+                      });
+                    }}
+                  />
+                </>
+              )
+            }
             <button class="btn outlined wide" onClick={() => this.toggleQRCodeModal(false)}>
               Close popup
             </button>
