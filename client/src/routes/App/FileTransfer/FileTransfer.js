@@ -256,6 +256,14 @@ class FileTransfer extends PureComponent {
       });
     });
 
+    socket.on('error', err => {
+      this.setState({
+        errorModal: {
+          isOpen: true,
+          type: err.reason || constants.ERR_CONN_CLOSED,
+        },
+      });
+    });
 
     this.clearReceiver = this.fileShare.receiveFiles({
       onMeta: (data) => {
@@ -588,14 +596,28 @@ class FileTransfer extends PureComponent {
         <Modal isOpen={showQRCodeModal} onClose={() => this.toggleQRCodeModal(false)}>
           <div class="qrcode-modal">
             <h2>Room QR code</h2>
-            <p>Scan this QR code to join "{this.client.room}" file sharing room.</p>
-
-            <img
-              src={`${urls.SERVER_HOST}/rooms/qrcode?room=${this.props.room}`}
-              loading="lazy"
-              alt={`QR code to join "${this.client.room}" room`}
-            />
-
+            {
+              this.state.errorModal.type === constants.QR_CODE_LOAD_FAILED ? (
+                <p>Could not load QR code</p>
+              ) : (
+                <>
+                  <p>Scan this QR code to join "{this.client.room}" file sharing room.</p>
+                  <img
+                    src={`${urls.SERVER_HOST}/rooms/qrcode?room=${this.props.room}`}
+                    loading="lazy"
+                    alt={`QR code to join "${this.client.room}" room`}
+                    onError={() => {
+                      this.setState({
+                        errorModal: {
+                          isOpen: true,
+                          type: constants.QR_CODE_LOAD_FAILED
+                        },
+                      });
+                    }}
+                  />
+                </>
+              )
+            }
             <button class="btn outlined wide" onClick={() => this.toggleQRCodeModal(false)}>
               Close popup
             </button>

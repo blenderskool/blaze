@@ -12,6 +12,7 @@ export default {
   ERR_SAME_NAME: 'ERR_SAME_NAME',
   ERR_CONN_CLOSED: 'ERR_CONN_CLOSED',
   ERR_LARGE_FILE: 'ERR_LARGE_FILE',
+  QR_CODE_LOAD_FAILED: 'QR_CODE_LOAD_FAILED',
 
   /* service worker features related */
   SW_LOAD_FILES: 'sw-load-files',
