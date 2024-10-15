@@ -35,7 +35,7 @@ export const multiDownload = async (files) => {
   };
 
   for (const file of files) {
-    await delay(1000);
     download(file);
+    await delay(1000);
   }
 };
