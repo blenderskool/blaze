@@ -31,6 +31,7 @@ const RoomsList = memo(function RoomsList({ isOnline, onRoomJoin }) {
       setLocalPeers(JSON.parse(data));
     };
     const localPeersSource = new EventSource(`${urls.SERVER_HOST}/sse/local-peers`);
+
     localPeersSource.addEventListener('message', handlePeersStream);
 
     return () => {
